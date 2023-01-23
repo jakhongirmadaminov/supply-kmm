@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="choose_language_uz">Tilni tanlang</string>
+    <string name="choose_language_ru">Выберите язык</string>
+    <string name="russian">Русский</string>
+    <string name="uzbek" >O’zbekcha</string>
     <string name="my_string">Моя строка локализации по умолчанию</string>
     <string name="authorization">Авторизация</string>
     <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении договора</string>

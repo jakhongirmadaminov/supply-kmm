@@ -3,10 +3,10 @@
     <string name="my_string">My default localization string</string>
 
 
-    <string name="choose_language_uz" translatable="false">Tilni tanlang</string>
-    <string name="choose_language_ru" translatable="false">Выберите язык</string>
-    <string name="russian" translatable="false">Русский</string>
-    <string name="uzbek" translatable="false">O’zbekcha</string>
+    <string name="choose_language_uz">Tilni tanlang</string>
+    <string name="choose_language_ru">Выберите язык</string>
+    <string name="russian">Русский</string>
+    <string name="uzbek" >O’zbekcha</string>
     <string name="authorization">Авторизация</string>
     <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении договора</string>
     <string name="phone_number">Номер телефона</string>

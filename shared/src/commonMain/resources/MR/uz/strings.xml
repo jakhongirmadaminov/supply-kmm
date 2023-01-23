@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="choose_language_uz">Tilni tanlang</string>
+    <string name="choose_language_ru">Выберите язык</string>
+    <string name="russian">Русский</string>
+    <string name="uzbek" >O’zbekcha</string>
     <string name="my_string">Mening birbalodsfasdfasd sdfd</string>
     <string name="authorization">Ruxsat</string>
     <string name="authorization_info">Shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
