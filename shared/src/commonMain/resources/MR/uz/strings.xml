@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="my_string">Mening birbalodsfasdfasd sdfd</string>
+    <string name="authorization">Ruxsat</string>
+    <string name="authorization_info">Shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
+    <string name="phone_number">Telefon raqam</string>
+    <string name="password">Parol</string>
+    <string name="input_password">Parolni kiriting</string>
+    <string name="login">Kirish</string>
+    <string name="forgot_password">Parolni unuttizmi?</string>
+    <string name="create_pin_code">Pin codeni yaratish</string>
+    <string name="create_pin_code_info">Akkountni himoyalash uchun pinkod yarating</string>
+    <string name="input_phone_number">Telefon raqamni kiriting</string>
+    <string name="reset_password">Parolni tiklash</string>
+    <string name="reset_password_info">Parolni tiklash uchun siz shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
+    <string name="confirm">Tasdiqlash</string>
+    <string name="input_sms_code">Smsdagi kodni kiriting</string>
+    <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak</string>
+
 </resources>

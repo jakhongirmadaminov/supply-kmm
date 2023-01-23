@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="my_string">My default localization string</string>
+
+
+    <string name="choose_language_uz" translatable="false">Tilni tanlang</string>
+    <string name="choose_language_ru" translatable="false">Выберите язык</string>
+    <string name="russian" translatable="false">Русский</string>
+    <string name="uzbek" translatable="false">O’zbekcha</string>
+    <string name="authorization">Авторизация</string>
+    <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении договора</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="password">Пароль</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="login">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="create_pin_code">Создать PIN-код</string>
+    <string name="create_pin_code_info">Создайте PIN-код для защиты аккаунта</string>
+    <string name="input_phone_number">Введите номер телефона</string>
+    //reset password
+    <string name="reset_password">Сброс пароля</string>
+    <string name="reset_password_info">Для сброса пароля необходимо ввести номер телефона указанный при заключении договора</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="input_sms_code">Введите код из СМС</string>
+    <string name="input_sms_code_info">Для сброса пароля необходимо ввести код из СМС</string>
+
+
 </resources>
