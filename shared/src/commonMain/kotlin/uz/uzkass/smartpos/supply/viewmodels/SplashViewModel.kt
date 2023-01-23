@@ -8,5 +8,6 @@ import uz.uzkassa.smartpos.supply.library.MR
 class SplashViewModel() : ViewModel() {
 init {
   MR.strings.my_string
+
 }
 }

@@ -48,9 +48,11 @@ kotlin {
 
 
   sourceSets {
+    val ktorVersion = "2.2.2"
     val commonMain by getting {
       dependencies {
         dependenciesList.forEach { api(it) }
+        implementation("io.ktor:ktor-client-core:$ktorVersion")
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
       }
     }
@@ -63,6 +65,7 @@ kotlin {
     }
     val androidMain by getting {
       dependencies {
+        implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
         api("dev.icerock.moko:mvvm-flow-compose:0.15.0")
         api("dev.icerock.moko:resources-compose:0.20.1")
       }
@@ -76,6 +79,9 @@ kotlin {
       iosX64Main.dependsOn(this)
       iosArm64Main.dependsOn(this)
       iosSimulatorArm64Main.dependsOn(this)
+      dependencies {
+        implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+      }
     }
     val iosX64Test by getting
     val iosArm64Test by getting
@@ -98,7 +104,7 @@ android {
   }
 }
 dependencies {
-  implementation("androidx.core:core-ktx:+")
+  implementation("androidx.core:core-ktx:1.9.0")
 }
 
 multiplatformResources {
