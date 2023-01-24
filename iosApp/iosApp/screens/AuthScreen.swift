@@ -46,7 +46,7 @@ struct AuthScreen : View{
             
             
         }.frame(maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .background(Color.blue)
+            .background(Color.blue).navigationBarBackButtonHidden(true)
     }
 }
 
