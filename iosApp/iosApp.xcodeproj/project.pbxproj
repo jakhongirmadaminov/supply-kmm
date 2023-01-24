@@ -13,6 +13,7 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		A7D5077C297FFF9B00A64AA7 /* LanguageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5077B297FFF9B00A64AA7 /* LanguageScreen.swift */; };
+		A7D5077E29800A4800A64AA7 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5077D29800A4800A64AA7 /* HomeScreen.swift */; };
 		B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */; };
 		B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */; };
 		B0BA9FB42980080B00E5EB1B /* BorderedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */; };
@@ -28,6 +29,7 @@
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A7D5077B297FFF9B00A64AA7 /* LanguageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageScreen.swift; sourceTree = "<group>"; };
+		A7D5077D29800A4800A64AA7 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreen.swift; sourceTree = "<group>"; };
 		B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextFieldStyle.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */,
 				B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */,
 				A7D5077B297FFF9B00A64AA7 /* LanguageScreen.swift */,
+				A7D5077D29800A4800A64AA7 /* HomeScreen.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */,
+				A7D5077E29800A4800A64AA7 /* HomeScreen.swift in Sources */,
 				B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				B0BA9FB42980080B00E5EB1B /* BorderedTextFieldStyle.swift in Sources */,
