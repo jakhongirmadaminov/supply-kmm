@@ -14,6 +14,7 @@ struct AuthScreen : View{
     @State var textFieldText :String = ""
     
     var body : some View{
+        
         VStack(
             alignment: .leading
         ) {
