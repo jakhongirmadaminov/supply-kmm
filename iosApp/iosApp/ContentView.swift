@@ -26,41 +26,61 @@ struct ContentView: View {
                 .font(Font.custom("Mulish", size:16))
             
             Spacer().frame(height: 20)
-            HStack{
-                
-                GeometryReader{ metrics in
-                    let height = metrics.size.height * 0.1
-                    let width = metrics.size.width * 0.4
+           
+            GeometryReader { metrics in
+                let cardWidth = metrics.size.width * 0.4
+                HStack{
+                    Spacer()
                     ZStack{
                         RoundedRectangle(cornerRadius:  5, style: .continuous)
                             .fill(.white)
                             .shadow(radius: 2)
-                        
                         
                         VStack{
                             Image("ic_flag_russia")
                             Text(MR.strings().russian.desc().localized())
                         }
-                    }.frame(width: width, height: height)
-                  
+                    }.frame(width: cardWidth, height: 70)
+                    
                     ZStack{
                         RoundedRectangle(cornerRadius:  5, style: .continuous)
                             .fill(.white)
                             .shadow(radius: 2)
                         
-                    
                         VStack{
                             Image("ic_flag_uz")
                             Text(MR.strings().uzbek.desc().localized())
                         }
-                    }.frame(width: width, height: height, alignment: .topLeading).background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
-                        
+                    }.frame(width: cardWidth, height: 70)
+                    
+                    Spacer()
                 }
-            }.frame(minWidth: 0, maxWidth: .infinity)
-            Spacer().frame(height: 200)
+                
+            }
+            Spacer().frame(height: 150)
             
         }
 	}
+}
+
+struct CardView : View {
+    let width :Float
+      init(_ width:Float){
+        self.width = width
+    }
+    
+    var body: some View{
+        ZStack{
+            RoundedRectangle(cornerRadius:  5, style: .continuous)
+                .fill(.white)
+                .shadow(radius: 2)
+        
+            VStack{
+                Image("ic_flag_uz")
+                Text(MR.strings().uzbek.desc().localized())
+            }
+        }.frame(width: CGFloat(self.width), height: 70)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
