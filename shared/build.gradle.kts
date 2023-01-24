@@ -53,8 +53,8 @@ kotlin {
       dependencies {
         dependenciesList.forEach { api(it) }
         implementation("io.ktor:ktor-client-core:$ktorVersion")
-        implementation(libs.io.koin.core)
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        api(libs.io.koin.core)
       }
     }
     val commonTest by getting {
