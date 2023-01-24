@@ -46,4 +46,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material.material)
     implementation("androidx.activity:activity-compose:1.6.1")
+
+    implementation(libs.io.koin.core)
+    implementation(libs.io.koin.android)
+    implementation(libs.io.koin.ktor)
 }
