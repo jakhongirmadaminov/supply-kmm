@@ -11,19 +11,6 @@ class DemoViewModel(
     private val demoUseCase: DemoUseCase
 ) : ViewModel() {
 
-    fun getCurrentAccount() {
-        viewModelScope.launch {
-            demoUseCase
-                .getCurrentAccount()
-                .catch {
-                    Napier.d("MainViewModel: $it")
-                }
-                .collect { data ->
-                    Napier.d(message = "MainViewModel: $data")
-                }
-        }
-    }
-
     fun login() {
         viewModelScope.launch {
             demoUseCase
