@@ -45,7 +45,6 @@ struct AuthScreen : View{
                     Text("+998").foregroundColor(Color("SecondaryTextColor")).padding()
                     TextField("", text: $phoneNumber)
                         .textFieldStyle(BorderedTextFieldStyle())
-                        
 
                 }.padding(.horizontal, 25)
                 .foregroundColor(.gray)

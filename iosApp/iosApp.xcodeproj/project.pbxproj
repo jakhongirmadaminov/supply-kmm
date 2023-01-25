@@ -16,6 +16,7 @@
 		B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */; };
 		B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */; };
 		B0BA9FB42980080B00E5EB1B /* BorderedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */; };
+		B0BA9FB62980F82F00E5EB1B /* dsfs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB52980F82F00E5EB1B /* dsfs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreen.swift; sourceTree = "<group>"; };
 		B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextFieldStyle.swift; sourceTree = "<group>"; };
+		B0BA9FB52980F82F00E5EB1B /* dsfs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dsfs.swift; sourceTree = "<group>"; };
 		ED64C3F4D7FFE3048D3B8B87 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 				B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */,
 				B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */,
 				A7D5077B297FFF9B00A64AA7 /* LanguageScreen.swift */,
+				B0BA9FB52980F82F00E5EB1B /* dsfs.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				B0BA9FB62980F82F00E5EB1B /* dsfs.swift in Sources */,
 				B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */,
 				B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
