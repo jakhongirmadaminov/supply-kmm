@@ -28,13 +28,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.koin.androidx.compose.koinViewModel
+import uz.uzkass.smartpos.supply.viewmodels.DemoViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 fun SplashScreenView(
   onRussianClick: () -> Unit,
   onUzbekClick: () -> Unit,
-
+  vm: DemoViewModel = koinViewModel()
   ) {
 
   Column(
@@ -114,6 +116,5 @@ fun ColumnButtonImageText(
 @Preview
 @Composable
 fun SplashPreview() {
-  SplashScreenView(onRussianClick = { /*TODO*/ }) {
-  }
+//  SplashScreenView(onRussianClick = { /*TODO*/ })
 }
