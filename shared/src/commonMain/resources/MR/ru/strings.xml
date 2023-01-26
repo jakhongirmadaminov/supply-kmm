@@ -20,4 +20,13 @@
     <string name="confirm">Подтвердить</string>
     <string name="input_sms_code">Введите код из СМС</string>
     <string name="input_sms_code_info">Для сброса пароля необходимо ввести код из СМС</string>
+
+
+    //new
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="create_new_password">Создайте новый пароль</string>
+    <string name="home">Главная</string>
+    <string name="client">Клиенты</string>
+    <string name="catagory">Каталог</string>
+    <string name="order">Заказы</string>
 </resources>

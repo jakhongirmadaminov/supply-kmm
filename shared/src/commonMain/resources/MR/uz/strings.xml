@@ -20,5 +20,11 @@
     <string name="confirm">Tasdiqlash</string>
     <string name="input_sms_code">Smsdagi kodni kiriting</string>
     <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak</string>
-
+    //new
+    <string name="repeat_password">Parolni qayta kiriting</string>
+    <string name="create_new_password">Yangi paqol yaratish</string>
+    <string name="home">Главная</string>
+    <string name="client">Клиенты</string>
+    <string name="catagory">Каталог</string>
+    <string name="order">Заказы</string>
 </resources>

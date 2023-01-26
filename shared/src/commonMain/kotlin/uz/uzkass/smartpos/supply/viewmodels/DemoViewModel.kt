@@ -9,15 +9,13 @@ import dev.icerock.moko.network.generated.apis.*
 import io.ktor.client.HttpClient
 import uz.uzkass.smartpos.supply.core.http.httpClient
 import kotlinx.serialization.json.Json
+import uz.uzkass.smartpos.supply.services.demo.DemoService
 
 class DemoViewModel(
 //    private val demoUseCase: DemoUseCase,
-    httpClient: HttpClient,
+
 ) : ViewModel() {
 
-init {
-  apiRequest()
-}
 
     private val productResourceApi = MobileProductResourceApi(
         basePath = "https://api-devsupply.smartpos.uz/api/mobile/v1/", // Base API URL

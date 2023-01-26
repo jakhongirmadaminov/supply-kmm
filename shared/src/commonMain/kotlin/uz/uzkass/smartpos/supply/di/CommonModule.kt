@@ -7,6 +7,7 @@ import uz.uzkass.smartpos.supply.core.http.httpClient
 import uz.uzkass.smartpos.supply.services.demo.DemoService
 import uz.uzkass.smartpos.supply.services.demo.DemoServiceImpl
 import uz.uzkass.smartpos.supply.viewmodels.DemoViewModel
+import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 
 val commonModule = module {
     singleOf(::httpClient)
@@ -14,5 +15,7 @@ val commonModule = module {
     single { DemoServiceImpl(httpClient = get()) } bind DemoService::class
 //    single { DemoUseCaseImpl(demoService = get()) } bind DemoUseCase::class
 
-    factory { DemoViewModel(httpClient = get()) }
+//    factory { DemoViewModel(httpClient = get()) }
+    factory { SplashViewModel() }
+
 }

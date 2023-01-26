@@ -1,4 +1,5 @@
-package uz.uzkass.smartpos.supply.android.screens.auth.password_rest
+package uz.uzkass.smartpos.supply.android.ui.auth.password_rest.confirm
+
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -9,21 +10,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import uz.uzkassa.smartpos.supply.library.MR
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
+
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.otp.PinView
-import uz.uzkass.smartpos.supply.android.R
-import uz.uzkass.smartpos.supply.android.theme.LocalSpacing
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
-import uz.uzkassa.smartpos.supply.library.MR
+
+import uz.uzkass.smartpos.supply.android.ui.auth.password_rest.PasswordResetNavGraph
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.PasswordResetConfirmViewModel
+
+private const val digitCount = 6
 
 @Composable()
-fun PasswordResetConfirmScreen() {
-    PasswordResetConfirmScreenView()
+@Destination
+@PasswordResetNavGraph
+fun PasswordResetConfirmScreen(
+    navigator: DestinationsNavigator,
+    phoneNumber: String
+) {
+
+    val viewModel: PasswordResetConfirmViewModel?=null
+    viewModel!!
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.navigate.collectLatest {
+//            navigator.navigate(CreateNewPasswordScreenDestination)
+        }
+    })
+    PasswordResetConfirmScreenView(
+        onClickNext = { smsCode ->
+            viewModel.confirmResetPassword(phone = phoneNumber, smsCode)
+        }
+
+    )
 
 }
 
 @Composable
-private fun PasswordResetConfirmScreenView() {
+private fun PasswordResetConfirmScreenView(onClickNext: (smsCode: String) -> Unit) {
     var pinValue by remember {
         mutableStateOf("")
     }
@@ -45,13 +72,17 @@ private fun PasswordResetConfirmScreenView() {
         Spacer(modifier = Modifier.height(SupplyTheme.spacing.small8Dp))
         Text(
             text = stringResource(id = MR.strings.input_sms_code_info.resourceId),
-            style = SupplyTheme.typography.h1
-        )
+
+            )
         PinView(
             pinText = pinValue,
             onPinTextChange = {
-                pinValue = it
-            }
+                if (it.length <= digitCount) {
+                    pinValue = it
+                }
+
+            },
+            digitCount = digitCount
         )
 
         FillAvailableSpace()
@@ -59,7 +90,9 @@ private fun PasswordResetConfirmScreenView() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            onClick = { /*TODO*/ }) {
+            onClick = {
+                onClickNext(pinValue)
+            }) {
             Text(
                 text = stringResource(id = MR.strings.confirm.resourceId),
                 style = SupplyTheme.typography.button
@@ -73,5 +106,7 @@ private fun PasswordResetConfirmScreenView() {
 @Composable
 @Preview
 fun PasswordResetConfirmScreenPreview() {
-    PasswordResetConfirmScreenView()
+    PasswordResetConfirmScreenView({
+
+    })
 }

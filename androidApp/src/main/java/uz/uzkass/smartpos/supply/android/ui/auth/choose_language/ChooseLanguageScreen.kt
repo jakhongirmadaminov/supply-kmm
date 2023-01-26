@@ -1,4 +1,4 @@
-package uz.uzkass.smartpos.supply.android.screens.auth.choose_language
+package uz.uzkass.smartpos.supply.android.ui.auth.choose_language
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,34 +15,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.koin.androidx.compose.koinViewModel
-import uz.uzkass.smartpos.supply.android.coreui.ColumnButtonImageText
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import uz.uzkass.smartpos.supply.android.R
-import uz.uzkass.smartpos.supply.viewmodels.DemoViewModel
+import uz.uzkass.smartpos.supply.android.coreui.ColumnButtonImageText
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
-@Composable
-fun ChooseLanguageScreen() {
-//    val viewModel: ChooseLanguageViewModel = hiltViewModel()
-//    ChooseLanguageScreenView(
-//        onRussianClick = viewModel::chooseRussian,
-//        onUzbekClick = viewModel::chooseUzbek
-//    )
 
+@Composable
+@Destination
+fun ChooseLanguageScreen(navigator: DestinationsNavigator) {
+    val viewModel: ChooseLanguageViewModel? = null
+    viewModel!!
+
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.navigate.collectLatest {
+//            navigator.navigate(LoginScreenDestination) {
+//                popUpTo(NavGraphs.root.route)
+//            }
+        }
+    })
 
     ChooseLanguageScreenView(
-        onRussianClick = {},
-        onUzbekClick = {}
+        onRussianClick = viewModel::chooseRussian,
+        onUzbekClick = viewModel::chooseUzbek
     )
-
-
 }
 
 @Composable
 private fun ChooseLanguageScreenView(
     onRussianClick: () -> Unit,
-    onUzbekClick: () -> Unit,
+    onUzbekClick: () -> Unit
 ) {
     Column(
         modifier = Modifier

@@ -4,7 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
 
 @Composable

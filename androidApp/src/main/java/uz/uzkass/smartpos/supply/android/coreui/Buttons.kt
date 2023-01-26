@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import uz.uzkass.smartpos.supply.android.theme.LocalSpacing
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
 
 @Composable

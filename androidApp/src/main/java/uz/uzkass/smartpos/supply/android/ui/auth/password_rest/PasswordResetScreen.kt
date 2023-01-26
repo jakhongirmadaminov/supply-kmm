@@ -1,4 +1,4 @@
-package uz.uzkass.smartpos.supply.android.screens.auth.password_rest
+package uz.uzkass.smartpos.supply.android.ui.auth.password_rest
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
@@ -7,6 +7,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,22 +21,33 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import uz.uzkass.smartpos.supply.android.core.PhoneWithPrefixTransformation
+import uz.uzkassa.smartpos.supply.library.MR
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.LabelTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
-import uz.uzkass.smartpos.supply.android.R
-import uz.uzkass.smartpos.supply.android.theme.LocalSpacing
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
-import uz.uzkassa.smartpos.supply.library.MR
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 
 @Composable
-fun PasswordResetScreen() {
+@Destination
+@PasswordResetNavGraph(start = true)
+fun PasswordResetScreen(navigator: DestinationsNavigator) {
 
-//    val viewModel: PasswordResetViewModel = hiltViewModel()
+    val viewModel: PasswordResetViewModel? = null
+    viewModel!!
 
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.navigate.collectLatest {
+//            navigator.navigate(PasswordResetConfirmScreenDestination(phoneNumber = "946740298"))
+        }
+    })
     PasswordResetScreenView(
-        onClickReset = { }
+        onClickReset = viewModel::initResetPassword
     )
 
 }

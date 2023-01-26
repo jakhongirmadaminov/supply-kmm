@@ -18,6 +18,7 @@ plugins {
   id("com.android.application") version libs.versions.pluginGradle.get() apply false
   kotlin("android") version "1.8.0" apply false
   kotlin("multiplatform") version libs.versions.kotlin.get() apply false
+  id("com.google.devtools.ksp") version libs.versions.ksp.get() apply false
 }
 
 tasks.register("clean", Delete::class) {

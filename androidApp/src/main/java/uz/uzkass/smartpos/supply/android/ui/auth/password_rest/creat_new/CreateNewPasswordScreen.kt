@@ -1,4 +1,5 @@
-package uz.uzkass.smartpos.supply.android.screens.auth.password_rest
+package uz.uzkass.smartpos.supply.android.ui.auth.password_rest.creat_new
+
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -11,13 +12,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.PasswordTextView
-import uz.uzkass.smartpos.supply.android.R
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.android.ui.auth.password_rest.PasswordResetNavGraph
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkassa.smartpos.supply.library.MR
 
-
+@PasswordResetNavGraph
+@Destination
 @Composable
 fun CreateNewPasswordScreen() {
 
@@ -38,7 +41,7 @@ private fun CreateNewPasswordScreenView() {
         Text(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = stringResource(id = MR.strings.reset_password.resourceId)
+            text = stringResource(id =MR.strings.create_new_password.resourceId)
         )
         Spacer(modifier = Modifier.height(SupplyTheme.spacing.extraLarge64Dp))
 
@@ -53,12 +56,12 @@ private fun CreateNewPasswordScreenView() {
 
 
         PasswordTextView(
-            label = stringResource(id = MR.strings.password.resourceId),
+            label = stringResource(id =MR.strings.password.resourceId),
             valueState = valuePassword
         )
 
         PasswordTextView(
-            label = stringResource(id = MR.strings.password.resourceId),
+            label = stringResource(id =MR.strings.repeat_password.resourceId),
             valueState = valuePassword2
         )
 
@@ -70,7 +73,7 @@ private fun CreateNewPasswordScreenView() {
                 .height(50.dp),
             onClick = { /*TODO*/ }) {
             Text(
-                text = stringResource(id = MR.strings.login.resourceId),
+                text = stringResource(id =MR.strings.confirm.resourceId),
                 style = SupplyTheme.typography.button
             )
         }

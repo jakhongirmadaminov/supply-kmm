@@ -11,8 +11,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.filled.Visibility
-//import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -25,10 +23,9 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uz.uzkass.smartpos.supply.android.core.Constants
-import uz.uzkass.smartpos.supply.android.theme.LocalShapes
-import uz.uzkass.smartpos.supply.android.theme.LocalSpacing
-import uz.uzkass.smartpos.supply.android.theme.SupplyTheme
-
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkassa.smartpos.supply.library.MR
 
 @OptIn(ExperimentalComposeUiApi::class)

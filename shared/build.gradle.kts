@@ -71,6 +71,8 @@ kotlin {
         api("dev.icerock.moko:network-bignum:0.20.0") // kbignum serializer
         api("dev.icerock.moko:network-errors:0.20.0") // moko-errors integration
         api(libs.kotlin.serialization.json)
+          //KMM settings
+        api("com.russhwolf:multiplatform-settings:1.0.0")
       }
     }
     val commonTest by getting {
@@ -116,6 +118,7 @@ mokoNetwork {
   spec("smartposSupply") {
     configureTask {
       skipValidateSpec.set(true)
+      isInternal = false
     }
     inputSpec = file("src/api.json")
   }
