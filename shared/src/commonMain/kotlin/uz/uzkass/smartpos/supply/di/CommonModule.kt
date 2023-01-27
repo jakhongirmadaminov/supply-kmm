@@ -14,6 +14,9 @@ import uz.uzkass.smartpos.supply.viewmodels.*
 
 val commonModule = module {
     singleOf(::httpClient)
+//    single { AppViewModel() }
+
+
     single {
         PreferenceManager(settings = get())
     }

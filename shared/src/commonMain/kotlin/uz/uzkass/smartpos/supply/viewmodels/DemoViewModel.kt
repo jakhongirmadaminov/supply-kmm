@@ -20,7 +20,7 @@ class DemoViewModel(
     fun apiRequest() {
         viewModelScope.launch {
             try {
-                val product = productResourceApi.getUsingGET43(834)
+                val product = productResourceApi.getUsingGET87(834)
                 println(product.name)
             } catch (error: Exception) {
                 println(error.message)

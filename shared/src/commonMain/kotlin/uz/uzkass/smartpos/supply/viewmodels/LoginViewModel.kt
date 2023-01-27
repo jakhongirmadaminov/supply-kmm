@@ -33,7 +33,7 @@ constructor(
             )
 
             val temp = safeApiCall {
-                api.loginUsingPOST2(
+                api.loginUsingPOST5(
                     request
                 )
             }
