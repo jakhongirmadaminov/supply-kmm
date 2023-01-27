@@ -73,6 +73,11 @@ fun Spacer56dp() {
 }
 
 @Composable
+fun Spacer64dp() {
+    Spacer(modifier = Modifier.size(64.dp))
+}
+
+@Composable
 fun Spacer76dp() {
     Spacer(modifier = Modifier.size(76.dp))
 }

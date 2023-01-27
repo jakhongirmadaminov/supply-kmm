@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 
 
 object SupplyTheme {
-
     val colors: SupplyColors
         @ReadOnlyComposable
         @Composable
@@ -34,7 +33,6 @@ object SupplyTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalSpacing.current
-
 }
 
 

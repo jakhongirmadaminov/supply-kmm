@@ -1,19 +1,13 @@
 package uz.uzkass.smartpos.supply.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import io.github.aakira.napier.Napier
-import kotlinx.coroutines.flow.catch
+import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
 import kotlinx.coroutines.launch
-import uz.uzkass.smartpos.supply.core.data.LoginRequest
-import dev.icerock.moko.network.generated.apis.*
-import io.ktor.client.HttpClient
-import uz.uzkass.smartpos.supply.core.http.httpClient
 import kotlinx.serialization.json.Json
-import uz.uzkass.smartpos.supply.services.demo.DemoService
+import uz.uzkass.smartpos.supply.core.http.httpClient
 
 class DemoViewModel(
 //    private val demoUseCase: DemoUseCase,
-
 ) : ViewModel() {
 
 
