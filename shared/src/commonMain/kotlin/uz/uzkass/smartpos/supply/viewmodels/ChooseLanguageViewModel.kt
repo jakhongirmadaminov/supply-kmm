@@ -4,23 +4,25 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.settings.PreferenceManager
+import uz.uzkass.smartpos.supply.settings.PreferenceManager.Companion.RU_CODE
+import uz.uzkass.smartpos.supply.settings.PreferenceManager.Companion.UZ_CODE
 
 
-
-class ChooseLanguageViewModel  constructor(
-//    private val appPreferences: AppPreferences
+class ChooseLanguageViewModel constructor(
+    private val preferenceManager: PreferenceManager
 ) : ViewModel() {
     private val _navigate: Channel<Unit> = Channel(Channel.BUFFERED)
     var navigate = _navigate.receiveAsFlow()
     fun chooseRussian() {
-//        appPreferences.setLocale(RU_CODE)
+        preferenceManager.setLocale(RU_CODE)
         viewModelScope.launch {
             _navigate.send(Unit)
         }
     }
 
     fun chooseUzbek() {
-//        appPreferences.setLocale(UZ_CODE)
+        preferenceManager.setLocale(UZ_CODE)
         viewModelScope.launch {
             _navigate.send(Unit)
         }

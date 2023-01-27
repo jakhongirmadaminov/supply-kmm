@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.core.PhoneWithPrefixTransformation
 import uz.uzkassa.smartpos.supply.library.MR
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
@@ -36,11 +37,10 @@ import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 @Composable
 @Destination
 @PasswordResetNavGraph(start = true)
-fun PasswordResetScreen(navigator: DestinationsNavigator) {
-
-    val viewModel: PasswordResetViewModel? = null
-    viewModel!!
-
+fun PasswordResetScreen(
+    navigator: DestinationsNavigator,
+    viewModel: PasswordResetViewModel = koinViewModel()
+) {
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
 //            navigator.navigate(PasswordResetConfirmScreenDestination(phoneNumber = "946740298"))

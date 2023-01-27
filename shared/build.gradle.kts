@@ -120,6 +120,7 @@ mokoNetwork {
       skipValidateSpec.set(true)
       isInternal = false
     }
+    isInternal = false
     inputSpec = file("src/api.json")
   }
 //  spec("news") {

@@ -14,6 +14,7 @@ import uz.uzkassa.smartpos.supply.library.MR
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.otp.PinView
@@ -33,8 +34,8 @@ fun PasswordResetConfirmScreen(
     phoneNumber: String
 ) {
 
-    val viewModel: PasswordResetConfirmViewModel?=null
-    viewModel!!
+    val viewModel: PasswordResetConfirmViewModel = koinViewModel()
+
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
 //            navigator.navigate(CreateNewPasswordScreenDestination)

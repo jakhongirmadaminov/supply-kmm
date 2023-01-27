@@ -30,6 +30,7 @@ import uz.uzkass.smartpos.supply.android.coreui.*
 import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.destinations.SetPinCodeScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.LoginNavigator
 import uz.uzkass.smartpos.supply.viewmodels.LoginViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
@@ -41,18 +42,26 @@ fun LoginScreen(navigator: DestinationsNavigator) {
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
-            navigator.navigate(SetPinCodeScreenDestination)
-            navigator.navigate(NavGraphs.main) {
-                popUpTo(NavGraphs.root.route) {
-                    inclusive = true
+            when (it) {
+                LoginNavigator.ToCreatePinCode -> {
+                    navigator.navigate(SetPinCodeScreenDestination)
+                }
+                LoginNavigator.ToRestorePassword -> {
+                    navigator.navigate(NavGraphs.passwordReset)
                 }
             }
+
+//            navigator.navigate(NavGraphs.main) {
+//                popUpTo(NavGraphs.root.route) {
+//                    inclusive = true
+//                }
+//            }
         }
     })
     LoginScreenView(
         onClickLogin = viewModel::loginUser,
         onClickRestorePassword = {
-//            navigator.navigate(NavGraphs.passwordReset)
+            navigator.navigate(NavGraphs.passwordReset)
         }
     )
 

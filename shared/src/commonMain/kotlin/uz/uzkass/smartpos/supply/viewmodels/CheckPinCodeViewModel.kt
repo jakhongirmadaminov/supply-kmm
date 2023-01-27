@@ -1,16 +1,15 @@
-package uz.uzkass.smartpos.supply.android.ui.main.check_pincode
+package uz.uzkass.smartpos.supply.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
 
 class CheckPinCodeViewModel constructor(
-
-//    private val userPreferences: UserPreferences
-
+    private val preferenceManager: PreferenceManager
 ) :
     ViewModel() {
 

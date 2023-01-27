@@ -1,14 +1,15 @@
 package uz.uzkass.smartpos.supply.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
 
-class SetPinCodeViewModel  constructor(
-//    private val userPreferences: UserPreferences
+class SetPinCodeViewModel constructor(
+    private val preferenceManager: PreferenceManager
 ) : ViewModel() {
 
     fun setPinCode(code: String) {
-//        userPreferences.pincode = code
+        preferenceManager.setUserPinCode(code)
     }
 
 }

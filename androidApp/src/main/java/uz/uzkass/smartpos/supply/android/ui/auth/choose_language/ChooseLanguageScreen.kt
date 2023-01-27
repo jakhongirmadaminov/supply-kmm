@@ -18,8 +18,11 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.ColumnButtonImageText
+import uz.uzkass.smartpos.supply.android.ui.NavGraphs
+import uz.uzkass.smartpos.supply.android.ui.destinations.LoginScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
 import uz.uzkassa.smartpos.supply.library.MR
@@ -28,14 +31,13 @@ import uz.uzkassa.smartpos.supply.library.MR
 @Composable
 @Destination
 fun ChooseLanguageScreen(navigator: DestinationsNavigator) {
-    val viewModel: ChooseLanguageViewModel? = null
-    viewModel!!
+    val viewModel: ChooseLanguageViewModel = koinViewModel()
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
-//            navigator.navigate(LoginScreenDestination) {
-//                popUpTo(NavGraphs.root.route)
-//            }
+            navigator.navigate(LoginScreenDestination) {
+                popUpTo(NavGraphs.root.route)
+            }
         }
     })
 

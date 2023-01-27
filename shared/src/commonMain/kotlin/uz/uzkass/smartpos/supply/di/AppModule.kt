@@ -1,3 +1,5 @@
 package uz.uzkass.smartpos.supply.di
 
-fun appModule() = listOf(commonModule, platformModule)
+import uz.uzkass.smartpos.supply.settingsModule
+
+fun appModule() = listOf(commonModule, platformModule, settingsModule())

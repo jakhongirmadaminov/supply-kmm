@@ -16,23 +16,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.otp.PinView
+import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
 @Destination
 @Composable()
-fun SetPinCodeScreen(navigator: DestinationsNavigator) {
-    val viewModel: SetPinCodeViewModel? = null
-    viewModel!!
+fun SetPinCodeScreen(
+    navigator: DestinationsNavigator,
+    viewModel: SetPinCodeViewModel = koinViewModel()
 
+) {
     SetPinCodeScreenView() { code ->
         viewModel.setPinCode(code)
-//        navigator.navigate(NavGraphs.main) {
-//            popUpTo(NavGraphs.root.route)
-//        }
+        navigator.navigate(NavGraphs.main) {
+            popUpTo(NavGraphs.root.route)
+        }
     }
 }
 

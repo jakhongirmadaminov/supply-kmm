@@ -17,17 +17,21 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.otp.PinView
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeNavigator
+import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
 @Destination
 @Composable
-fun CheckPinCodeScreen(navigator: DestinationsNavigator) {
+fun CheckPinCodeScreen(
+    navigator: DestinationsNavigator,
+    viewModel: CheckPinCodeViewModel = koinViewModel()
+) {
 
-    val viewModel: CheckPinCodeViewModel? = null
-    viewModel!!
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
             when (it) {

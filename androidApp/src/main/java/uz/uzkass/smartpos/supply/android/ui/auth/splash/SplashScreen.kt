@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,14 +28,14 @@ import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun SplashScreen(navigator: DestinationsNavigator) {
-
-    val viewModel: SplashViewModel = koinViewModel()
-
+fun SplashScreen(
+    navigator: DestinationsNavigator,
+    viewModel: SplashViewModel = koinViewModel()
+) {
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest { direction ->
             when (direction) {
-                SplashNavigator.ToMain -> {
+                SplashNavigator.ToCheckPinCode -> {
                     navigator.navigate(CheckPinCodeScreenDestination) {
                         popUpTo(NavGraphs.root.route)
                     }

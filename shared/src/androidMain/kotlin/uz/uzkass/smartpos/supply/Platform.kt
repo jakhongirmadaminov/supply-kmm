@@ -5,6 +5,9 @@ import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.okhttp.OkHttp
+import org.koin.core.module.Module
+import org.koin.dsl.module
+import uz.uzkass.smartpos.supply.settings.MultiplatformSettingsWrapper
 import java.util.concurrent.TimeUnit
 
 actual class Platform actual constructor() {
@@ -26,4 +29,8 @@ actual fun httpClient(config: HttpClientConfig<*>.() -> Unit) = HttpClient(OkHtt
 
 actual fun initLogger() {
     Napier.base(DebugAntilog())
+}
+
+actual fun settingsModule(): Module = module {
+    single { MultiplatformSettingsWrapper(context = get()).createSettings() }
 }
