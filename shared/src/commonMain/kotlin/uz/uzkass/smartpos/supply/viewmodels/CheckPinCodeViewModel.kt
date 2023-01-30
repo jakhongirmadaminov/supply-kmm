@@ -26,13 +26,13 @@ class CheckPinCodeViewModel constructor(
                 _navigate.send(CheckPinCodeNavigator.ToLogin)
             }
         } else {
-//            if (userPreferences.pincode == newPinCode) {
-//                viewModelScope.launch {
-//                    _navigate.send(CheckPinCodeNavigator.ToMain)
-//                }
-//            } else {
-//
-//            }
+            if (preferenceManager.getUserPinCode() == newPinCode) {
+                viewModelScope.launch {
+                    _navigate.send(CheckPinCodeNavigator.ToMain)
+                }
+            } else {
+
+            }
         }
     }
 

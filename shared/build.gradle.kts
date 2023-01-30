@@ -73,6 +73,9 @@ kotlin {
         api(libs.kotlin.serialization.json)
           //KMM settings
         api("com.russhwolf:multiplatform-settings:1.0.0")
+
+        api("dev.icerock.moko:paging:0.7.1")
+
       }
     }
     val commonTest by getting {

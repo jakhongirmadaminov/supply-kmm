@@ -4,12 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -37,9 +35,10 @@ import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 @Destination
-fun LoginScreen(navigator: DestinationsNavigator) {
-    val viewModel: LoginViewModel = koinViewModel()
-
+fun LoginScreen(
+    navigator: DestinationsNavigator,
+    viewModel: LoginViewModel = koinViewModel()
+) {
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
             when (it) {
@@ -58,7 +57,11 @@ fun LoginScreen(navigator: DestinationsNavigator) {
 //            }
         }
     })
+
+    val loading = viewModel.loading.collectAsState()
+
     LoginScreenView(
+        loading = loading.value,
         onClickLogin = viewModel::loginUser,
         onClickRestorePassword = {
             navigator.navigate(NavGraphs.passwordReset)
@@ -70,11 +73,12 @@ fun LoginScreen(navigator: DestinationsNavigator) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun LoginScreenView(
+    loading: Boolean,
     onClickLogin: (login: String, password: String) -> Unit,
     onClickRestorePassword: () -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
@@ -142,7 +146,8 @@ private fun LoginScreenView(
                         valuePhone.value.text,
                         valuePassword.value.text
                     )
-                }
+                },
+                enabled = !loading
             ) {
                 Text(
                     text = stringResource(id = MR.strings.login.resourceId),
@@ -155,6 +160,11 @@ private fun LoginScreenView(
                 text = stringResource(id = MR.strings.forgot_password.resourceId)
             )
         }
+
+        if (loading) {
+            CircularProgressIndicator()
+        }
+
     }
 }
 
@@ -168,6 +178,7 @@ fun LoginScreenPreview() {
         },
         onClickRestorePassword = {
 
-        }
+        },
+        loading = false
     )
 }

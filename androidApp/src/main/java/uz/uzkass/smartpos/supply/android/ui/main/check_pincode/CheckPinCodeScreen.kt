@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.otp.PinView
+import uz.uzkass.smartpos.supply.android.ui.NavGraphs
+import uz.uzkass.smartpos.supply.android.ui.destinations.LoginScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeNavigator
 import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
@@ -36,16 +38,16 @@ fun CheckPinCodeScreen(
         viewModel.navigate.collectLatest {
             when (it) {
                 CheckPinCodeNavigator.ToMain -> {
-//                    navigator.navigate(NavGraphs.main) {
-//                        popUpTo(NavGraphs.root.route) {
-//                            inclusive = true
-//                        }
-//                    }
+                    navigator.navigate(NavGraphs.main) {
+                        popUpTo(NavGraphs.root.route) {
+                            inclusive = true
+                        }
+                    }
                 }
                 CheckPinCodeNavigator.ToLogin -> {
-//                    navigator.navigate(LoginScreenDestination) {
-//                        popUpTo(NavGraphs.root.route)
-//                    }
+                    navigator.navigate(LoginScreenDestination) {
+                        popUpTo(NavGraphs.root.route)
+                    }
                 }
             }
         }
