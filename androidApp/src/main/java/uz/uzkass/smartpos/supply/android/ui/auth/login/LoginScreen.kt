@@ -46,12 +46,6 @@ fun LoginScreen(
                     navigator.navigate(NavGraphs.passwordReset)
                 }
             }
-
-//            navigator.navigate(NavGraphs.main) {
-//                popUpTo(NavGraphs.root.route) {
-//                    inclusive = true
-//                }
-//            }
         }
     })
 
@@ -134,25 +128,19 @@ private fun LoginScreenView(
                 )
             )
             FillAvailableSpace()
-            Button(
+            CorneredTextButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
+                enabled = !loading,
+                buttonBackgroundColor = SupplyTheme.colors.primary,
+                text = stringResource(id = MR.strings.login.resourceId),
                 onClick = {
                     onClickLogin(
                         valuePhone.value.text,
                         valuePassword.value.text
                     )
-                },
-                colors = ButtonDefaults.buttonColors(disabledBackgroundColor = SupplyTheme.colors.buttonDisable),
-                enabled = !loading
-            ) {
-                Text(
-                    text = stringResource(id = MR.strings.login.resourceId),
-                    style = SupplyTheme.typography.button
-                )
-            }
-
+                })
             SupplyTextButton(
                 onClick = onClickRestorePassword,
                 text = stringResource(id = MR.strings.forgot_password.resourceId)

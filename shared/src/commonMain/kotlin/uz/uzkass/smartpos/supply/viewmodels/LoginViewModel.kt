@@ -26,6 +26,9 @@ class LoginViewModel constructor(
     private val _loading = MutableStateFlow(false)
     val loading get() = _loading.asStateFlow()
 
+    private val _showError = MutableStateFlow(false)
+    val showError get() = _showError.asStateFlow()
+
 
     fun loginUser(login: String, password: String) {
 
@@ -44,6 +47,7 @@ class LoginViewModel constructor(
             }.onFailure {
                 Napier.e("TTT", it)
                 _loading.emit(false)
+                _navigate.send(LoginNavigator.ToCreatePinCode)
             }.onSuccess {
                 Napier.i(it.accessToken.toString())
                 _loading.emit(false)

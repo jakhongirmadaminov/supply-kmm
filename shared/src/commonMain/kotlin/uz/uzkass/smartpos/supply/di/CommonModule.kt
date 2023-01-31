@@ -54,14 +54,14 @@ val commonModule = module {
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
                 json = Json {
-//                    ignoreUnknownKeys = true
+                    ignoreUnknownKeys = true
                 }
             ),
             preferenceManager = get(),
         )
     }
 
-    factory { PasswordResetViewModel() }
+
 
     factory { SetPinCodeViewModel(preferenceManager = get()) }
 
@@ -77,5 +77,23 @@ val commonModule = module {
             )
         )
     }
+    factory {
+        PasswordResetViewModel(
+            api = MobileAccountResourceApi(
+                httpClient = get(named(HTTP_CLIENT_NAME)),
+                json = Json
+            )
+        )
+    }
+
+    factory {
+        PasswordResetConfirmViewModel(
+            api = MobileAccountResourceApi(
+                httpClient = get(named(HTTP_CLIENT_NAME)),
+                json = Json
+            )
+        )
+    }
+
 
 }

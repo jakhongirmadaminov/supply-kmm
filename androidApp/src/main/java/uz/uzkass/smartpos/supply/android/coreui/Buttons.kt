@@ -11,11 +11,13 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkassa.smartpos.supply.library.MR
 
 
 @Composable
@@ -23,28 +25,23 @@ fun CorneredTextButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    textColor: Color = SupplyTheme.colors.primary,
     enabled: Boolean = true,
     buttonBackgroundColor: Color = SupplyTheme.colors.background
 ) {
     multipleEventsCutter { manager ->
         Button(
+            modifier = modifier,
             onClick = { manager.processEvent { onClick() } },
             enabled = enabled,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = buttonBackgroundColor,
-                disabledBackgroundColor = SupplyTheme.colors.onBackground
+                disabledBackgroundColor = buttonBackgroundColor.copy(0.4f)
             ),
-            shape = RoundedCornerShape(12.dp),
-            modifier = modifier
-                .height(48.dp)
-                .fillMaxWidth()
-        ) {
+            shape = SupplyTheme.shapes.small8Dp,
+            ) {
             Text(
                 text = text,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                color = textColor,
+                style = SupplyTheme.typography.button
             )
         }
     }

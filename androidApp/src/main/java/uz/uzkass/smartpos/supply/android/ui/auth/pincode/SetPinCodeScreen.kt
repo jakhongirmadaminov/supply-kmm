@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,6 +65,7 @@ private fun SetPinCodeScreenView(onClickSetPinCode: (String) -> Unit) {
         )
         Spacer(modifier = Modifier.height(SupplyTheme.spacing.extraLarge64Dp))
         Text(
+            textAlign = TextAlign.Center,
             text = stringResource(id = MR.strings.create_pin_code_info.resourceId),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,

@@ -9,7 +9,7 @@ import io.ktor.client.plugins.logging.Logging
 private const val KTOR_TAG = "Http Client"
 
 internal fun HttpClientConfig<*>.logging() = install(Logging) {
-    level = LogLevel.HEADERS
+    level = LogLevel.ALL
     logger = object : Logger {
         override fun log(message: String) {
             Napier.v(tag = "HTTP Client", message = message)

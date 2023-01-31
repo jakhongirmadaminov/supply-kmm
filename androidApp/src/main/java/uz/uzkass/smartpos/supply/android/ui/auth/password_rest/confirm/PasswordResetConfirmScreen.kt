@@ -31,10 +31,9 @@ private const val digitCount = 6
 @PasswordResetNavGraph
 fun PasswordResetConfirmScreen(
     navigator: DestinationsNavigator,
-    phoneNumber: String
+    phoneNumber: String,
+    viewModel: PasswordResetConfirmViewModel = koinViewModel()
 ) {
-
-    val viewModel: PasswordResetConfirmViewModel = koinViewModel()
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {

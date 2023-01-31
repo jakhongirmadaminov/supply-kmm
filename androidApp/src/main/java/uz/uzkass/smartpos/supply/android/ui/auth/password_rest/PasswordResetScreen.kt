@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -31,6 +33,7 @@ import uz.uzkassa.smartpos.supply.library.MR
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.LabelTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
+import uz.uzkass.smartpos.supply.android.ui.destinations.PasswordResetConfirmScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 
@@ -43,10 +46,11 @@ fun PasswordResetScreen(
 ) {
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
-//            navigator.navigate(PasswordResetConfirmScreenDestination(phoneNumber = "946740298"))
+            navigator.navigate(PasswordResetConfirmScreenDestination(phoneNumber = it))
         }
     })
     PasswordResetScreenView(
+        loading = viewModel.loading.value,
         onClickReset = viewModel::initResetPassword
     )
 
@@ -54,10 +58,13 @@ fun PasswordResetScreen(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun PasswordResetScreenView(onClickReset: (String) -> Unit) {
+private fun PasswordResetScreenView(
+    loading: Boolean = false,
+    onClickReset: (String) -> Unit
+) {
 
     val keyboard = LocalSoftwareKeyboardController.current
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
@@ -115,6 +122,10 @@ private fun PasswordResetScreenView(onClickReset: (String) -> Unit) {
             }
 
         }
+        if (loading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
+
     }
 }
 

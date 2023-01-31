@@ -10,7 +10,7 @@ internal fun HttpClientConfig<*>.contentNegotiation() = install(ContentNegotiati
         Json {
             prettyPrint = true
             isLenient = true
-//            ignoreUnknownKeys = true
+            ignoreUnknownKeys = true
         }
     )
 }

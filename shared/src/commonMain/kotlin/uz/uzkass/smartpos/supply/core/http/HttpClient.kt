@@ -9,6 +9,7 @@ import uz.uzkass.smartpos.supply.initLogger
 import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
 val httpClient = httpClient {
+    expectSuccess = true
     logging()
     contentNegotiation()
     defaultRequest()
