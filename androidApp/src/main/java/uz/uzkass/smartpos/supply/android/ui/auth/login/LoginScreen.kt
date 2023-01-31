@@ -3,10 +3,7 @@ package uz.uzkass.smartpos.supply.android.ui.auth.login
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -147,6 +144,7 @@ private fun LoginScreenView(
                         valuePassword.value.text
                     )
                 },
+                colors = ButtonDefaults.buttonColors(disabledBackgroundColor = SupplyTheme.colors.buttonDisable),
                 enabled = !loading
             ) {
                 Text(

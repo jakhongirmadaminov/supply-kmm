@@ -1,5 +1,8 @@
 package uz.uzkass.smartpos.supply.viewmodels
 
+import com.kuuurt.paging.multiplatform.Pager
+import com.kuuurt.paging.multiplatform.PagingConfig
+import com.kuuurt.paging.multiplatform.PagingResult
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.paging.IdComparator
 import dev.icerock.moko.paging.IdEntity
@@ -9,72 +12,32 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CategoriesViewModel : ViewModel() {
+class CategoriesViewModel constructor() : ViewModel() {
+
+    private val pagingConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
+
+    private var currentQuery = ""
+    private var currentPage = 0
+
+//    val categoriesPager = Pager(clientScope = viewModelScope, config = pagingConfig, initialKey = 1,
+//        getItems = { currentKey, size ->
+//            val charactersResponse = getChadilracters(currentKey)
+//            PagingResult(
+//                items = items,
+//                currentKey = currentPage,
+//                prevKey = { null },
+//                nextKey = { currentPage + 1}
+//            )
+//        }
+//    )
+
 
     private val _categoriesList = MutableStateFlow<List<Unit>>(emptyList())
     val categoriesList get() = _categoriesList.asStateFlow()
 
-    private val pagination: Pagination<Product> = Pagination(
-        parentScope = viewModelScope,
-        dataSource = LambdaPagedListDataSource {
-            delay(1000)
-            it?.plus(generatePack(it.size.toLong())) ?: generatePack()
-        },
-        comparator = IdComparator(),
-        nextPageListener = ::onNextPageResult,
-        refreshListener = ::onRefreshResult,
-        initValue = generatePack()
-    )
 
-    private fun onNextPageResult(result: Result<List<Product>>) {
-        
-        if (result.isSuccess) {
-            println("next page successful loaded")
-        } else {
-            println("next page loading failed ${result.exceptionOrNull()}")
-        }
-    }
+    fun getCategoriesByQuery(query: String) {
 
-    private fun onRefreshResult(result: Result<List<Product>>) {
-        if (result.isSuccess) {
-            println("refresh successful")
-        } else {
-            println("refresh failed ${result.exceptionOrNull()}")
-        }
-    }
-
-    fun onRetryPressed() {
-        pagination.loadFirstPage()
-    }
-
-    fun onLoadNextPage() {
-        pagination.loadNextPage()
-    }
-
-    fun onRefresh() {
-        pagination.refresh()
-    }
-
-    @Suppress("MagicNumber")
-    private fun generatePack(startId: Long = 0): List<Product> {
-        return List(20) { idx ->
-            val id = startId + idx
-            Product(
-                id = id,
-                title = "Product $id"
-            )
-        }
     }
 
 }
-
-data class Product(
-    override val id: Long,
-    val title: String
-) : IdEntity
-
-//interface UnitsFactory {
-//    fun createProductUnit(id: Long, title: String): TableUnitItem
-//    fun createLoading(): TableUnitItem
-//}
-

@@ -3,6 +3,7 @@ package uz.uzkass.smartpos.supply.android.ui.main.check_pincode
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -108,6 +109,7 @@ private fun CheckPinCodeScreenContent(onCheckPin: (String) -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+            colors = ButtonDefaults.buttonColors(disabledBackgroundColor = SupplyTheme.colors.buttonDisable),
             enabled = pinValue.length == 4,
             onClick = {
                 onCheckPin(pinValue)

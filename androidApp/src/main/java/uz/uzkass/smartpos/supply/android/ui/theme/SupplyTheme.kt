@@ -74,7 +74,7 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         primaryVariant = Color(0xFF9B8AFB),
         surface = Color.White,
         onPrimary = Color.White,
-        onSurface = Color(0xFFF4F3FF),
+        onSurface = Color(0xFF6B3CEF),
         onBackground = Color(0xFF6B3CEF),
         background = Color.White,
         lineColor = Color(0xFFD0D5DD),
@@ -99,7 +99,8 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         textButtonText = Color(0xFF1D1B33),
 
         selected = Color(0xFF6938EF),
-        unSelected = Color(0xFF98A2B3)
+        unSelected = Color(0xFF98A2B3),
+        buttonDisable = Color(0x666B3CEF)
     )
 }
 
@@ -132,7 +133,9 @@ data class SupplyColors(
     val textButtonText: Color,
     val selected: Color,
     val unSelected: Color,
+    val buttonDisable: Color
 ) {
+
 
 }
 
