@@ -26,7 +26,7 @@ fun getTypography(colors: SupplyColors): Typography {
         ),
 
         button = TextStyle(
-            color = colors.buttonText,
+            color = colors.filledButtonText,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp

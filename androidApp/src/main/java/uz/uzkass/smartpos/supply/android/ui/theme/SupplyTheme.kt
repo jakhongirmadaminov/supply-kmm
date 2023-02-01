@@ -90,13 +90,14 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         subtitle1 = Color(0xFF1D2939),
         subtitle2 = Color(0xFF1D2939),
 
-        buttonText = Color.White,
         imageTitle = Color.Black,
-
-
         textFieldBorder = Color(0xFFD0D5DD),
 
+
         textButtonText = Color(0xFF1D1B33),
+
+        filledButtonText = Color.White,
+        textButtonBackground = Color(0xFF1D1B33),
 
         selected = Color(0xFF6938EF),
         unSelected = Color(0xFF98A2B3),
@@ -124,13 +125,12 @@ data class SupplyColors(
     val mediumTitle: Color,
     val subtitle1: Color,
     val subtitle2: Color,
-    val buttonText: Color,
     val imageTitle: Color,
-
-
     val textFieldBorder: Color,
 
+    val filledButtonText: Color,
     val textButtonText: Color,
+    val textButtonBackground: Color,
     val selected: Color,
     val unSelected: Color,
     val buttonDisable: Color
