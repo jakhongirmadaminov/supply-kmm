@@ -52,16 +52,25 @@ dependencies {
 //    implementation("androidx.compose.ui:ui-tooling:1.3.3")
 //    implementation("androidx.compose.foundation:foundation:1.3.1")
 //    implementation("androidx.compose.material:material:1.3.1")
+
+//  Compose
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material.material)
+
     implementation("androidx.activity:activity-compose:1.6.1")
 
     implementation(libs.raamcosta.compose.destinations.core)
     implementation(libs.raamcosta.compose.destinations.animations)
     ksp(libs.raamcosta.compose.destinations.ksp)
 
+//  Paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+//  Pager
+    implementation(libs.google.accompanist.pager.pager)
+    implementation(libs.google.accompanist.pager.indicators)
 //  Koin
     implementation(libs.io.koin.android)
     implementation(libs.io.koin.compose)
