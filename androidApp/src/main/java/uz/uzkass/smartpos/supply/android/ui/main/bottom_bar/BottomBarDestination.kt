@@ -17,7 +17,7 @@ enum class BottomBarDestination(
     @StringRes val label: Int
 ) {
     Home(HomeScreenDestination, R.drawable.ic_home, MR.strings.home.resourceId),
-    Client(ClientsScreenDestination, R.drawable.ic_clients, MR.strings.client.resourceId),
+    Client(ClientsScreenDestination, R.drawable.ic_clients, MR.strings.clients.resourceId),
 
     Category(CategoriesScreenDestination, R.drawable.ic_categories, MR.strings.catagory.resourceId),
     Order(CategoriesScreenDestination, R.drawable.ic_orders, MR.strings.order.resourceId),
