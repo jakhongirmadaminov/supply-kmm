@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.raamcosta.compose.destinations.core)
     implementation(libs.raamcosta.compose.destinations.animations)
     ksp(libs.raamcosta.compose.destinations.ksp)
-
+    implementation(libs.coil)
 //  Koin
     implementation(libs.io.koin.android)
     implementation(libs.io.koin.compose)
