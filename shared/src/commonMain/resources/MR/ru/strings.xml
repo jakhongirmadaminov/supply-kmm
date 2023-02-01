@@ -26,7 +26,12 @@
     <string name="repeat_password">Повторите пароль</string>
     <string name="create_new_password">Создайте новый пароль</string>
     <string name="home">Главная</string>
-    <string name="client">Клиенты</string>
     <string name="catagory">Каталог</string>
     <string name="order">Заказы</string>
+
+    //clients
+    <string name="clients">Клиенты</string>
+    <string name="clients_tab_all">Все клиенты</string>
+    <string name="clients_tab_visit">Посещения</string>
+
 </resources>

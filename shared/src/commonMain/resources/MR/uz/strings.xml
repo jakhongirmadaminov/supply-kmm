@@ -3,7 +3,7 @@
     <string name="choose_language_uz">Tilni tanlang</string>
     <string name="choose_language_ru">Выберите язык</string>
     <string name="russian">Русский</string>
-    <string name="uzbek" >O’zbekcha</string>
+    <string name="uzbek">O’zbekcha</string>
     <string name="my_string">Mening birbalodsfasdfasd sdfd</string>
     <string name="authorization">Ruxsat</string>
     <string name="authorization_info">Shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
@@ -16,7 +16,9 @@
     <string name="create_pin_code_info">Akkountni himoyalash uchun pinkod yarating</string>
     <string name="input_phone_number">Telefon raqamni kiriting</string>
     <string name="reset_password">Parolni tiklash</string>
-    <string name="reset_password_info">Parolni tiklash uchun siz shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
+    <string name="reset_password_info">Parolni tiklash uchun siz shartnoma tuzishda ko\'rsatilgan telefon raqamini
+        kiritishingiz kerak
+    </string>
     <string name="confirm">Tasdiqlash</string>
     <string name="input_sms_code">Smsdagi kodni kiriting</string>
     <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak</string>
@@ -24,7 +26,12 @@
     <string name="repeat_password">Parolni qayta kiriting</string>
     <string name="create_new_password">Yangi paqol yaratish</string>
     <string name="home">Главная</string>
-    <string name="client">Клиенты</string>
     <string name="catagory">Каталог</string>
     <string name="order">Заказы</string>
+
+    //clients
+    <string name="clients">Клиенты</string>
+    <string name="clients_tab_all">Все клиенты</string>
+    <string name="clients_tab_visit">Посещения</string>
+
 </resources>
