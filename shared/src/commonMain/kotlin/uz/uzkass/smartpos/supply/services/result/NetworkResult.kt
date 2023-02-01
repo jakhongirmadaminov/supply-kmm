@@ -1,4 +1,4 @@
-package uz.uzkass.smartpos.supply.services.demo
+package uz.uzkass.smartpos.supply.services.result
 
 sealed class NetworkResult<T>(
     val data: T? = null,

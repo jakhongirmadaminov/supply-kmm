@@ -1,5 +1,4 @@
-package uz.uzkass.smartpos.supply.services.demo
-
+package uz.uzkass.smartpos.supply.services.result
 
 import io.ktor.client.plugins.*
 import io.ktor.util.*
