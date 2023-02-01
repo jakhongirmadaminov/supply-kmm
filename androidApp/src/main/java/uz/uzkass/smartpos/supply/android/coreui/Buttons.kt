@@ -1,5 +1,6 @@
 package uz.uzkass.smartpos.supply.android.coreui
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
@@ -7,6 +8,12 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -15,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
 @Composable
@@ -154,4 +162,61 @@ private fun DefaultText(
         overflow = overflow,
         fontWeight = fontWeight
     )
+}
+
+@Composable
+fun TimerTextButton(
+    modifier: Modifier = Modifier,
+    onClickAgain: () -> Unit,
+    text: String,
+) {
+    var ticks by rememberSaveable {
+        mutableStateOf(59)
+    }
+
+    LaunchedEffect(key1 = ticks) {
+        if (ticks > 0) {
+            delay(1_000)
+            ticks--
+        }
+    }
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TimerText(ticks)
+        Spacer3dp()
+        TextButton(
+            onClick = {
+                ticks = 59
+                onClickAgain()
+            },
+            enabled = ticks == 0
+        ) {
+            Text(
+                text = text,
+                color = SupplyTheme.colors.textButtonText,
+                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun TimerText(
+    ticks: Int
+) {
+    val text = if (ticks < 10) {
+        "00:0$ticks"
+    } else {
+        "00:$ticks"
+    }
+    Text(text = text)
+}
+
+class TimerState {
+
+
 }
