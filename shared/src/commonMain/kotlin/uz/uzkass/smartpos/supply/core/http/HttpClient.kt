@@ -1,6 +1,5 @@
 package uz.uzkass.smartpos.supply.core.http
 
-import io.ktor.client.*
 import uz.uzkass.smartpos.supply.core.http.features.defaultRequest
 import uz.uzkass.smartpos.supply.core.utils.contentNegotiation
 import uz.uzkass.smartpos.supply.core.utils.logging
@@ -15,11 +14,8 @@ val httpClient = httpClient {
     defaultRequest()
 }.also { initLogger() }
 
-
-fun getAuthHttpClient(preferenceManager: PreferenceManager): HttpClient {
-    return httpClient {
-        logging()
-        contentNegotiation()
-        defaultRequest(preferenceManager)
-    }.also { initLogger() }
-}
+fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
+    logging()
+    contentNegotiation()
+    defaultRequest(preferenceManager)
+}.also { initLogger() }
