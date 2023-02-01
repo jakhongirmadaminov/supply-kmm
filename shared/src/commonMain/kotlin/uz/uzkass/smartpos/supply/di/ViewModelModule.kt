@@ -5,14 +5,7 @@ import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
-import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
-import uz.uzkass.smartpos.supply.viewmodels.HomeViewModel
-import uz.uzkass.smartpos.supply.viewmodels.LoginViewModel
-import uz.uzkass.smartpos.supply.viewmodels.PasswordResetConfirmViewModel
-import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
-import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
-import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
+import uz.uzkass.smartpos.supply.viewmodels.*
 
 val viewModelModule = module {
 
@@ -54,6 +47,14 @@ val viewModelModule = module {
 
     factory {
         PasswordResetConfirmViewModel(
+            api = MobileAccountResourceApi(
+                httpClient = get(named(HTTP_CLIENT_NAME)),
+                json = Json
+            )
+        )
+    }
+factory {
+    CreateNewPasswordViewModel(
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
                 json = Json

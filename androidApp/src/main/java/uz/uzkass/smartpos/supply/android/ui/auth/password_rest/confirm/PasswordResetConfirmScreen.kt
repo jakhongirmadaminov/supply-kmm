@@ -42,7 +42,7 @@ fun PasswordResetConfirmScreen(
 
     LaunchedEffect(key1 = Unit, block = {
         viewModel.navigate.collectLatest {
-            navigator.navigate(CreateNewPasswordScreenDestination)
+            navigator.navigate(CreateNewPasswordScreenDestination(phoneNumber))
         }
     })
 

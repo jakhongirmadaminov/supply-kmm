@@ -31,20 +31,20 @@ class CreateNewPasswordViewModel constructor(
 
     fun changedPassword(phone: String, password: String, confirmPassword: String) {
         if (password == confirmPassword) {
+            _loading.value = true
             viewModelScope.launch {
                 resultOf {
                     val request = ResetPasswordFinishDTO(phone = phone, confirmPassword, password)
                     api.resetPasswordCheckUsingPOST7(request)
                 }.onSuccess {
-
+                    _showDialog.emit(true)
                 }.onFailure {
 
                 }.let {
-
+                    _loading.emit(false)
                 }
             }
         } else {
-
 
         }
     }

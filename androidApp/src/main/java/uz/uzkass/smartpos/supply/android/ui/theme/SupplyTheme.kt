@@ -101,7 +101,8 @@ fun getColors(darkTheme: Boolean): SupplyColors {
 
         selected = Color(0xFF6938EF),
         unSelected = Color(0xFF98A2B3),
-        buttonDisable = Color(0x666B3CEF)
+        buttonDisable = Color(0x666B3CEF),
+        error = Color(0xFFD92D20)
     )
 }
 
@@ -133,7 +134,8 @@ data class SupplyColors(
     val textButtonBackground: Color,
     val selected: Color,
     val unSelected: Color,
-    val buttonDisable: Color
+    val buttonDisable: Color,
+    val error: Color
 ) {
 
 

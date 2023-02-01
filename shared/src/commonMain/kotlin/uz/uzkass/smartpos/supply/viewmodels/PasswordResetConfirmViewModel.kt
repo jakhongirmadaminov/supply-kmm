@@ -7,6 +7,7 @@ import dev.icerock.moko.network.generated.models.ResetPasswordDTO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.core.utils.resultOf
 
 
 class PasswordResetConfirmViewModel constructor(
@@ -27,12 +28,13 @@ class PasswordResetConfirmViewModel constructor(
                 activationCode = activationCode,
                 phone = phone
             )
-            kotlin.runCatching {
+            resultOf {
                 api.resetPasswordCheckUsingPOST6(request)
             }.onSuccess {
-                _loading.emit(false)
                 _navigate.send(Unit)
             }.onFailure {
+
+            }.let {
                 _loading.emit(false)
             }
 
@@ -42,7 +44,7 @@ class PasswordResetConfirmViewModel constructor(
 
     fun clickSendSmsAgain(phone: String) {
         viewModelScope.launch {
-            kotlin.runCatching {
+            resultOf {
                 val request = PhoneDTO(phone)
                 api.resetPasswordUsingPOST3(request)
             }.onSuccess {
@@ -50,8 +52,6 @@ class PasswordResetConfirmViewModel constructor(
             }.onFailure {
 
             }
-
         }
     }
-
 }

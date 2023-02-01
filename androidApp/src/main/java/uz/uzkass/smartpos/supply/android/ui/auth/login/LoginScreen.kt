@@ -68,6 +68,12 @@ private fun LoginScreenView(
     onClickLogin: (login: String, password: String) -> Unit,
     onClickRestorePassword: () -> Unit
 ) {
+    val valuePhone = remember {
+        mutableStateOf(TextFieldValue())
+    }
+    var valuePassword by remember {
+        mutableStateOf("")
+    }
     val keyboard = LocalSoftwareKeyboardController.current
     Box(
         modifier = Modifier
@@ -93,12 +99,7 @@ private fun LoginScreenView(
                 fontWeight = FontWeight.Medium,
                 color = SupplyTheme.colors.mediumTitle
             )
-            val valuePhone = remember {
-                mutableStateOf(TextFieldValue())
-            }
-            val valuePassword = remember {
-                mutableStateOf(TextFieldValue())
-            }
+
             Spacer16dp()
             LabelTextField(
                 label = stringResource(id = MR.strings.phone_number.resourceId),
@@ -110,7 +111,7 @@ private fun LoginScreenView(
                 ),
             )
             Spacer16dp()
-            PasswordTextView(
+            PasswordTextField(
                 label = stringResource(id = MR.strings.password.resourceId),
                 valueState = valuePassword,
                 keyboardOptions = KeyboardOptions(
@@ -122,10 +123,13 @@ private fun LoginScreenView(
                         keyboard?.hide()
                         onClickLogin(
                             valuePhone.value.text,
-                            valuePassword.value.text
+                            valuePassword
                         )
                     }
-                )
+                ),
+                onValueChange = {
+                    valuePassword = it
+                }
             )
             FillAvailableSpace()
             SupplyFilledTextButton(
@@ -138,7 +142,7 @@ private fun LoginScreenView(
                 onClick = {
                     onClickLogin(
                         valuePhone.value.text,
-                        valuePassword.value.text
+                        valuePassword
                     )
                 })
             SupplyTextButton(
