@@ -39,6 +39,7 @@
     <string name="clients_tab_all">Все клиенты</string>
     <string name="clients_tab_visit">Посещения</string>
 
+    <string name="statistic_by_order">Статистика по заказам</string>
     <string name="today_order_count">Кол-во заказов за сегодня</string>
     <string name="today_order_summa">Сумма заказов за сегодня</string>
     <string name="order_count">Кол-во заказов</string>
