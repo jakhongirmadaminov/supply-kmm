@@ -68,7 +68,6 @@ fun BottomBar(
         cutoutShape = MaterialTheme.shapes.small.copy(
             CornerSize(percent = 50)
         ),
-        elevation = 2.dp,
         backgroundColor = SupplyTheme.colors.background
     ) {
         BottomNavigation(backgroundColor = SupplyTheme.colors.background) {

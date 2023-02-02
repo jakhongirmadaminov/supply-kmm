@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.raamcosta.compose.destinations.core)
     implementation(libs.raamcosta.compose.destinations.animations)
     ksp(libs.raamcosta.compose.destinations.ksp)
+    implementation(libs.coil)
 
 //  Paging
     implementation(libs.androidx.paging.runtime)

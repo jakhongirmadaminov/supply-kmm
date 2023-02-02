@@ -39,4 +39,10 @@
     <string name="clients_tab_all">Все клиенты</string>
     <string name="clients_tab_visit">Посещения</string>
 
-    </resources>
+    <string name="today_order_count">Кол-во заказов за сегодня</string>
+    <string name="today_order_summa">Сумма заказов за сегодня</string>
+    <string name="order_count">Кол-во заказов</string>
+    <string name="summa_order">Сумма заказов</string>
+    <string name="plan_over">План посещений</string>
+
+</resources>

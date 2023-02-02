@@ -75,7 +75,13 @@ private fun SetPinCodeScreenView(onClickSetPinCode: (String) -> Unit) {
         PinView(
             pinText = pinValue,
             onPinTextChange = {
-                pinValue = it
+                if (it.length<=4){
+                    pinValue = it
+                }
+                if (it.length == 4){
+                    onClickSetPinCode(pinValue)
+                }
+
             },
             keyboardActions = KeyboardActions(onDone = {
                 if (pinValue.length == 4) {

@@ -102,7 +102,11 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         selected = Color(0xFF6938EF),
         unSelected = Color(0xFF98A2B3),
         buttonDisable = Color(0x666B3CEF),
-        error = Color(0xFFD92D20)
+        error = Color(0xFFD92D20),
+
+        statisticText = Color(0xFF9061F9),
+        statisticTitle = Color(0xFF000000),
+        statisticTextBackground = Color(0xFFF6F5FF),
     )
 }
 
@@ -135,7 +139,10 @@ data class SupplyColors(
     val selected: Color,
     val unSelected: Color,
     val buttonDisable: Color,
-    val error: Color
+    val error: Color,
+    val statisticText: Color,
+    val statisticTextBackground: Color,
+    val statisticTitle: Color,
 ) {
 
 

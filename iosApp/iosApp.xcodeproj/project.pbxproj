@@ -17,7 +17,6 @@
 		B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FAD297FC1E400E5EB1B /* SplashScreen.swift */; };
 		B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB0297FE22500E5EB1B /* AuthScreen.swift */; };
 		B0BA9FB42980080B00E5EB1B /* BorderedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */; };
-		B0BA9FB62980F82F00E5EB1B /* dsfs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BA9FB52980F82F00E5EB1B /* dsfs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +72,7 @@
 				7555FF7C242A565900829871 /* Products */,
 				A832FF5F71DCDD1E4AE6C458 /* Pods */,
 				074780A4FD6D5D366261E5FC /* Frameworks */,
+				B0DD2C4B2989468B00FB7AD8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +124,14 @@
 				B0BA9FB32980080B00E5EB1B /* BorderedTextFieldStyle.swift */,
 			);
 			path = styles;
+			sourceTree = "<group>";
+		};
+		B0DD2C4B2989468B00FB7AD8 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B0BA9FB52980F82F00E5EB1B /* dsfs.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,7 +249,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				B0BA9FB62980F82F00E5EB1B /* dsfs.swift in Sources */,
 				B0BA9FB1297FE22500E5EB1B /* AuthScreen.swift in Sources */,
 				A7D5077E29800A4800A64AA7 /* HomeScreen.swift in Sources */,
 				B0BA9FAE297FC1E400E5EB1B /* SplashScreen.swift in Sources */,

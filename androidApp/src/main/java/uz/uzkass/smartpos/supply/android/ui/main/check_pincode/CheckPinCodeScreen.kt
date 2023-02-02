@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -87,6 +88,7 @@ private fun CheckPinCodeScreenContent(onCheckPin: (String) -> Unit) {
         Text(
             text = stringResource(id = MR.strings.create_pin_code_info.resourceId),
             fontSize = 20.sp,
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,
             color = SupplyTheme.colors.imageTitle,
         )
@@ -94,7 +96,12 @@ private fun CheckPinCodeScreenContent(onCheckPin: (String) -> Unit) {
         PinView(
             pinText = pinValue,
             onPinTextChange = {
-                pinValue = it
+                if (it.length <= 4){
+                    pinValue = it
+                }
+                if (it.length == 4){
+                    onCheckPin(pinValue)
+                }
             },
             keyboardActions = KeyboardActions(onDone = {
                 if (pinValue.length == 4) {
