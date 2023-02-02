@@ -10,18 +10,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.core.Constants
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
@@ -88,10 +89,12 @@ fun LabelTextField(
 }
 
 @Composable
-fun PasswordTextView(
+fun PasswordTextField(
     modifier: Modifier = Modifier,
     label: String,
-    valueState: MutableState<TextFieldValue>,
+    valueState: String,
+    isError: Boolean = false,
+    onValueChange: (String) -> Unit,
     keyboardActions: KeyboardActions = KeyboardActions(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
@@ -107,13 +110,11 @@ fun PasswordTextView(
                 .fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = SupplyTheme.colors.textFieldBorder,
+                    color = if (isError) SupplyTheme.colors.error else SupplyTheme.colors.textFieldBorder,
                     shape = LocalShapes.current.small8Dp
                 ),
-            value = valueState.value,
-            onValueChange = {
-                valueState.value = it
-            },
+            value = valueState,
+            onValueChange = onValueChange,
             placeholder = {
                 Text(
                     text = stringResource(id = MR.strings.input_password.resourceId),
@@ -139,11 +140,13 @@ fun PasswordTextView(
                         isPasswordVisible = !isPasswordVisible
                     },
                     content = {
-//                        Icon(
-//                            imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-//                            contentDescription = null,
-//                            tint = SupplyTheme.colors.textFieldBorder
-//                        )
+                        Icon(
+                            painter = if (isPasswordVisible) painterResource(id = R.drawable.ic_visible_eye) else painterResource(
+                                id = R.drawable.ic_visible_eye
+                            ),
+                            contentDescription = null,
+                            tint = SupplyTheme.colors.textFieldBorder
+                        )
                     }
                 )
             }

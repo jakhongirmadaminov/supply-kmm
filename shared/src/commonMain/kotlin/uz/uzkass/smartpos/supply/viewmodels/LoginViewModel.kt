@@ -1,19 +1,15 @@
 package uz.uzkass.smartpos.supply.viewmodels
 
-import dev.icerock.moko.errors.handler.ExceptionHandler
-import dev.icerock.moko.errors.mappers.ExceptionMappersStorage
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import dev.icerock.moko.network.errors.registerAllNetworkMappers
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
 import dev.icerock.moko.network.generated.models.CabinetLoginDTO
 import io.github.aakira.napier.Napier
-import io.ktor.client.plugins.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import uz.uzkass.smartpos.supply.services.demo.safeApiCall
 import uz.uzkass.smartpos.supply.settings.PreferenceManager
-
 
 class LoginViewModel constructor(
     private val api: MobileAccountResourceApi,

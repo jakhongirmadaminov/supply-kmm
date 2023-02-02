@@ -2,7 +2,7 @@ package uz.uzkass.smartpos.supply.core.http.features
 
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.request.*
+import io.ktor.client.request.header
 import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
@@ -13,6 +13,7 @@ import uz.uzkass.smartpos.supply.settings.PreferenceManager
 private const val BASE_URL = "https://api-devsupply.smartpos.uz/"
 private const val HEADER_SELECTED_LANGUAGE: String = "language"
 private const val HEADER_AUTHORIZATION: String = "Authorization"
+
 internal fun HttpClientConfig<*>.defaultRequest() =
     install(DefaultRequest) {
         url.protocol = URLProtocol.HTTPS

@@ -7,6 +7,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 interface MultipleEventsCutterManager {
     fun processEvent(event: () -> Unit)
@@ -19,16 +20,26 @@ fun <T> multipleEventsCutter(
 ): T {
     val debounceState = remember {
         MutableSharedFlow<() -> Unit>(
-            replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
+            replay = 0,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
         )
     }
-    val result = content(object : MultipleEventsCutterManager {
-        override fun processEvent(event: () -> Unit) {
-            debounceState.tryEmit(event)
+
+    val result = content(
+        object : MultipleEventsCutterManager {
+            override fun processEvent(event: () -> Unit) {
+                debounceState.tryEmit(event)
+            }
         }
-    })
+    )
+
     LaunchedEffect(true) {
-        debounceState.debounce(300L).collect { onClick -> onClick.invoke() }
+        debounceState
+            .debounce(300L)
+            .distinctUntilChanged()
+            .collect { onClick -> onClick.invoke() }
     }
+
     return result
 }

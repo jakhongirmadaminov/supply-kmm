@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.utils.navGraph
 import com.ramcosta.composedestinations.utils.startDestination
 import uz.uzkass.smartpos.supply.android.coreui.SpacerWeight
 import uz.uzkass.smartpos.supply.android.ui.destinations.Destination
@@ -67,7 +68,6 @@ fun BottomBar(
         cutoutShape = MaterialTheme.shapes.small.copy(
             CornerSize(percent = 50)
         ),
-        elevation = 2.dp,
         backgroundColor = SupplyTheme.colors.background
     ) {
         BottomNavigation(backgroundColor = SupplyTheme.colors.background) {
@@ -75,13 +75,13 @@ fun BottomBar(
                 BottomNavigationItem(
                     selected = currentDestination == destination.direction,
                     onClick = {
-//                        navController.navigate(destination.direction) {
-//                            popUpTo(NavGraphs.main.startDestination.route) {
-//                                saveState = true
-//                            }
-//                            launchSingleTop = true
-//                            restoreState = true
-//                        }
+                        navController.navigate(destination.direction) {
+                            popUpTo(NavGraphs.main.startDestination.route) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     },
                     icon = {
                         Icon(
