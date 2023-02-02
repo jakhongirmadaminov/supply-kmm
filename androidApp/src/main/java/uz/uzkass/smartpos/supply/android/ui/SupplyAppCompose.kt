@@ -91,7 +91,13 @@ fun BottomBar(
                     },
                     unselectedContentColor = SupplyTheme.colors.unSelected,
                     selectedContentColor = SupplyTheme.colors.selected,
-                    label = { Text(stringResource(destination.label)) },
+                    label = {
+                        Text(
+                            stringResource(destination.label),
+                            fontSize = 10.sp,
+                            maxLines = 1
+                        )
+                    },
                 )
 
 
