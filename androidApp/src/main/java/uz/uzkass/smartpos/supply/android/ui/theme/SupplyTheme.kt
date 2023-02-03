@@ -76,6 +76,7 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         onPrimary = Color.White,
         onSurface = Color(0xFF6B3CEF),
         onBackground = Color(0xFF6B3CEF),
+        idleBackground = Color(0xFFFBFBFB),
         background = Color.White,
         lineColor = Color(0xFFD0D5DD),
         lineActiveColor = Color(0xFF528BFF),
@@ -85,6 +86,7 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         h4 = Color(0xFF1D1B33),
 
 
+        label = Color(0xFF64748B),
         largeTitle = Color(0xFF1D1B33),
         mediumTitle = Color(0xFF1D1B33),
         subtitle1 = Color(0xFF1D2939),
@@ -118,6 +120,7 @@ data class SupplyColors(
     val onPrimary: Color,
     val onSurface: Color,
     val onBackground: Color,
+    val idleBackground: Color,
     val background: Color,
     val lineColor: Color,
     val lineActiveColor: Color,
@@ -126,6 +129,7 @@ data class SupplyColors(
     val h3: Color,
     val h4: Color,
 
+    val label: Color,
     val largeTitle: Color,
     val mediumTitle: Color,
     val subtitle1: Color,
