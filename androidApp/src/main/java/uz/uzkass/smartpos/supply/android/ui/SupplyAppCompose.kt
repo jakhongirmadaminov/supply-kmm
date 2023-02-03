@@ -6,17 +6,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.utils.navGraph
 import com.ramcosta.composedestinations.utils.startDestination
 import uz.uzkass.smartpos.supply.android.coreui.SpacerWeight
 import uz.uzkass.smartpos.supply.android.ui.destinations.Destination
-
 import uz.uzkass.smartpos.supply.android.ui.main.bottom_bar.BottomBarDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
@@ -103,4 +100,3 @@ fun BottomBar(
 
     }
 }
-

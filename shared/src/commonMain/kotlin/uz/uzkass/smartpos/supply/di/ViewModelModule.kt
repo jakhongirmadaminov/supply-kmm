@@ -74,9 +74,10 @@ val viewModelModule = module {
     }
 
     factory {
+
         CustomersViewModel(
             api = MobileCustomerResourceApi(
-                httpClient = get(named(HTTP_CLIENT_NAME)),
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = Json
             )
         )

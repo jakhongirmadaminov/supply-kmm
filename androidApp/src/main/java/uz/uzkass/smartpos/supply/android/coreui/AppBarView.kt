@@ -21,8 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-private const val APP_BAR_HEIGHT = 56
+import uz.uzkass.smartpos.supply.android.core.Constants.APP_BAR_HEIGHT
 
 @Composable
 fun DefaultAppBar(

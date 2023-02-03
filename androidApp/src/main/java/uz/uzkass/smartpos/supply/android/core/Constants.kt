@@ -1,9 +1,9 @@
 package uz.uzkass.smartpos.supply.android.core
 
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
-
 object Constants {
+    const val APP_BAR_HEIGHT = 56
+    const val BOTTOM_BAR_HEIGHT = 56
+
     const val ZERO = "0"
     const val PHONE_NUMBER_PREFIX = "+998"
     const val PHONE_NUMBER_LENGTH = 13
