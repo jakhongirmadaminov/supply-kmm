@@ -45,8 +45,9 @@ android {
 dependencies {
     implementation(project(":shared"))
     implementation("androidx.core:core-ktx:+")
-    val bom = libs.androidx.compose.bom.get()
 
+//  BOM
+    val bom = libs.androidx.compose.bom.get()
     implementation(platform(bom))
     androidTestImplementation(platform(bom))
 //    implementation("androidx.compose.ui:ui-tooling:1.3.3")
@@ -59,19 +60,28 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material.material)
 
-    implementation("androidx.activity:activity-compose:1.6.1")
+//  Activity
+    implementation(libs.androidx.activity.compose)
 
+//  Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+//  Compose Destinations
     implementation(libs.raamcosta.compose.destinations.core)
     implementation(libs.raamcosta.compose.destinations.animations)
     ksp(libs.raamcosta.compose.destinations.ksp)
+
+//  Coil
     implementation(libs.coil)
 
 //  Paging
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
+
 //  Pager
     implementation(libs.google.accompanist.pager.pager)
     implementation(libs.google.accompanist.pager.indicators)
+
 //  Koin
     implementation(libs.io.koin.android)
     implementation(libs.io.koin.compose)
