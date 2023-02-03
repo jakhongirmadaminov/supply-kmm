@@ -22,6 +22,9 @@
     <string name="confirm">Tasdiqlash</string>
     <string name="input_sms_code">Smsdagi kodni kiriting</string>
     <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+
     //new
     <string name="repeat_password">Parolni qayta kiriting</string>
     <string name="create_new_password">Yangi paqol yaratish</string>
@@ -33,7 +36,6 @@
     <string name="clients">Клиенты</string>
     <string name="clients_tab_all">Все клиенты</string>
     <string name="clients_tab_visit">Посещения</string>
-
 
 
     <string name="statistic_by_order">Статистика по заказам</string>

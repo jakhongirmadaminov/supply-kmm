@@ -7,9 +7,7 @@
     <string name="russian">Русский</string>
     <string name="uzbek">O’zbekcha</string>
     <string name="authorization">Авторизация</string>
-    <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении
-        договора
-    </string>
+    <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении договора</string>
     <string name="phone_number">Номер телефона</string>
     <string name="password">Пароль</string>
     <string name="input_password">Введите пароль</string>
@@ -18,6 +16,9 @@
     <string name="create_pin_code">Создать PIN-код</string>
     <string name="create_pin_code_info">Создайте PIN-код для защиты аккаунта</string>
     <string name="input_phone_number">Введите номер телефона</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+
     //reset password
     <string name="reset_password">Сброс пароля</string>
     <string name="reset_password_info">Для сброса пароля необходимо ввести номер телефона указанный

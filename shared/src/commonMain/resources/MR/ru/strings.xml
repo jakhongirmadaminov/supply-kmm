@@ -20,6 +20,8 @@
     <string name="confirm">Подтвердить</string>
     <string name="input_sms_code">Введите код из СМС</string>
     <string name="input_sms_code_info">Для сброса пароля необходимо ввести код из СМС</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
 
 
     //new
