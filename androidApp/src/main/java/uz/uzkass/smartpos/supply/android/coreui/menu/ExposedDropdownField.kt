@@ -12,19 +12,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExposedDropdownField(
     modifier: Modifier = Modifier,
     expanded: Boolean,
-    items: List<ExposedDropdown> = emptyList(),
-    currentItem: ExposedDropdown? = null,
+    items: List<DropdownModel> = emptyList(),
+    currentItem: DropdownModel? = null,
     readOnly: Boolean = true,
     onDismissRequest: () -> Unit,
-    onItemSelected: (ExposedDropdown) -> Unit,
-
-    ) {
+    onItemSelected: (DropdownModel) -> Unit,
+    onQueryChange: (String) -> Unit = {}
+) {
 
     var mExpanded by remember { mutableStateOf(false) }
     var selectedItemLabel by remember { mutableStateOf(currentItem?.label ?: "") }
@@ -34,25 +35,28 @@ fun ExposedDropdownField(
         onExpandedChange = {
             mExpanded = mExpanded.not()
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
     ) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth(),
             readOnly = readOnly,
             value = selectedItemLabel,
-            onValueChange = {}
+            onValueChange = onQueryChange
         )
         ExposedDropdownMenu(
             expanded = mExpanded,
             modifier = Modifier.fillMaxWidth(),
             onDismissRequest = { mExpanded = false }) {
             items.forEach { item ->
-                DropdownMenuItem(onClick = {
-                    onItemSelected(item)
-                    selectedItemLabel = item.label
-                    mExpanded = mExpanded.not()
-                })
+                DropdownMenuItem(
+                    onClick = {
+                        onItemSelected(item)
+                        selectedItemLabel = item.label
+                        mExpanded = mExpanded.not()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
                 {
                     Text(text = "${item.label}")
                 }
@@ -60,9 +64,3 @@ fun ExposedDropdownField(
         }
     }
 }
-
-data class ExposedDropdown(
-    val id: String,
-    val label: String,
-    val data: Any? = null
-)

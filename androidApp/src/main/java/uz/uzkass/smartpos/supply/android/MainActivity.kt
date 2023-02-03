@@ -27,26 +27,26 @@ class MainActivity : ComponentActivity() {
             }
             SupplyTheme {
 //
-//                ExposedDropdownField(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    expanded = expendable,
-//                    items = listOf(
-//                        ExposedDropdown("", "label 1"),
-//                        ExposedDropdown("", "label 2"),
-//                        ExposedDropdown("", "label 3"),
-//                        ExposedDropdown("", "label 4"),
-//                        ExposedDropdown("", "label 5"),
-//                        ExposedDropdown("", "label 6"),
-//
-//
-//                        ),
-//                    onDismissRequest = {
-//                        expendable = expendable.not()
-//                    },
-//                    onItemSelected = {
-//
-//                    }
-//                )
+                ExposedDropdownField(
+                    modifier = Modifier.fillMaxWidth(),
+                    expanded = expendable,
+                    items = listOf(
+                        ExposedDropdown("", "label 1"),
+                        ExposedDropdown("", "label 2"),
+                        ExposedDropdown("", "label 3"),
+                        ExposedDropdown("", "label 4"),
+                        ExposedDropdown("", "label 5"),
+                        ExposedDropdown("", "label 6"),
+
+
+                        ),
+                    onDismissRequest = {
+                        expendable = expendable.not()
+                    },
+                    onItemSelected = {
+
+                    }
+                )
                 SupplyAppCompose()
             }
         }
