@@ -1,4 +1,4 @@
-package uz.uzkass.smartpos.supply.android.ui.main.category.ui
+ package uz.uzkass.smartpos.supply.android.ui.main.category.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

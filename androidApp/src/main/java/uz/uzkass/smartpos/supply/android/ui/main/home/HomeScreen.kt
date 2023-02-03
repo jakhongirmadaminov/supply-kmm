@@ -49,13 +49,16 @@ fun HomeScreen(
 ) {
 
     HomeScreenView(
-        homeDate = viewModel.homeData.collectAsState().value
+        homeDate = viewModel.homeData.collectAsState().value,
+        onRefreshData = viewModel::refreshData
+
     )
 }
 
 @Composable
 private fun HomeScreenView(
-    homeDate: HomeDataState
+    homeDate: HomeDataState,
+    onRefreshData: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -65,7 +68,7 @@ private fun HomeScreenView(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = LocalSpacing.current.medium16Dp),
+                .padding(LocalSpacing.current.medium16Dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
@@ -81,25 +84,32 @@ private fun HomeScreenView(
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(homeDate.avatarImageUrl)
+                        .error(R.drawable.ic_profile_vector)
+                        .placeholder(R.drawable.ic_profile_vector)
                         .crossfade(true)
                         .build(),
-                    placeholder = painterResource(R.drawable.logo_smartpos),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(60.dp)
                         .clip(CircleShape)
                 )
-
             }
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(id = MR.strings.statistic_by_order.resourceId))
+                Text(
+                    text = stringResource(id = MR.strings.statistic_by_order.resourceId),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = SupplyTheme.colors.textButtonText
+
+                )
                 FillAvailableSpace()
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = onRefreshData) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_refresh_rotate),
                         contentDescription = null
@@ -111,7 +121,6 @@ private fun HomeScreenView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(96.dp)
-                    .padding(horizontal = LocalSpacing.current.medium16Dp)
             ) {
                 TextBox(
                     modifier = Modifier
@@ -134,7 +143,6 @@ private fun HomeScreenView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(96.dp)
-                    .padding(horizontal = LocalSpacing.current.medium16Dp)
             ) {
                 TextBox(
                     modifier = Modifier
@@ -156,8 +164,7 @@ private fun HomeScreenView(
             TextBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(96.dp)
-                    .padding(horizontal = LocalSpacing.current.medium16Dp),
+                    .height(96.dp),
                 title = stringResource(id = MR.strings.plan_over.resourceId),
                 value = "${homeDate.completedOrder}/${homeDate.countOrderPlane}"
             )
@@ -208,7 +215,8 @@ private fun TextBox(
                 1.dp,
                 LocalColors.current.statisticText,
                 shape = LocalShapes.current.small8Dp
-            ),
+            )
+            .padding(LocalSpacing.current.small8Dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
