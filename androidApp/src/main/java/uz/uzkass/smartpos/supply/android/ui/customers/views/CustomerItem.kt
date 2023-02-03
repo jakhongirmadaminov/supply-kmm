@@ -57,7 +57,7 @@ internal fun CustomerItem(
                     )
                     Spacer8dp()
                     Text(
-                        text = customerItem.tin ?: "",
+                        text = customerItem.brand ?: "",
                         color = SupplyTheme.colors.h2,
                         fontSize = 14.sp,
                         maxLines = 1,
@@ -72,7 +72,7 @@ internal fun CustomerItem(
                     Text(
                         modifier = Modifier.weight(1f),
                         color = SupplyTheme.colors.label,
-                        text = customerItem.brand ?: "",
+                        text = customerItem.tin ?: "",
                         fontSize = 12.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
