@@ -4,6 +4,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
+import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import dev.icerock.moko.network.generated.apis.PublicOrderResourceApiImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ class CreateOrderViewModel constructor(
     val customerApi: MobileCustomerResourceApi,
     val branchResourceApi: MobileBranchResourceApi,
     val contractResourceApi: MobileContractResourceApi,
-    val publicOrderResourceApiImpl: PublicOrderResourceApiImpl
+    val publicOrderResourceApiImpl: PublicOrderResourceApiImpl,
+    val warehouseResourceApi: MobileWarehouseResourceApi
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -32,6 +34,8 @@ class CreateOrderViewModel constructor(
 
     private var customer: DropdownModel? = null
     private var contract: DropdownModel? = null
+    private var sellType: DropdownModel? = null
+
     private var branch: DropdownModel? = null
     private var storage: DropdownModel? = null
 
@@ -87,6 +91,84 @@ class CreateOrderViewModel constructor(
     }
 
 
+    fun getSellType() {
+        viewModelScope.launch {
+            resultOf {
+                publicOrderResourceApiImpl.getSaleTypesUsingGET3()
+            }.onSuccess {
+
+                val temp = it.map { item ->
+                    DropdownModel(
+                        id = item.code.toString(),
+                        label = item.name.toString()
+                    )
+                }
+                _screenStateFlow.update {
+                    it.copy(
+                        sellTypeList = temp
+                    )
+                }
+            }.onFailure {
+
+            }.let {
+
+            }
+        }
+
+    }
+
+    fun getBranchByQuery(query: String = "") {
+        viewModelScope.launch {
+            resultOf {
+                branchResourceApi.lookUpUsingGET66(search = query)
+            }.onSuccess {
+                val temp = it.map { item ->
+                    DropdownModel(
+                        id = item.id.toString(),
+                        label = item.name.toString()
+                    )
+                }
+
+                _screenStateFlow.update {
+                    it.copy(
+                        branchList = temp
+                    )
+                }
+            }.onFailure {
+
+            }.let {
+
+            }
+
+        }
+    }
+
+    fun getStoreByQuery(query: String = "") {
+        viewModelScope.launch {
+            resultOf {
+                warehouseResourceApi.lookUpUsingGET69(search = query)
+            }.onSuccess {
+                val temp = it.map { item ->
+                    DropdownModel(
+                        id = item.id.toString(),
+                        label = item.name.toString()
+                    )
+                }
+
+                _screenStateFlow.update {
+                    it.copy(
+                        storageList = temp
+                    )
+                }
+            }.onFailure {
+
+            }.let {
+
+            }
+
+        }
+    }
+
     fun selectCustomer(newCustomer: DropdownModel) {
 
 
@@ -115,6 +197,8 @@ class CreateOrderViewModel constructor(
 data class CreateOrderScreenState(
     val customerList: List<DropdownModel>? = null,
     val contractList: List<DropdownModel>? = null,
+
+    val sellTypeList: List<DropdownModel>? = null,
 
     val branchList: List<DropdownModel> = emptyList(),
     val storageList: List<DropdownModel> = emptyList(),
