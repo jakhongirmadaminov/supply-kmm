@@ -18,7 +18,7 @@ struct AuthScreen : View{
         VStack{
             VStack(alignment: .leading) {
                 Spacer().frame(height: 25)
-                Text("")
+                Text(MR.strings().authorization.desc().localized())
                     .foregroundColor(Color("PrimaryTextColor"))
                     .font(Font.custom("Mulish", size:30).weight(.heavy))
                     .frame( maxWidth: .infinity,alignment: .topLeading)
@@ -26,14 +26,14 @@ struct AuthScreen : View{
 
                 Spacer().frame(height: 25)
 
-                Text("")
+                Text(MR.strings().authorization_info.desc().localized())
                     .foregroundColor(Color("PrimaryTextColor"))
                     .font(Font.custom("Mulish", size:14).weight(.medium))
                     .frame( maxWidth: .infinity, alignment: .topLeading)
                     .padding(.horizontal, 25.0)
 
                 Spacer().frame(height: 20)
-                Text("")
+                Text(MR.strings().phone_number.desc().localized())
                     .foregroundColor(Color("PrimaryTextColor"))
                     .font(Font.custom("Mulish", size:14).weight(.medium))
                     .frame( maxWidth: .infinity, alignment: .topLeading)
@@ -54,13 +54,13 @@ struct AuthScreen : View{
 
                 Spacer().frame(height: 20)
 
-                Text("")
+                Text(MR.strings().password.desc().localized())
                     .foregroundColor(Color("PrimaryTextColor"))
                     .font(Font.custom("Mulish", size:14).weight(.medium))
                     .frame( maxWidth: .infinity, alignment: .topLeading)
                     .padding(.horizontal, 25.0)
 
-                TextField("", text: $password)
+                TextField(MR.strings().input_password.desc().localized(), text: $password)
                     .textFieldStyle(BorderedTextFieldStyle())
                     .padding(.horizontal, 25)
                     .foregroundColor(.gray)
