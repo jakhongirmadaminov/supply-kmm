@@ -7,14 +7,14 @@ import uz.uzkass.smartpos.supply.httpClient
 import uz.uzkass.smartpos.supply.initLogger
 import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
-val httpClient = httpClient {
+internal val httpClient = httpClient {
     expectSuccess = true
     logging()
     contentNegotiation()
     defaultRequest()
 }.also { initLogger() }
 
-fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
+internal fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
     logging()
     contentNegotiation()
     defaultRequest(preferenceManager)

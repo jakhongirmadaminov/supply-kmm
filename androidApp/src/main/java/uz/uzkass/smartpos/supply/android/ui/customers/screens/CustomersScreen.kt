@@ -19,16 +19,21 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -53,9 +58,12 @@ import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
 import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersEvent
+import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersState
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
 import uz.uzkassa.smartpos.supply.library.MR
 
+@SuppressLint("FlowOperatorInvokedInComposition")
 @Composable
 @Destination
 @MainNavGraph
@@ -63,14 +71,28 @@ fun CustomersScreen(
     navigator: DestinationsNavigator,
     viewModel: CustomersViewModel = koinViewModel()
 ) {
-    val customersLazyPaging = viewModel.commonPagingData.collectAsLazyPagingItems()
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val customersLazyPaging = viewModel.customersPaging.collectAsLazyPagingItems()
+
+    LaunchedEffect(Unit) {
+        viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
+            when (event) {
+                is CustomersEvent.RefreshCustomers -> {
+                    customersLazyPaging.refresh()
+                }
+            }
+        }
+    }
 
     CustomersView(
+        viewState = screenState,
         customersLazyPaging = customersLazyPaging,
         visitsLazyPaging = customersLazyPaging,
         onClickAdd = {},
         onClickSearch = {},
-        onClickFilter = {}
+        onClickFilter = {},
+        onRefresh = viewModel::onRefreshCustomers
     )
 
 }
@@ -79,21 +101,24 @@ fun CustomersScreen(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @Composable
 private fun CustomersView(
+    viewState: CustomersState,
     customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
     visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
     onClickAdd: () -> Unit,
     onClickSearch: () -> Unit,
-    onClickFilter: () -> Unit
+    onClickFilter: () -> Unit,
+    onRefresh: () -> Unit
 ) {
     val tabItems by remember {
         mutableStateOf(listOf(MR.strings.clients_tab_all.resourceId, MR.strings.clients_tab_visit.resourceId))
     }
-    val pullRefreshState = rememberPullRefreshState(refreshing = false, onRefresh = {})
+    val pullRefreshState = rememberPullRefreshState(refreshing = viewState.isRefreshing, onRefresh = onRefresh)
     val pagerState = rememberPagerState()
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .pullRefresh(pullRefreshState)
             .systemBarsPadding(),
         topBar = {
             Column {
@@ -122,7 +147,7 @@ private fun CustomersView(
                         visitsLazyPaging = visitsLazyPaging
                     )
                     PullRefreshIndicator(
-                        refreshing = false,
+                        refreshing = viewState.isRefreshing,
                         state = pullRefreshState,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )

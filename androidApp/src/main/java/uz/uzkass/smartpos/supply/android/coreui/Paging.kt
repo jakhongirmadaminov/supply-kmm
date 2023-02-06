@@ -29,7 +29,7 @@ fun ErrorPagingView(
         )
         Spacer8dp()
         SupplyFilledTextButton(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 8.dp),
             onClick = onClickRetry,
             text = stringResource(id = MR.strings.retry.resourceId)
         )
@@ -42,11 +42,13 @@ fun <T : Any> LazyListScope.paginationStates(lazyClients: LazyPagingItems<T>) {
             loadState.refresh is LoadState.Loading -> {
                 item {
                     LoadingView()
+                    Spacer32dp()
                 }
             }
             loadState.append is LoadState.Loading -> {
                 item {
                     LoadingView()
+                    Spacer32dp()
                 }
             }
             loadState.append is LoadState.Error -> {
@@ -56,6 +58,7 @@ fun <T : Any> LazyListScope.paginationStates(lazyClients: LazyPagingItems<T>) {
                         ?: stringResource(id = MR.strings.something_went_wrong.resourceId),
                         onClickRetry = { retry() }
                     )
+                    Spacer32dp()
                 }
             }
         }

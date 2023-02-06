@@ -32,8 +32,8 @@ fun SupplyFilledTextButton(
     onClick: () -> Unit,
     enabled: Boolean = true,
     textColor: Color = SupplyTheme.colors.filledButtonText,
-    buttonBackgroundColor: Color = SupplyTheme.colors.background,
-    disabledButtonBackground: Color = SupplyTheme.colors.background.copy(0.5f)
+    buttonBackgroundColor: Color = SupplyTheme.colors.primary,
+    disabledButtonBackground: Color = SupplyTheme.colors.primary.copy(0.5f)
 ) {
     DefaultButton(
         modifier = modifier,

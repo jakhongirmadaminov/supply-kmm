@@ -128,6 +128,16 @@ mokoNetwork {
         isInternal = false
         inputSpec = file("src/api.json")
     }
+     spec("smartposSupplyPublic") {
+         packageName = "public"
+        configureTask {
+            skipValidateSpec.set(true)
+            isInternal = false
+        }
+        isInternal = false
+        inputSpec = file("src/api-public.json")
+    }
+
 //  spec("news") {
 //    inputSpec = file("src/newsApi.yaml")
 //    packageName = "news"

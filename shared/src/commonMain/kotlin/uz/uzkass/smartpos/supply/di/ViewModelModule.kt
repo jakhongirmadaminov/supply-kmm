@@ -1,11 +1,14 @@
 package uz.uzkass.smartpos.supply.di
 
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
+import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
+import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
-import kotlinx.serialization.json.Json
+import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
 import uz.uzkass.smartpos.supply.viewmodels.CreateNewPasswordViewModel
@@ -16,6 +19,7 @@ import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
+import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 
 val viewModelModule = module {
 
@@ -27,7 +31,7 @@ val viewModelModule = module {
         LoginViewModel(
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             ),
             preferenceManager = get(),
         )
@@ -41,7 +45,7 @@ val viewModelModule = module {
         HomeViewModel(
             api = MobileDashboardResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             )
         )
     }
@@ -50,7 +54,7 @@ val viewModelModule = module {
         PasswordResetViewModel(
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             )
         )
     }
@@ -59,7 +63,7 @@ val viewModelModule = module {
         PasswordResetConfirmViewModel(
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             )
         )
     }
@@ -68,19 +72,44 @@ val viewModelModule = module {
         CreateNewPasswordViewModel(
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             )
         )
     }
 
     factory {
-
         CustomersViewModel(
             api = MobileCustomerResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
-                json = Json
+                json = get()
             )
         )
     }
+
+    factory {
+        CreateOrderViewModel(
+            customerApi = MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            branchResourceApi = MobileBranchResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            contractResourceApi = MobileContractResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            publicOrderResourceApiImpl = PublicOrderResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            warehouseResourceApi = MobileWarehouseResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
+
 
 }
