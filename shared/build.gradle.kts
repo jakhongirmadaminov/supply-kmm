@@ -129,6 +129,7 @@ mokoNetwork {
         inputSpec = file("src/api.json")
     }
      spec("smartposSupplyPublic") {
+         packageName = "public"
         configureTask {
             skipValidateSpec.set(true)
             isInternal = false

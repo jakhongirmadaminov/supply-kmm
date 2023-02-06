@@ -5,12 +5,12 @@ import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
-import dev.icerock.moko.network.generated.apis.PublicOrderResourceApiImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
@@ -18,7 +18,7 @@ class CreateOrderViewModel constructor(
     val customerApi: MobileCustomerResourceApi,
     val branchResourceApi: MobileBranchResourceApi,
     val contractResourceApi: MobileContractResourceApi,
-    val publicOrderResourceApiImpl: PublicOrderResourceApiImpl,
+    val publicOrderResourceApiImpl: PublicOrderResourceApi,
     val warehouseResourceApi: MobileWarehouseResourceApi
 ) : ViewModel() {
 
@@ -38,6 +38,12 @@ class CreateOrderViewModel constructor(
 
     private var branch: DropdownModel? = null
     private var storage: DropdownModel? = null
+
+    init {
+        getCustomerByQuery()
+        getBranchByQuery()
+        getSellType()
+    }
 
     fun getCustomerByQuery(query: String = "") {
         viewModelScope.launch {
@@ -146,7 +152,10 @@ class CreateOrderViewModel constructor(
     fun getStoreByQuery(query: String = "") {
         viewModelScope.launch {
             resultOf {
-                warehouseResourceApi.lookUpUsingGET69(search = query)
+                warehouseResourceApi.lookUpUsingGET69(
+                    search = query,
+                    branchId = branch?.id?.toLongOrNull()
+                )
             }.onSuccess {
                 val temp = it.map { item ->
                     DropdownModel(
@@ -170,8 +179,8 @@ class CreateOrderViewModel constructor(
     }
 
     fun selectCustomer(newCustomer: DropdownModel) {
-
-
+        customer = newCustomer
+        getContractByQuery()
     }
 
 
@@ -180,9 +189,15 @@ class CreateOrderViewModel constructor(
 
     }
 
+    fun selectSellType(newContract: DropdownModel) {
+
+
+    }
+
 
     fun selectBranch(newBranch: DropdownModel) {
-
+        branch = newBranch
+        getStoreByQuery()
 
     }
 

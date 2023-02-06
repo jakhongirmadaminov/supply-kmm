@@ -1,10 +1,14 @@
 package uz.uzkass.smartpos.supply.di
 
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
+import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
+import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
+import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
 import uz.uzkass.smartpos.supply.viewmodels.CreateNewPasswordViewModel
@@ -15,6 +19,7 @@ import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
+import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 
 val viewModelModule = module {
 
@@ -81,7 +86,30 @@ val viewModelModule = module {
         )
     }
 
-
+    factory {
+        CreateOrderViewModel(
+            customerApi = MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            branchResourceApi = MobileBranchResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            contractResourceApi = MobileContractResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            publicOrderResourceApiImpl = PublicOrderResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            warehouseResourceApi = MobileWarehouseResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
 
 
 }
