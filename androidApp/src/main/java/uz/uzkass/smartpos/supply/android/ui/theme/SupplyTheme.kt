@@ -56,7 +56,7 @@ fun SupplyTheme(
                 primary = colors.primary,
                 primaryVariant = colors.primaryVariant,
                 surface = colors.surface,
-                onPrimary = colors.onPrimary,
+                onPrimary = colors.primary,
                 onSurface = colors.onSurface,
                 onBackground = colors.onBackground,
                 background = colors.background,

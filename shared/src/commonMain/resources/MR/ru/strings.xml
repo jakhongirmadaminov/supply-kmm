@@ -44,4 +44,20 @@
     <string name="plan_over">План посещений</string>
 
 
+    //create order
+    <string name="client">Клиент</string>
+    <string name="client_place_holder">Выберите клиента</string>
+
+    <string name="contract">Договор</string>
+    <string name="contract_place_holder">Выберите договор</string>
+
+    <string name="type_sell">Тип продажи</string>
+    <string name="type_sell_place_holder">Выберите Тип</string>
+
+    <string name="branch">Филиал (отгрузка)</string>
+    <string name="branch_place_holder">Филиал</string>
+
+    <string name="store">Филиал (отгрузка)</string>
+    <string name="store_place_holder">Филиал</string>
+
 </resources>

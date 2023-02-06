@@ -7,7 +7,9 @@
     <string name="russian">Русский</string>
     <string name="uzbek">O’zbekcha</string>
     <string name="authorization">Авторизация</string>
-    <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении договора</string>
+    <string name="authorization_info">Необходимо ввести номер телефона указанный при заключении
+        договора
+    </string>
     <string name="phone_number">Номер телефона</string>
     <string name="password">Пароль</string>
     <string name="input_password">Введите пароль</string>
@@ -46,5 +48,22 @@
     <string name="order_count">Кол-во заказов</string>
     <string name="summa_order">Сумма заказов</string>
     <string name="plan_over">План посещений</string>
+
+    //create order
+    <string name="client">Клиент</string>
+    <string name="client_place_holder">Выберите клиента</string>
+
+    <string name="contract">Договор</string>
+    <string name="contract_place_holder">Выберите договор</string>
+
+    <string name="type_sell">Тип продажи</string>
+    <string name="type_sell_place_holder">Выберите Тип</string>
+
+    <string name="branch">Филиал (отгрузка)</string>
+    <string name="branch_place_holder">Филиал</string>
+
+    <string name="store">Филиал (отгрузка)</string>
+    <string name="store_place_holder">Филиал</string>
+
 
 </resources>

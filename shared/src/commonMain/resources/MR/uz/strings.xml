@@ -6,7 +6,9 @@
     <string name="uzbek">O’zbekcha</string>
     <string name="my_string">Mening birbalodsfasdfasd sdfd</string>
     <string name="authorization">Ruxsat</string>
-    <string name="authorization_info">Shartnoma tuzishda ko\'rsatilgan telefon raqamini kiritishingiz kerak</string>
+    <string name="authorization_info">Shartnoma tuzishda ko\'rsatilgan telefon raqamini
+        kiritishingiz kerak
+    </string>
     <string name="phone_number">Telefon raqam</string>
     <string name="password">Parol</string>
     <string name="input_password">Parolni kiriting</string>
@@ -16,12 +18,14 @@
     <string name="create_pin_code_info">Akkountni himoyalash uchun pinkod yarating</string>
     <string name="input_phone_number">Telefon raqamni kiriting</string>
     <string name="reset_password">Parolni tiklash</string>
-    <string name="reset_password_info">Parolni tiklash uchun siz shartnoma tuzishda ko\'rsatilgan telefon raqamini
+    <string name="reset_password_info">Parolni tiklash uchun siz shartnoma tuzishda ko\'rsatilgan
+        telefon raqamini
         kiritishingiz kerak
     </string>
     <string name="confirm">Tasdiqlash</string>
     <string name="input_sms_code">Smsdagi kodni kiriting</string>
-    <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak</string>
+    <string name="input_sms_code_info">Parolni tiklash uchun smsdagi kodni kiritishingiz kerak
+    </string>
     <string name="retry">Повторить попытку</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
 
@@ -44,5 +48,22 @@
     <string name="order_count">Кол-во заказов</string>
     <string name="summa_order">Сумма заказов</string>
     <string name="plan_over">План посещений</string>
+
+    //create order
+    <string name="client">Клиент</string>
+    <string name="client_place_holder">Выберите клиента</string>
+
+    <string name="contract">Договор</string>
+    <string name="contract_place_holder">Выберите договор</string>
+
+    <string name="type_sell">Тип продажи</string>
+    <string name="type_sell_place_holder">Выберите Тип</string>
+
+    <string name="branch">Филиал (отгрузка)</string>
+    <string name="branch_place_holder">Филиал</string>
+
+    <string name="store">Филиал (отгрузка)</string>
+    <string name="store_place_holder">Филиал</string>
+
 
 </resources>
