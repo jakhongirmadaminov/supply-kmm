@@ -36,7 +36,6 @@ import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 @Composable
 fun ExposedDropdownField(
     modifier: Modifier = Modifier,
-//    expanded: Boolean,
     items: List<DropdownModel>,
     currentItem: DropdownModel? = null,
     readOnly: Boolean = true,
@@ -47,9 +46,7 @@ fun ExposedDropdownField(
         MutableStateFlow("")
     }
     val coroutineScope = rememberCoroutineScope()
-    val source = remember {
-        MutableInteractionSource()
-    }
+
     LaunchedEffect(key1 = Unit, block = {
         valueDebounce
             .debounce(500)
@@ -92,7 +89,6 @@ fun ExposedDropdownField(
                 }
                 mExpanded = true
             },
-//            interactionSource = source
         )
         ExposedDropdownMenu(
             expanded = mExpanded,
@@ -119,14 +115,5 @@ fun ExposedDropdownField(
                 }
             }
         }
-
-//        val pressedState = source.interactions.collectAsState(
-//            initial = PressInteraction.Cancel(PressInteraction.Press(Offset.Zero))
-//        )
-//
-//        if (pressedState.value is PressInteraction.Release) {
-//            mExpanded = true
-//            source.tryEmit(PressInteraction.Cancel(PressInteraction.Press(Offset.Zero)))
-//        }
     }
 }

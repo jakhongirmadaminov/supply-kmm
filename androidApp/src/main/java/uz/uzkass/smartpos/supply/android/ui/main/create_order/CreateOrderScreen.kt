@@ -74,7 +74,6 @@ private fun CreateOrderScreenView(
                 ExposedDropdownField(
                     items = list,
                     readOnly = false,
-                    onDismissRequest = { /*TODO*/ },
                     onItemSelected = selectCustomer,
                     onQueryChange = searchCustomer
                 )
@@ -84,7 +83,6 @@ private fun CreateOrderScreenView(
             contractList?.let { list ->
                 ExposedDropdownField(
                     items = list,
-                    onDismissRequest = { /*TODO*/ },
                     onItemSelected = selectContract
                 )
 
@@ -93,7 +91,6 @@ private fun CreateOrderScreenView(
             sellTypeList?.let { list ->
                 ExposedDropdownField(
                     items = list,
-                    onDismissRequest = { /*TODO*/ },
                     onItemSelected = selectSellType
                 )
 
@@ -102,7 +99,6 @@ private fun CreateOrderScreenView(
             branchList?.let { list ->
                 ExposedDropdownField(
                     items = list,
-                    onDismissRequest = { /*TODO*/ },
                     onItemSelected = selectBranch
                 )
 
@@ -111,7 +107,6 @@ private fun CreateOrderScreenView(
             storeList?.let { list ->
                 ExposedDropdownField(
                     items = list,
-                    onDismissRequest = { /*TODO*/ },
                     onItemSelected = selectStorage
                 )
 
