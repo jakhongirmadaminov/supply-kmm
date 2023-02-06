@@ -9,7 +9,7 @@ struct ContentView: View {
         
         VStack {
             if self.isActive {
-                HomeScreen()
+                AuthScreen()
             } else {
                 SplashScreen()
             }
