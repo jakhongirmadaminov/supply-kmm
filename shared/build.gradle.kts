@@ -44,7 +44,7 @@ kotlin {
         target.binaries.framework {
             baseName = "MultiPlatformLibrary"
 //      xcf.add(this)
-//      dependenciesList.forEach { export(it) }
+            dependenciesList.forEach { export(it) }
         }
     }
 
@@ -94,7 +94,7 @@ kotlin {
                 api("dev.icerock.moko:resources-compose:0.20.1")
             }
         }
-        val androidTest by getting
+//        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -141,7 +141,7 @@ mokoNetwork {
 }
 
 android {
-    namespace = "uz.uzkass.smartpos.supply"
+    namespace = "uz.uzkass.smartpos.supply.library"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()

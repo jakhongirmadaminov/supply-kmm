@@ -6,12 +6,11 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 import SwiftUI
-import shared
 import Foundation
+import shared
 
 struct LanguageScreen: View {
-    let greet = Greeting().greeting()
-    
+
     var body: some View {
         NavigationView{
             VStack{
@@ -25,14 +24,14 @@ struct LanguageScreen: View {
                     .font(
                         Font.custom("Mulish", size:30)
                             .weight(.heavy))
-                
+
                 Spacer().frame(height: 20)
                 Text(MR.strings().choose_language_ru.desc().localized())
                     .foregroundColor(Color("PrimaryTextColor"))
                     .font(Font.custom("Mulish", size:16))
-                
+
                 Spacer().frame(height: 20)
-                
+
                 GeometryReader { metrics in
                     let cardWidth = metrics.size.width * 0.4
                     HStack{
@@ -42,7 +41,7 @@ struct LanguageScreen: View {
                                 RoundedRectangle(cornerRadius:  5, style: .continuous)
                                     .fill(.white)
                                     .shadow(radius: 2)
-                                
+
                                 VStack{
                                     Image("ic_flag_russia")
                                     Text(MR.strings().russian.desc().localized())
@@ -53,19 +52,19 @@ struct LanguageScreen: View {
                             RoundedRectangle(cornerRadius:  5, style: .continuous)
                                 .fill(.white)
                                 .shadow(radius: 2)
-                            
+
                             VStack{
                                 Image("ic_flag_uz")
                                 Text(MR.strings().uzbek.desc().localized())
                             }
                         }.frame(width: cardWidth, height: 70)
-                        
+
                         Spacer()
                     }
-                    
+
                 }
                 Spacer().frame(height: 150)
-                
+
             }
         }
     }
@@ -76,13 +75,13 @@ struct CardView : View {
     init(_ width:Float){
         self.width = width
     }
-    
+
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius:  5, style: .continuous)
                 .fill(.white)
                 .shadow(radius: 2)
-            
+
             VStack{
                 Image("ic_flag_uz")
                 Text(MR.strings().uzbek.desc().localized())

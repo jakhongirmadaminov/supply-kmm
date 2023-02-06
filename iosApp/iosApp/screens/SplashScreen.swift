@@ -1,9 +1,8 @@
 import SwiftUI
-import shared
+
 
 
 struct SplashScreen: View {
-    let greet = Greeting().greeting()
     
     var body: some View {
         VStack{
