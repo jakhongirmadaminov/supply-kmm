@@ -1,5 +1,5 @@
 //
-//  HomeScreen.swift
+//  CatalogScreen.swift
 //  iosApp
 //
 //  Created by Uzkassa on 07/02/23.
@@ -7,14 +7,15 @@
 //
 
 import Foundation
-
 import SwiftUI
 
-struct HomeScreen: View {
+
+struct CatalogScreen: View {
     
     var body: some View {
         NavigationView{
-            Text("home")
+            Text("catalog")
         }
     }
 }
+

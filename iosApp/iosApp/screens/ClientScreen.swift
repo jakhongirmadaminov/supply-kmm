@@ -1,5 +1,5 @@
 //
-//  HomeScreen.swift
+//  ClientScreen.swift
 //  iosApp
 //
 //  Created by Uzkassa on 07/02/23.
@@ -10,11 +10,13 @@ import Foundation
 
 import SwiftUI
 
-struct HomeScreen: View {
+
+struct ClientScreen: View {
     
     var body: some View {
         NavigationView{
-            Text("home")
+            Text("client")
         }
     }
 }
+

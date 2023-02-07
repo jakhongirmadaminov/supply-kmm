@@ -66,14 +66,14 @@ struct AuthScreen : View{
                 }.padding(.top, 30).navigationBarBackButtonHidden(true)
                 Spacer()
                 
-                NavigationLink(destination: HomeScreen()){
+                NavigationLink(destination: PinCodeScreen()){
                     ZStack(alignment: Alignment.center){
                         Text("Войти").foregroundColor(Color.white)
                     }.frame(maxWidth: .infinity)
                         .padding(10).background(Color.blue).cornerRadius(10)
                 }.padding(10)
                 
-                NavigationLink(destination: HomeScreen()){
+                NavigationLink(destination: MainMenuScreen()){
                     Text("Забыли пароль")
                 }
             }

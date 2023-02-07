@@ -1,5 +1,5 @@
 //
-//  HomeScreen.swift
+//  OrdersScreen.swift
 //  iosApp
 //
 //  Created by Uzkassa on 07/02/23.
@@ -10,11 +10,12 @@ import Foundation
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct OrdersScreen: View {
     
     var body: some View {
         NavigationView{
-            Text("home")
+            Text("orders")
         }
     }
 }
+
