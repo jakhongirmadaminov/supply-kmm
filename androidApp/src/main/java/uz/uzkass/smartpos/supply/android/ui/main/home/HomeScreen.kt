@@ -3,6 +3,7 @@ package uz.uzkass.smartpos.supply.android.ui.main.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -28,10 +29,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
+import uz.uzkass.smartpos.supply.android.ui.destinations.ProfileScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalColors
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
@@ -45,12 +48,16 @@ import uz.uzkassa.smartpos.supply.library.MR
 @Destination
 @Composable
 fun HomeScreen(
+    navigator: DestinationsNavigator,
     viewModel: HomeViewModel = koinViewModel()
 ) {
 
     HomeScreenView(
         homeDate = viewModel.homeData.collectAsState().value,
-        onRefreshData = viewModel::refreshData
+        onRefreshData = viewModel::refreshData,
+        onProfileClick = {
+            navigator.navigate(ProfileScreenDestination)
+        }
 
     )
 }
@@ -58,7 +65,8 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenView(
     homeDate: HomeDataState,
-    onRefreshData: () -> Unit
+    onRefreshData: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -74,7 +82,8 @@ private fun HomeScreenView(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo_smartpos),
@@ -91,8 +100,9 @@ private fun HomeScreenView(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(60.dp)
+                        .size(40.dp)
                         .clip(CircleShape)
+                        .clickable(onClick = onProfileClick)
                 )
             }
 

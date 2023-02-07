@@ -74,7 +74,8 @@ val viewModelModule = module {
             api = MobileAccountResourceApi(
                 httpClient = get(named(HTTP_CLIENT_NAME)),
                 json = get()
-            )
+            ),
+            preferenceManager = get()
         )
     }
 

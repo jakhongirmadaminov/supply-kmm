@@ -38,6 +38,8 @@ fun PinView(
     digitSize: TextUnit = 16.sp,
     digitCount: Int = 4,
     startFocusRequest: Boolean = true,
+    error: Boolean = false,
+    showText: Boolean = true,
     keyboardActions: KeyboardActions = KeyboardActions { }
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -65,12 +67,23 @@ fun PinView(
                     }
                 }
                 repeat(digitCount) { index ->
-                    val text = if (index < pinText.length) "${pinText[index]}" else null
-                    val color = if (index <= pinText.length) {
-                        SupplyTheme.colors.lineActiveColor
+
+                    val text = if (showText) {
+                        if (index < pinText.length) "${pinText[index]}" else null
                     } else {
-                        SupplyTheme.colors.lineColor
+                        "*"
                     }
+
+                    val color =
+                        if (error) {
+                            SupplyTheme.colors.error
+                        } else {
+                            if (index <= pinText.length) {
+                                SupplyTheme.colors.lineActiveColor
+                            } else {
+                                SupplyTheme.colors.lineColor
+                            }
+                        }
                     DigitView(
                         Modifier.size(size.dp),
                         text,
@@ -105,7 +118,7 @@ private fun DigitView(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = pinText ?: ".",
+            text = pinText ?: "",
             color = textColor,
             style = MaterialTheme.typography.body1,
             fontSize = digitSize,

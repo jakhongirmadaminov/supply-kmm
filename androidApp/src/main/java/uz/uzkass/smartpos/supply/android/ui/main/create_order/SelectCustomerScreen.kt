@@ -24,8 +24,11 @@ fun SelectCustomerScreen(
     navigator: DestinationsNavigator,
     viewModel: SelectCustomerViewModel = koinViewModel()
 ) {
-    val screenState = viewModel.customersPager.collectAsLazyPagingItems()
-    SelectCustomerView(screenState)
+
+//
+//    SelectCustomerView(
+//
+//    )
 }
 
 @Composable

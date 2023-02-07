@@ -60,4 +60,10 @@
     <string name="store">Филиал (отгрузка)</string>
     <string name="store_place_holder">Филиал</string>
 
+    //change pinCode
+
+    <string name="change_pin_code">Изменить PIN-код</string>
+    <string name="input_old_pin_code">Введите старый PIN-код</string>
+    <string name="input_new_pin_code">Введите новый PIN-код </string>
+
 </resources>

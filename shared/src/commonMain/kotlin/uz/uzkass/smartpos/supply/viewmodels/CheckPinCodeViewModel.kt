@@ -16,6 +16,9 @@ class CheckPinCodeViewModel constructor(
     private val _navigate: Channel<CheckPinCodeNavigator> = Channel(Channel.BUFFERED)
     var navigate = _navigate.receiveAsFlow()
 
+    private val _pinErrorState: Channel<Boolean> = Channel(Channel.BUFFERED)
+    var pinErrorState = _pinErrorState.receiveAsFlow()
+
 
     private var checkCount = 0
 
@@ -36,9 +39,30 @@ class CheckPinCodeViewModel constructor(
         }
     }
 
+
+    fun checkPinCodeForCreateNew(newPinCode: String) {
+        viewModelScope.launch {
+            if (preferenceManager.getUserPinCode() == newPinCode) {
+                _navigate.send(CheckPinCodeNavigator.ToCreateNewPinCode)
+            } else {
+                _pinErrorState.send(true)
+            }
+        }
+    }
+
+
+    fun createPinCode(newPinCode: String) {
+        preferenceManager.setUserPinCode(newPinCode)
+        viewModelScope.launch {
+            _navigate.send(CheckPinCodeNavigator.ToMain)
+        }
+    }
+
+
 }
 
 enum class CheckPinCodeNavigator {
     ToMain,
-    ToLogin
+    ToLogin,
+    ToCreateNewPinCode
 }

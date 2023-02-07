@@ -9,10 +9,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import uz.uzkass.smartpos.supply.core.utils.resultOf
+import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
 class CreateNewPasswordViewModel constructor(
 
-    private val api: MobileAccountResourceApi
+    private val api: MobileAccountResourceApi,
+    private val preferenceManager: PreferenceManager
 
 ) : ViewModel() {
     private val _navigate: Channel<LoginNavigator> = Channel(Channel.BUFFERED)
@@ -37,6 +39,7 @@ class CreateNewPasswordViewModel constructor(
                     val request = ResetPasswordFinishDTO(phone = phone, confirmPassword, password)
                     api.resetPasswordCheckUsingPOST7(request)
                 }.onSuccess {
+                    preferenceManager.clear()
                     _showDialog.emit(true)
                 }.onFailure {
 

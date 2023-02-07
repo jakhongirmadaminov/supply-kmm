@@ -78,6 +78,9 @@ kotlin {
 
                 api("io.github.kuuuurt:multiplatform-paging:0.6.0")
 
+                api("fr.haan.bipak:bipak-compose-android:0.9.0")
+
+
             }
         }
         val commonTest by getting {
@@ -128,8 +131,8 @@ mokoNetwork {
         isInternal = false
         inputSpec = file("src/api.json")
     }
-     spec("smartposSupplyPublic") {
-         packageName = "public"
+    spec("smartposSupplyPublic") {
+        packageName = "public"
         configureTask {
             skipValidateSpec.set(true)
             isInternal = false

@@ -29,6 +29,10 @@ class PreferenceManager(private val settings: Settings) {
         settings.putString(KEY_LOCAL, value)
     }
 
+    fun clear() {
+        settings.clear()
+    }
+
 
     companion object {
         const val KEY_USER_PIN_CODE = "KEY_USER_PIN_CODE"
