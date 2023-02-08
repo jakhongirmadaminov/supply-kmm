@@ -14,8 +14,9 @@ struct AuthScreen : View{
     @State var phoneNumber :String = "+998"
     @State var password :String = ""
     
+    
     var body : some View{
-        
+    
         NavigationView {
             VStack{
                 VStack(alignment: .leading) {
