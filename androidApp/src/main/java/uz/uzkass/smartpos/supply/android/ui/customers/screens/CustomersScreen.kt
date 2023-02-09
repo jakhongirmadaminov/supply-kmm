@@ -2,18 +2,12 @@ package uz.uzkass.smartpos.supply.android.ui.customers.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -24,9 +18,6 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -37,14 +28,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.core.Constants.BOTTOM_BAR_HEIGHT
 import uz.uzkass.smartpos.supply.android.coreui.AppBarButton
@@ -53,9 +39,7 @@ import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.Spacer12dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.coreui.paginationStates
-import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
-import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersEvent
@@ -88,7 +72,6 @@ fun CustomersScreen(
     CustomersView(
         viewState = screenState,
         customersLazyPaging = customersLazyPaging,
-        visitsLazyPaging = customersLazyPaging,
         onClickAdd = {},
         onClickSearch = {},
         onClickFilter = {},
@@ -98,22 +81,17 @@ fun CustomersScreen(
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CustomersView(
     viewState: CustomersState,
     customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
     onClickAdd: () -> Unit,
     onClickSearch: () -> Unit,
     onClickFilter: () -> Unit,
     onRefresh: () -> Unit
 ) {
-    val tabItems by remember {
-        mutableStateOf(listOf(MR.strings.clients_tab_all.resourceId, MR.strings.clients_tab_visit.resourceId))
-    }
     val pullRefreshState = rememberPullRefreshState(refreshing = viewState.isRefreshing, onRefresh = onRefresh)
-    val pagerState = rememberPagerState()
 
     Scaffold(
         modifier = Modifier
@@ -121,17 +99,11 @@ private fun CustomersView(
             .pullRefresh(pullRefreshState)
             .systemBarsPadding(),
         topBar = {
-            Column {
-                CustomersTopBar(
-                    onClickAdd = onClickAdd,
-                    onClickSearch = onClickSearch,
-                    onClickFilter = onClickFilter
-                )
-                AnimatedTab(
-                    pagerState = pagerState,
-                    tabItems = tabItems
-                )
-            }
+            CustomersTopBar(
+                onClickAdd = onClickAdd,
+                onClickSearch = onClickSearch,
+                onClickFilter = onClickFilter
+            )
         },
         backgroundColor = SupplyTheme.colors.idleBackground,
         content = {
@@ -140,11 +112,11 @@ private fun CustomersView(
                     .fillMaxSize()
                     .padding(bottom = BOTTOM_BAR_HEIGHT.dp, start = 8.dp, end = 8.dp),
                 content = {
-                    TabContentView(
-                        pagerState = pagerState,
-                        tabsCount = tabItems.size,
+                    AllCustomersView(
                         customersLazyPaging = customersLazyPaging,
-                        visitsLazyPaging = visitsLazyPaging
+                        onClickCustomerItem = { customerItem ->
+
+                        }
                     )
                     PullRefreshIndicator(
                         refreshing = viewState.isRefreshing,
@@ -155,6 +127,72 @@ private fun CustomersView(
             )
         }
     )
+}
+
+@Composable
+private fun AllCustomersView(
+    customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
+    onClickCustomerItem: (customerItem: CustomerListMobileDTO) -> Unit
+) {
+    LazyColumn {
+        item { Spacer12dp() }
+        items(items = customersLazyPaging) { customerItem ->
+            customerItem?.let { item ->
+                CustomerItem(customerItem = item, onClickItem = { onClickCustomerItem(item) })
+            }
+        }
+        paginationStates(customersLazyPaging)
+    }
+
+}
+
+@Composable
+private fun CustomersTopBar(
+    onClickAdd: () -> Unit,
+    onClickSearch: () -> Unit,
+    onClickFilter: () -> Unit,
+) {
+    DefaultAppBar {
+        AppBarTitle(
+            modifier = Modifier.weight(1f),
+            title = stringResource(id = MR.strings.clients.resourceId)
+        )
+        AppBarButton(
+            imageVector = Icons.Default.Add,
+            onClick = onClickAdd
+        )
+        Spacer24dp()
+        AppBarButton(
+            imageVector = Icons.Default.Search,
+            onClick = onClickSearch
+        )
+        Spacer24dp()
+        AppBarButton(
+            imageVector = Icons.Default.Edit,
+            onClick = onClickFilter
+        )
+    }
+}
+
+/*
+@Composable
+private fun VisitsView(
+    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
+    onClickVisitItem: (visitItem: CustomerListMobileDTO) -> Unit,
+    onClickAdd: () -> Unit
+) {
+    LazyColumn {
+        item { Spacer12dp() }
+        items(visitsLazyPaging) { visitItem ->
+            visitItem?.let { item ->
+                VisitItem(
+                    visitItem = item,
+                    onClickItem = { onClickVisitItem(item) },
+                    onclickAdd = onClickAdd
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -191,43 +229,6 @@ private fun TabContentView(
     )
 }
 
-@Composable
-private fun AllCustomersView(
-    customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    onClickCustomerItem: (customerItem: CustomerListMobileDTO) -> Unit
-) {
-    LazyColumn {
-        item { Spacer12dp() }
-        items(items = customersLazyPaging) { customerItem ->
-            customerItem?.let { item ->
-                CustomerItem(customerItem = item, onClickItem = { onClickCustomerItem(item) })
-            }
-        }
-        paginationStates(customersLazyPaging)
-    }
-
-}
-
-@Composable
-private fun VisitsView(
-    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    onClickVisitItem: (visitItem: CustomerListMobileDTO) -> Unit,
-    onClickAdd: () -> Unit
-) {
-    LazyColumn {
-        item { Spacer12dp() }
-        items(visitsLazyPaging) { visitItem ->
-            visitItem?.let { item ->
-                VisitItem(
-                    visitItem = item,
-                    onClickItem = { onClickVisitItem(item) },
-                    onclickAdd = onClickAdd
-                )
-            }
-        }
-    }
-}
-
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -255,32 +256,4 @@ private fun AnimatedTab(
             }
         }
     )
-}
-
-@Composable
-private fun CustomersTopBar(
-    onClickAdd: () -> Unit,
-    onClickSearch: () -> Unit,
-    onClickFilter: () -> Unit,
-) {
-    DefaultAppBar {
-        AppBarTitle(
-            modifier = Modifier.weight(1f),
-            title = stringResource(id = MR.strings.clients.resourceId)
-        )
-        AppBarButton(
-            imageVector = Icons.Default.Add,
-            onClick = onClickAdd
-        )
-        Spacer24dp()
-        AppBarButton(
-            imageVector = Icons.Default.Search,
-            onClick = onClickSearch
-        )
-        Spacer24dp()
-        AppBarButton(
-            imageVector = Icons.Default.Edit,
-            onClick = onClickFilter
-        )
-    }
-}
+}*/
