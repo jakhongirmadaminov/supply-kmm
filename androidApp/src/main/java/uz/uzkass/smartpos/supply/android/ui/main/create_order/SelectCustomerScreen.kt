@@ -21,8 +21,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.icerock.moko.network.generated.models.CompanyBaseDTO
 import org.koin.androidx.compose.koinViewModel
-import uz.uzkass.smartpos.supply.android.coreui.SearchTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
+import uz.uzkass.smartpos.supply.android.coreui.textfields.SearchTextField
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerViewModel
 
 @Destination
@@ -66,7 +66,6 @@ private fun SelectCustomerView(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-
             SearchTextField(
                 modifier = Modifier.fillMaxWidth(),
                 onQueryChange = onQueryChange
