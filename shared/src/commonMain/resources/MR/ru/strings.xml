@@ -66,4 +66,12 @@
     <string name="input_old_pin_code">Введите старый PIN-код</string>
     <string name="input_new_pin_code">Введите новый PIN-код </string>
 
+    //Profile
+
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="company_name">Наименование компании</string>
+    <string name="change">Изменить</string>
+
+
 </resources>

@@ -40,7 +40,6 @@ class CreateOrderViewModel constructor(
     private var storage: DropdownModel? = null
 
     init {
-        getCustomerByQuery()
         getBranchByQuery()
         getSellType()
     }

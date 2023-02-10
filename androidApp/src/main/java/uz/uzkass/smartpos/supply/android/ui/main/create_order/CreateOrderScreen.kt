@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,24 +33,28 @@ import uz.uzkassa.smartpos.supply.library.MR
 @Destination
 fun CreateOrderScreen(
     navigator: DestinationsNavigator,
+    customerId: String,
     viewModel: CreateOrderViewModel = koinViewModel()
 ) {
+    LaunchedEffect(key1 = Unit, block = {
+
+        viewModel.getCustomerByQuery()
+
+    })
     val screenState = viewModel.screenStateFlow.collectAsState()
+
     CreateOrderScreenView(
-        customerList = screenState.value.customerList,
         contractList = screenState.value.contractList,
         sellTypeList = screenState.value.sellTypeList,
         branchList = screenState.value.branchList,
         storeList = screenState.value.storageList,
 
-        selectCustomer = viewModel::selectCustomer,
         selectContract = viewModel::selectContract,
         selectSellType = viewModel::selectSellType,
 
         selectBranch = viewModel::selectBranch,
         selectStorage = viewModel::selectStorage,
 
-        searchCustomer = viewModel::getCustomerByQuery,
         searchBranch = {}
     )
 
@@ -58,21 +63,18 @@ fun CreateOrderScreen(
 @Composable
 private fun CreateOrderScreenView(
     loading: Boolean = false,
-    customerList: List<DropdownModel>?,
     contractList: List<DropdownModel>?,
     sellTypeList: List<DropdownModel>?,
 
     branchList: List<DropdownModel>?,
     storeList: List<DropdownModel>?,
 
-    selectCustomer: (DropdownModel) -> Unit,
     selectContract: (DropdownModel) -> Unit,
     selectSellType: (DropdownModel) -> Unit,
 
     selectBranch: (DropdownModel) -> Unit,
     selectStorage: (DropdownModel) -> Unit,
 
-    searchCustomer: (String) -> Unit,
     searchBranch: (String) -> Unit,
 ) {
     val verticalScrollState = rememberScrollState()
@@ -90,17 +92,6 @@ private fun CreateOrderScreenView(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         )
         {
-
-            customerList?.let { list ->
-                ExposedDropdownField2(
-                    items = list,
-                    label = stringResource(id = MR.strings.client.resourceId),
-                    readOnly = false,
-                    onItemSelected = selectCustomer,
-                    onQueryChange = searchCustomer
-                )
-
-            }
 
             contractList?.let { list ->
                 ExposedDropdownField2(

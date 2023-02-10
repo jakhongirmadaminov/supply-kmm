@@ -1,7 +1,5 @@
 package uz.uzkass.smartpos.supply.android.ui.main.create_order
 
-import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,35 +8,33 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.icerock.moko.network.generated.models.CompanyBaseDTO
+import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.SearchTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
-import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerViewModel
+import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectCustomerViewModel
 
 @Destination
 @Composable
-
 fun SelectCustomerScreen(
     navigator: DestinationsNavigator,
+    viewModel: SelectCustomerViewModel = koinViewModel()
+) {
 
-    ) {
-    val viewModel: SelectCustomerViewModel = koinViewModel()
-    val screenState = viewModel.screenStateFlow.collectAsState()
+    val screenState = viewModel.customerPagingSource.collectAsLazyPagingItems()
 
     SelectCustomerView(
-        customerList = screenState.value.customerList,
+        customerList = screenState,
         onQueryChange = {
-            Log.d("TTT", "SelectCustomerScreen:${it} ")
             viewModel.getCustomerByQuery(it)
         },
         onItemClick = { item ->
@@ -51,9 +47,9 @@ fun SelectCustomerScreen(
 
 @Composable
 private fun SelectCustomerView(
-    customerList: List<CompanyBaseDTO>,
+    customerList: LazyPagingItems<CustomerListMobileDTO>,
     onQueryChange: (String) -> Unit,
-    onItemClick: (CompanyBaseDTO) -> Unit
+    onItemClick: (CustomerListMobileDTO) -> Unit
 ) {
 
     Box(
@@ -74,7 +70,7 @@ private fun SelectCustomerView(
             Spacer16dp()
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), content = {
                 items(customerList) { item ->
-                    CustomerItem(item = item, onItemClick)
+                    CustomerItem(customerItem = item!!, onClickItem = { onItemClick(item) })
                 }
             })
         }
@@ -84,16 +80,16 @@ private fun SelectCustomerView(
 
 }
 
-@Composable
-fun CustomerItem(item: CompanyBaseDTO, onClick: (CompanyBaseDTO) -> Unit) {
-    Column(modifier = Modifier.clickable(onClick = { onClick(item) })) {
-        Text(
-
-            text = "${item.name}", color = Color.Black
-        )
-        Text(
-            text = "${item.tin}", color = Color.Black
-        )
-    }
-
-}
+//@Composable
+//fun CustomerItem(item: CompanyBaseDTO, onClick: (CompanyBaseDTO) -> Unit) {
+//    Column(modifier = Modifier.clickable(onClick = { onClick(item) })) {
+//        Text(
+//
+//            text = "${item.name}", color = Color.Black
+//        )
+//        Text(
+//            text = "${item.tin}", color = Color.Black
+//        )
+//    }
+//
+//}

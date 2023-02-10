@@ -9,7 +9,7 @@ internal fun HttpClientConfig<*>.contentNegotiation() = install(ContentNegotiati
     json(supplyJson)
 }
 
-internal val supplyJson = Json {
+ val supplyJson = Json {
     prettyPrint = true
     isLenient = true
     ignoreUnknownKeys = true
