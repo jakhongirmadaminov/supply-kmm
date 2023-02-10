@@ -3,7 +3,7 @@ package uz.uzkass.smartpos.supply.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import uz.uzkass.smartpos.supply.android.ui.SupplyAppCompose
+import uz.uzkass.smartpos.supply.android.ui.customers.screens.CustomersScreen
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SupplyTheme {
-                SupplyAppCompose()
+                CustomersScreen()
             }
         }
     }

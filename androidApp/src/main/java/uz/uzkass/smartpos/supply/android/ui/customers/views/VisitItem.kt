@@ -1,4 +1,3 @@
-/*
 package uz.uzkass.smartpos.supply.android.ui.customers.views
 
 import androidx.compose.foundation.background
@@ -92,4 +91,4 @@ internal fun VisitItem(
             }
         }
     )
-}*/
+}

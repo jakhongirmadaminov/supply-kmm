@@ -44,7 +44,6 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -71,7 +70,6 @@ import uz.uzkassa.smartpos.supply.library.MR
 @Destination
 @MainNavGraph
 fun CustomersScreen(
-    navigator: DestinationsNavigator,
     viewModel: CustomersViewModel = koinViewModel()
 ) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
