@@ -15,7 +15,7 @@ internal val httpClient = httpClient {
 }.also { initLogger() }
 
 internal fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
-    logging()
+//    logging()
     contentNegotiation()
     defaultRequest(preferenceManager)
 }.also { initLogger() }

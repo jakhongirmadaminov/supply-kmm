@@ -10,6 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,6 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.core.Constants
 import uz.uzkass.smartpos.supply.android.coreui.LabelText
@@ -156,3 +165,53 @@ fun PasswordTextField(
 
 }
 
+
+@OptIn(FlowPreview::class)
+@Composable
+fun SearchTextField(
+    modifier: Modifier = Modifier,
+    delayTime: Long = 500,
+    onQueryChange: (String) -> Unit
+) {
+
+    val valueDebounce = remember {
+        MutableStateFlow("")
+    }
+
+    var inputValue by remember {
+        mutableStateOf("")
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
+
+    LaunchedEffect(key1 = Unit, block = {
+        valueDebounce
+            .debounce(delayTime)
+            .distinctUntilChanged()
+            .collectLatest {
+                onQueryChange(it)
+            }
+    })
+
+
+
+    OutlinedTextField(
+        modifier = modifier,
+        value = inputValue,
+        onValueChange = {
+            inputValue = it
+            coroutineScope.launch {
+                valueDebounce.emit(inputValue)
+            }
+        },
+        maxLines = 1,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color.White,
+            focusedBorderColor = SupplyTheme.colors.primary,
+//                disabledBorderColor = SupplyTheme.colors.textFieldBorder,
+            unfocusedBorderColor = SupplyTheme.colors.textFieldBorder,
+            textColor = Color.Black
+        ),
+    )
+}
