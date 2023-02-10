@@ -6,9 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.kuuurt.paging.multiplatform.helpers.cachedIn
+import androidx.paging.cachedIn
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
-import dev.icerock.moko.network.generated.models.CustomerDetailDTO
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

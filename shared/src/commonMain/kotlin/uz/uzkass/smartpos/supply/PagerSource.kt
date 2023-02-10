@@ -1,8 +1,5 @@
 package uz.uzkass.smartpos.supply
 
-import com.kuuurt.paging.multiplatform.Pager
-import com.kuuurt.paging.multiplatform.PagingConfig
-import com.kuuurt.paging.multiplatform.PagingResult
 
 class PagerSource {
 

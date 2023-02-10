@@ -1,10 +1,5 @@
 package uz.uzkass.smartpos.supply.viewmodels.home
 
-import com.kuuurt.paging.multiplatform.Pager
-import com.kuuurt.paging.multiplatform.PagingConfig
-import com.kuuurt.paging.multiplatform.PagingData
-import com.kuuurt.paging.multiplatform.PagingResult
-import com.kuuurt.paging.multiplatform.helpers.cachedIn
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.models.CompanyBaseDTO

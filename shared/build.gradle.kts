@@ -75,12 +75,7 @@ kotlin {
                 api("com.russhwolf:multiplatform-settings:1.0.0")
 
                 api("dev.icerock.moko:paging:0.7.1")
-
-                api("io.github.kuuuurt:multiplatform-paging:0.6.0")
-
                 api("fr.haan.bipak:bipak-compose-android:0.9.0")
-
-
             }
         }
         val commonTest by getting {

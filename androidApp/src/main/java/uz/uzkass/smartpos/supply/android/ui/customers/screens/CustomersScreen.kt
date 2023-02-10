@@ -57,26 +57,26 @@ fun CustomersScreen(
 ) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-    val customersLazyPaging = viewModel.customersPaging.collectAsLazyPagingItems()
+//    val customersLazyPaging = viewModel.customersPaging.collectAsLazyPagingItems()
 
-    LaunchedEffect(Unit) {
-        viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
-            when (event) {
-                is CustomersEvent.RefreshCustomers -> {
-                    customersLazyPaging.refresh()
-                }
-            }
-        }
-    }
-
-    CustomersView(
-        viewState = screenState,
-        customersLazyPaging = customersLazyPaging,
-        onClickAdd = {},
-        onClickSearch = {},
-        onClickFilter = {},
-        onRefresh = viewModel::onRefreshCustomers
-    )
+//    LaunchedEffect(Unit) {
+//        viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
+//            when (event) {
+//                is CustomersEvent.RefreshCustomers -> {
+//                    customersLazyPaging.refresh()
+//                }
+//            }
+//        }
+//    }
+//
+//    CustomersView(
+//        viewState = screenState,
+//        customersLazyPaging = customersLazyPaging,
+//        onClickAdd = {},
+//        onClickSearch = {},
+//        onClickFilter = {},
+//        onRefresh = viewModel::onRefreshCustomers
+//    )
 
 }
 

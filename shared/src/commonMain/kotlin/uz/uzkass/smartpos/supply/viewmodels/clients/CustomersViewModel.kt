@@ -1,9 +1,5 @@
 package uz.uzkass.smartpos.supply.viewmodels.clients
 
-import com.kuuurt.paging.multiplatform.Pager
-import com.kuuurt.paging.multiplatform.PagingConfig
-import com.kuuurt.paging.multiplatform.PagingResult
-import com.kuuurt.paging.multiplatform.helpers.cachedIn
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import kotlinx.coroutines.Dispatchers.Main
@@ -25,26 +21,26 @@ class CustomersViewModel(
     private val api: MobileCustomerResourceApi
 ) : ViewModel() {
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    val customersPaging = Pager(
-        clientScope = viewModelScope,
-        config = PagingConfig(
-            pageSize = PAGE_SIZE,
-            initialLoadSize = PAGE_SIZE,
-            enablePlaceholders = false,
-        ),
-        initialKey = 0,
-        getItems = { currentKey, size ->
-            val response = api.getListUsingGET89(page = currentKey, size = size)
-            val items = response.content ?: emptyList()
-            PagingResult(
-                items = items,
-                currentKey = currentKey,
-                prevKey = { if (currentKey == 0) null else currentKey - 1 },
-                nextKey = { if ((response.totalPages ?: 1) > currentKey.plus(1)) currentKey.plus(1) else 1 }
-            )
-        }
-    ).pagingData.cachedIn(viewModelScope).asCommonFlow()
+//    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+//    val customersPaging = Pager(
+//        clientScope = viewModelScope,
+//        config = PagingConfig(
+//            pageSize = PAGE_SIZE,
+//            initialLoadSize = PAGE_SIZE,
+//            enablePlaceholders = false,
+//        ),
+//        initialKey = 0,
+//        getItems = { currentKey, size ->
+//            val response = api.getListUsingGET89(page = currentKey, size = size)
+//            val items = response.content ?: emptyList()
+//            PagingResult(
+//                items = items,
+//                currentKey = currentKey,
+//                prevKey = { if (currentKey == 0) null else currentKey - 1 },
+//                nextKey = { if ((response.totalPages ?: 1) > currentKey.plus(1)) currentKey.plus(1) else 1 }
+//            )
+//        }
+//    ).pagingData.cachedIn(viewModelScope).asCommonFlow()
 
     private val _customersEvent = Channel<CustomersEvent>(Channel.BUFFERED)
     val customersEvent = _customersEvent.receiveAsFlow()
