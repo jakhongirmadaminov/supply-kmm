@@ -1,6 +1,8 @@
 package uz.uzkass.smartpos.supply.android.ui.customers.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,6 +55,7 @@ import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.Spacer12dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.coreui.paginationStates
+import uz.uzkass.smartpos.supply.android.coreui.textfields.SearchTextFieldWithIcon
 import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
 import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
@@ -75,6 +78,10 @@ fun CustomersScreen(
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     val customersLazyPaging = viewModel.customersPaging.collectAsLazyPagingItems()
 
+    LaunchedEffect(viewModel) {
+        Log.d("TTT", "screen vm: ${viewModel.hashCode()}")
+    }
+
     LaunchedEffect(Unit) {
         viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
             when (event) {
@@ -89,10 +96,12 @@ fun CustomersScreen(
         viewState = screenState,
         customersLazyPaging = customersLazyPaging,
         visitsLazyPaging = customersLazyPaging,
+        onSearch = viewModel::onSearchCustomer,
         onClickAdd = {},
-        onClickSearch = {},
+        onClickSearch = viewModel::onClickSearch,
         onClickFilter = {},
-        onRefresh = viewModel::onRefreshCustomers
+        onRefresh = viewModel::onRefreshCustomers,
+        onCloseSearch = viewModel::onCloseSearch
     )
 
 }
@@ -104,15 +113,17 @@ private fun CustomersView(
     viewState: CustomersState,
     customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
     visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
+    onSearch: (query: String) -> Unit,
     onClickAdd: () -> Unit,
     onClickSearch: () -> Unit,
     onClickFilter: () -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onCloseSearch: () -> Unit
 ) {
     val tabItems by remember {
         mutableStateOf(listOf(MR.strings.clients_tab_all.resourceId, MR.strings.clients_tab_visit.resourceId))
     }
-    val pullRefreshState = rememberPullRefreshState(refreshing = viewState.isRefreshing, onRefresh = onRefresh)
+    val pullRefreshState = rememberPullRefreshState(refreshing = viewState.refreshing, onRefresh = onRefresh)
     val pagerState = rememberPagerState()
 
     Scaffold(
@@ -123,14 +134,30 @@ private fun CustomersView(
         topBar = {
             Column {
                 CustomersTopBar(
+                    isAddButtonVisible = viewState.addButtonVisible,
+                    isSearchButtonVisible = viewState.searchButtonVisible,
+                    isFilterButtonVisible = viewState.filterButtonVisible,
                     onClickAdd = onClickAdd,
                     onClickSearch = onClickSearch,
                     onClickFilter = onClickFilter
                 )
-                AnimatedTab(
-                    pagerState = pagerState,
-                    tabItems = tabItems
-                )
+                when {
+                    viewState.searching -> {
+                        SearchTextFieldWithIcon(
+                            modifier = Modifier
+                                .background(color = SupplyTheme.colors.background)
+                                .padding(start = 24.dp, end = 24.dp, bottom = 12.dp),
+                            valueChange = onSearch,
+                            onClickClose = onCloseSearch
+                        )
+                    }
+                    else -> {
+                        AnimatedTab(
+                            pagerState = pagerState,
+                            tabItems = tabItems
+                        )
+                    }
+                }
             }
         },
         backgroundColor = SupplyTheme.colors.idleBackground,
@@ -147,7 +174,7 @@ private fun CustomersView(
                         visitsLazyPaging = visitsLazyPaging
                     )
                     PullRefreshIndicator(
-                        refreshing = viewState.isRefreshing,
+                        refreshing = viewState.refreshing,
                         state = pullRefreshState,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
@@ -259,6 +286,9 @@ private fun AnimatedTab(
 
 @Composable
 private fun CustomersTopBar(
+    isAddButtonVisible: Boolean,
+    isSearchButtonVisible: Boolean,
+    isFilterButtonVisible: Boolean,
     onClickAdd: () -> Unit,
     onClickSearch: () -> Unit,
     onClickFilter: () -> Unit,
@@ -268,19 +298,25 @@ private fun CustomersTopBar(
             modifier = Modifier.weight(1f),
             title = stringResource(id = MR.strings.clients.resourceId)
         )
-        AppBarButton(
-            imageVector = Icons.Default.Add,
-            onClick = onClickAdd
-        )
-        Spacer24dp()
-        AppBarButton(
-            imageVector = Icons.Default.Search,
-            onClick = onClickSearch
-        )
-        Spacer24dp()
-        AppBarButton(
-            imageVector = Icons.Default.Edit,
-            onClick = onClickFilter
-        )
+        if (isAddButtonVisible) {
+            AppBarButton(
+                imageVector = Icons.Default.Add,
+                onClick = onClickAdd
+            )
+        }
+        if (isSearchButtonVisible) {
+            Spacer24dp()
+            AppBarButton(
+                imageVector = Icons.Default.Search,
+                onClick = onClickSearch
+            )
+        }
+        if (isFilterButtonVisible) {
+            Spacer24dp()
+            AppBarButton(
+                imageVector = Icons.Default.Edit,
+                onClick = onClickFilter
+            )
+        }
     }
 }

@@ -9,7 +9,6 @@ plugins {
 kotlin {
     val dependenciesList = listOf(
         "dev.icerock.moko:resources:0.20.1",
-        "dev.icerock.moko:mvvm-core:0.15.0",
         "dev.icerock.moko:mvvm-flow-resources:0.15.0",
         "dev.icerock.moko:mvvm-core:0.15.0",
         "dev.icerock.moko:mvvm-flow:0.15.0"

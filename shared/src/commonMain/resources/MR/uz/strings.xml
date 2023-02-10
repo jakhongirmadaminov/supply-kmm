@@ -28,6 +28,7 @@
     </string>
     <string name="retry">Повторить попытку</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="search">Поиск</string>
 
     //new
     <string name="repeat_password">Parolni qayta kiriting</string>

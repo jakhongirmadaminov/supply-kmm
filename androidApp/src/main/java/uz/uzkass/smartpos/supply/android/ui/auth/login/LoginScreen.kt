@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.core.PhoneWithPrefixTransformation
 import uz.uzkass.smartpos.supply.android.coreui.*
+import uz.uzkass.smartpos.supply.android.coreui.textfields.LabelTextField
+import uz.uzkass.smartpos.supply.android.coreui.textfields.PasswordTextField
 import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.destinations.SetPinCodeScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme

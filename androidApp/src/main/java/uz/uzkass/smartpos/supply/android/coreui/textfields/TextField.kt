@@ -1,4 +1,4 @@
-package uz.uzkass.smartpos.supply.android.coreui
+package uz.uzkass.smartpos.supply.android.coreui.textfields
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.core.Constants
+import uz.uzkass.smartpos.supply.android.coreui.LabelText
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme

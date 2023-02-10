@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.core.PhoneWithPrefixTransformation
 import uz.uzkassa.smartpos.supply.library.MR
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
-import uz.uzkass.smartpos.supply.android.coreui.LabelTextField
+import uz.uzkass.smartpos.supply.android.coreui.textfields.LabelTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.ui.destinations.PasswordResetConfirmScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
