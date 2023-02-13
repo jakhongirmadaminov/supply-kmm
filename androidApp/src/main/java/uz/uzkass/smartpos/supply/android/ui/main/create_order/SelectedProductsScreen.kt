@@ -13,7 +13,7 @@ fun SelectedProductsScreen(
     navigator: DestinationsNavigator,
 ) {
 
-    SelectedProductsView()
+//    SelectedProductsView()
 
 }
 
