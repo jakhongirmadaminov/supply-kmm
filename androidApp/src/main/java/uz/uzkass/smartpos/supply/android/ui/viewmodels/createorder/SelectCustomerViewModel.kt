@@ -14,36 +14,34 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 
 class SelectCustomerViewModel
 constructor(private val customerApi: MobileCustomerResourceApi) : ViewModel() {
 
-    var customerPagingSource =
-        MutableStateFlow<PagingData<CustomerListMobileDTO>>(PagingData.empty())
-        private set
+    private var query: String = ""
+    private lateinit var pagingSource: CustomerPageSource
+    var customerPagingSource = Pager(config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = {
+            CustomerPageSource(
+                customerApi = customerApi,
+                searchQuery = query
+            ).also {
+                pagingSource = it
+            }
+        })
+        .flow
 
     init {
 //        getCustomerByQuery("")
     }
 
-    private var job: Job? = null
-    fun getCustomerByQuery(query: String) {
-        Log.d("TTT", "getCustomerByQuery: ")
-        job?.cancel()
-        Log.d("TTT", "Job: ")
-        job = viewModelScope.launch(Dispatchers.IO) {
-            Pager(config = PagingConfig(pageSize = 20),
-                pagingSourceFactory = {
-                    CustomerPageSource(
-                        customerApi = customerApi,
-                        searchQuery = query
-                    )
-                }).flow.catch { throwable ->
-            }.cachedIn(viewModelScope).collectLatest {
-                customerPagingSource.value = it
-            }
-        }
+    fun getCustomerByQuery(newQuery: String) {
+        Log.d("TTT", "getCustomerByQuery:${newQuery} ")
+        query = newQuery
+        pagingSource.invalidate()
     }
 }
 

@@ -3,11 +3,14 @@ package uz.uzkass.smartpos.supply.android.ui.main.create_order
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,6 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.SearchTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
+import uz.uzkass.smartpos.supply.android.ui.destinations.SelectContractScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectCustomerViewModel
 
 @Destination
@@ -38,7 +42,7 @@ fun SelectCustomerScreen(
             viewModel.getCustomerByQuery(it)
         },
         onItemClick = { item ->
-
+            navigator.navigate(SelectContractScreenDestination(customerId = item.id))
         }
     )
 
@@ -51,33 +55,29 @@ private fun SelectCustomerView(
     onQueryChange: (String) -> Unit,
     onItemClick: (CustomerListMobileDTO) -> Unit
 ) {
-
+    val scrollState = rememberLazyListState()
     Box(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
 
-            SearchTextField(
-                modifier = Modifier.fillMaxWidth(),
-                onQueryChange = onQueryChange
-            )
-            Spacer16dp()
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), content = {
-                items(customerList) { item ->
+
+        SearchTextField(
+            modifier = Modifier.fillMaxWidth(),
+            onQueryChange = onQueryChange
+        )
+        Spacer16dp()
+        LazyColumn(state = scrollState, modifier = Modifier
+            .padding(top = 100.dp)
+            .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            content = {
+                items(customerList, key = { item -> item.id.toString() }) { item ->
                     CustomerItem(customerItem = item!!, onClickItem = { onItemClick(item) })
                 }
             })
-        }
-
     }
-
-
 }
 
 //@Composable

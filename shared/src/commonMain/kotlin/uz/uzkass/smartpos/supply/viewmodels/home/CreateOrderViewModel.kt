@@ -6,10 +6,12 @@ import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
@@ -32,48 +34,26 @@ class CreateOrderViewModel constructor(
     val screenStateFlow get() = _screenStateFlow.asStateFlow()
 
 
-    private var customer: DropdownModel? = null
-    private var contract: DropdownModel? = null
-    private var sellType: DropdownModel? = null
+    private var customerId: Long? = null
 
-    private var branch: DropdownModel? = null
-    private var storage: DropdownModel? = null
-
-    init {
-        getBranchByQuery()
-        getSellType()
-    }
-
-    fun getCustomerByQuery(query: String = "") {
-        viewModelScope.launch {
-            resultOf {
-                customerApi.lookUpUsingGET68(search = query)
-            }.onSuccess {
-                val temp = it.map { item ->
-                    DropdownModel(
-                        id = item.id.toString(),
-                        label = item.name ?: ""
-                    )
-                }
-                _screenStateFlow.update {
-                    it.copy(
-                        customerList = temp
-                    )
-                }
-
-            }.onFailure {
-
-            }
+    fun getContractByCustomerId(id: Long? = null) {
+        customerId = id
+        _screenStateFlow.update {
+            it.copy(loading = true)
         }
+        getContractByQuery()
+        getSellType()
+        getBranchByQuery()
 
     }
 
     fun getContractByQuery(query: String = "") {
+
         viewModelScope.launch {
             resultOf {
                 contractResourceApi.lookUpUsingGET67(
                     search = query,
-                    customerId = customer?.id?.toLongOrNull()
+                    customerId = customerId
                 )
             }.onSuccess {
                 val temp = it.map { item ->
@@ -89,7 +69,11 @@ class CreateOrderViewModel constructor(
                 }
 
             }.onFailure {
-
+                _screenStateFlow.update {
+                    it.copy(
+                        contractList = emptyList()
+                    )
+                }
             }
         }
 
@@ -148,12 +132,12 @@ class CreateOrderViewModel constructor(
         }
     }
 
-    fun getStoreByQuery(query: String = "") {
+    fun getStoreByQuery(branchId: String, query: String = "") {
         viewModelScope.launch {
             resultOf {
                 warehouseResourceApi.lookUpUsingGET69(
                     search = query,
-                    branchId = branch?.id?.toLongOrNull()
+                    branchId = branchId.toLongOrNull()
                 )
             }.onSuccess {
                 val temp = it.map { item ->
@@ -177,45 +161,54 @@ class CreateOrderViewModel constructor(
         }
     }
 
-    fun selectCustomer(newCustomer: DropdownModel) {
-        customer = newCustomer
-        getContractByQuery()
-    }
-
-
-    fun selectContract(newContract: DropdownModel) {
-
-
-    }
-
-    fun selectSellType(newContract: DropdownModel) {
-
-
-    }
-
-
-    fun selectBranch(newBranch: DropdownModel) {
-        branch = newBranch
-        getStoreByQuery()
-
-    }
-
-
-    fun selectStorage(newStorage: DropdownModel) {
-
-
-    }
-
 }
 
 data class CreateOrderScreenState(
-    val customerList: List<DropdownModel>? = null,
+    val loading: Boolean = false,
     val contractList: List<DropdownModel>? = null,
-
     val sellTypeList: List<DropdownModel>? = null,
+    val branchList: List<DropdownModel>? = null,
+    val storageList: List<DropdownModel>? = null,
+)
 
-    val branchList: List<DropdownModel> = emptyList(),
-    val storageList: List<DropdownModel> = emptyList(),
-
-
-    )
+//        viewModelScope.launch {
+//            try {
+//                val contractAsync =
+//                    async { contractResourceApi.lookUpUsingGET67(customerId = customerId) }
+//
+//                val sellTypeAsync =
+//                    async { publicOrderResourceApiImpl.getSaleTypesUsingGET3() }
+//
+//                val branchAsync =
+//                    async { branchResourceApi.lookUpUsingGET66() }
+//
+//                val contractResponse = contractAsync.await().map { item ->
+//                    DropdownModel(
+//                        id = item.id.toString(),
+//                        label = item.contractNumber ?: ""
+//                    )
+//                }
+//                val sellTypeResponse = sellTypeAsync.await().map { item ->
+//                    DropdownModel(
+//                        id = item.code.toString(),
+//                        label = item.name ?: ""
+//                    )
+//                }
+//                val branchResponse = branchAsync.await().map { item ->
+//                    DropdownModel(
+//                        id = item.id.toString(),
+//                        label = item.name ?: ""
+//                    )
+//                }
+//                _screenStateFlow.update {
+//                    it.copy(
+//                        loading = false,
+//                        contractList = contractResponse,
+//                        sellTypeList = sellTypeResponse,
+//                        branchList = branchResponse
+//                    )
+//                }
+//            } catch (e: Exception) {
+//
+//            }
+//        }

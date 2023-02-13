@@ -189,7 +189,7 @@ fun SearchTextField(
             .debounce(delayTime)
             .distinctUntilChanged()
             .collectLatest {
-                onQueryChange(it)
+//                onQueryChange(it)
             }
     })
 
@@ -212,5 +212,12 @@ fun SearchTextField(
             unfocusedBorderColor = SupplyTheme.colors.textFieldBorder,
             textColor = Color.Black
         ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(onSearch = {
+            onQueryChange(inputValue)
+        })
     )
 }

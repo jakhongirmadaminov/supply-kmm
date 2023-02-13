@@ -15,6 +15,7 @@ import com.ramcosta.composedestinations.utils.startDestination
 import uz.uzkass.smartpos.supply.android.coreui.SpacerWeight
 import uz.uzkass.smartpos.supply.android.ui.destinations.Destination
 import uz.uzkass.smartpos.supply.android.ui.destinations.SelectCustomerScreen2Destination
+import uz.uzkass.smartpos.supply.android.ui.destinations.SelectCustomerScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.main.bottom_bar.BottomBarDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
@@ -41,7 +42,7 @@ fun SupplyAppCompose() {
             if (currentDestination.route in temp) {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(SelectCustomerScreen2Destination)
+                        navController.navigate(SelectCustomerScreenDestination)
                     },
                     backgroundColor = SupplyTheme.colors.selected
                 ) {
