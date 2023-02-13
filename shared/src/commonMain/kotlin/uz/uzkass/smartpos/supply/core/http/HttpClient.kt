@@ -15,7 +15,7 @@ import uz.uzkass.smartpos.supply.settings.PreferenceManager
 }.also { initLogger() }
 
  fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
-//    logging()
+    logging()
     contentNegotiation()
     defaultRequest(preferenceManager)
 }.also { initLogger() }

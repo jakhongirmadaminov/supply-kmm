@@ -11,13 +11,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.icerock.moko.mvvm.livedata.data
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.SearchTextField
@@ -28,14 +28,12 @@ import uz.uzkass.smartpos.supply.viewmodels.SelectCustomerViewModel2
 @Destination
 @Composable
 fun SelectCustomerScreen2(
-    navigator: DestinationsNavigator,
-    viewModel: SelectCustomerViewModel2 = koinViewModel()
+    navigator: DestinationsNavigator, viewModel: SelectCustomerViewModel2 = koinViewModel()
 ) {
 
-    val data = viewModel.pagination.state.data().value
-
+    val pagingStateChange = viewModel.pagedData.collectAsState()
     SelectCustomerView(
-        data = data,
+        data = pagingStateChange.value,
         onQueryChange = { query ->
             viewModel.onQuery(query)
         },
@@ -44,9 +42,7 @@ fun SelectCustomerScreen2(
         },
         loadNext = {
             viewModel.loadNext()
-        }
-    )
-
+        })
 
 }
 
@@ -74,20 +70,17 @@ private fun SelectCustomerView(
         ) {
 
             SearchTextField(
-                modifier = Modifier.fillMaxWidth(),
-                onQueryChange = onQueryChange
+                modifier = Modifier.fillMaxWidth(), onQueryChange = onQueryChange
             )
             Spacer16dp()
-            LazyColumn(
-                state = listState,
+            LazyColumn(state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 content = {
-                    data?.let{
-                    items(data.size) { index ->
-                        CustomerItem(
-                            customerItem = data[index],
-                            onClickItem = { onItemClick(data[index]) })
-                    }
+                    data?.let {
+                        items(data.size) { index ->
+                            CustomerItem(customerItem = data[index],
+                                onClickItem = { onItemClick(data[index]) })
+                        }
                     }
                 })
         }
