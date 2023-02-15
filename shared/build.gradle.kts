@@ -55,8 +55,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 dependenciesList.forEach { api(it) }
-                // Logger
-                implementation("io.github.aakira:napier:2.6.1")
                 // Ktor
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")

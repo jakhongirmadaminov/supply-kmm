@@ -1,6 +1,5 @@
 package uz.uzkass.smartpos.supply.core.utils
 
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -10,7 +9,7 @@ internal fun HttpClientConfig<*>.logging() = install(Logging) {
     level = LogLevel.ALL
     logger = object : Logger {
         override fun log(message: String) {
-            Napier.v(tag = "HTTP Client", message = message)
+           println("HTTP Client message: $message)")
         }
     }
 }

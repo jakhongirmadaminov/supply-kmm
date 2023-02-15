@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -73,27 +72,25 @@ fun CustomersScreen(
 ) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-    val customersLazyPaging = viewModel.customersPaging.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
             when (event) {
                 is CustomersEvent.RefreshCustomers -> {
-                    customersLazyPaging.refresh()
                 }
             }
         }
     }
 
-    CustomersView(
-        viewState = screenState,
-        customersLazyPaging = customersLazyPaging,
-        visitsLazyPaging = customersLazyPaging,
-        onClickAdd = {},
-        onClickSearch = {},
-        onClickFilter = {},
-        onRefresh = viewModel::onRefreshCustomers
-    )
+//    CustomersView(
+//        viewState = screenState,
+//        customersLazyPaging = customersLazyPaging,
+//        visitsLazyPaging = customersLazyPaging,
+//        onClickAdd = {},
+//        onClickSearch = {},
+//        onClickFilter = {},
+//        onRefresh = viewModel::onRefreshCustomers
+//    )
 
 }
 

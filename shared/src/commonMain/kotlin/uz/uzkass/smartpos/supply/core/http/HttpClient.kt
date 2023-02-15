@@ -4,7 +4,6 @@ import uz.uzkass.smartpos.supply.core.http.features.defaultRequest
 import uz.uzkass.smartpos.supply.core.utils.contentNegotiation
 import uz.uzkass.smartpos.supply.core.utils.logging
 import uz.uzkass.smartpos.supply.httpClient
-import uz.uzkass.smartpos.supply.initLogger
 import uz.uzkass.smartpos.supply.settings.PreferenceManager
 
 internal val httpClient = httpClient {
@@ -12,10 +11,10 @@ internal val httpClient = httpClient {
     logging()
     contentNegotiation()
     defaultRequest()
-}.also { initLogger() }
+}
 
 internal fun authHttpClient(preferenceManager: PreferenceManager) = httpClient {
     logging()
     contentNegotiation()
     defaultRequest(preferenceManager)
-}.also { initLogger() }
+}

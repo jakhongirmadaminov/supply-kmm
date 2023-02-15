@@ -87,6 +87,7 @@ val viewModelModule = module {
             )
         )
     }
+
     factory {
         SelectCustomerViewModel(
             MobileCustomerResourceApi(
@@ -120,6 +121,5 @@ val viewModelModule = module {
             )
         )
     }
-
 
 }

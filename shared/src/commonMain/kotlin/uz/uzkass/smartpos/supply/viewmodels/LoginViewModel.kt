@@ -3,7 +3,6 @@ package uz.uzkass.smartpos.supply.viewmodels
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
 import dev.icerock.moko.network.generated.models.CabinetLoginDTO
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,11 +40,9 @@ class LoginViewModel constructor(
                     request
                 )
             }.onFailure {
-                Napier.e("TTT", it)
                 _loading.emit(false)
                 _navigate.send(LoginNavigator.ToCreatePinCode)
             }.onSuccess {
-                Napier.i(it.accessToken.toString())
                 _loading.emit(false)
                 preferenceManager.setUserToken(it.accessToken.toString())
                 _navigate.send(LoginNavigator.ToCreatePinCode)
