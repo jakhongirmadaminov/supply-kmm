@@ -30,6 +30,11 @@ fun getTypography(colors: SupplyColors): Typography {
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp
-        )
+        ),
+        caption = TextStyle(
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            letterSpacing = 0.4.sp
+        ),
     )
 }

@@ -15,7 +15,7 @@ fun SelectedProductsScreen(
 
 //    SelectedProductsView()
 
-}
+} 
 
 @Composable
 private fun SelectedProductsView(

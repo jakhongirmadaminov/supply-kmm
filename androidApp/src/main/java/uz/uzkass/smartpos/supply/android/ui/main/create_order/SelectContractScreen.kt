@@ -26,6 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
+import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
@@ -99,7 +100,7 @@ fun SelectContractScreen(
 
         },
         nextClick = {
-//            navigator.navigate(SelectProductScreenDestination)
+            navigator.navigate(ProductSelectScreenDestination)
         }
     )
 

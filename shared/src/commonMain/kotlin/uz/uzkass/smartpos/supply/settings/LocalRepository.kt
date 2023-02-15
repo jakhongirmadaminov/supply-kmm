@@ -1,19 +1,7 @@
 package uz.uzkass.smartpos.supply.settings
 
-object LocalRepositoryHolder {
-    val productList = mutableListOf<String>()
 
-    fun addProduct() {
-
-    }
-
-    fun clean(){
-        productList.clear()
-    }
-
-}
-
-class LocalRepository<T> {
+class LocalProductRepository<T> {
     val productList = mutableListOf<T>()
 
     fun addProduct(product: T) {
@@ -24,5 +12,7 @@ class LocalRepository<T> {
         return productList
     }
 
-
+    fun clean() {
+        productList.clear()
+    }
 }

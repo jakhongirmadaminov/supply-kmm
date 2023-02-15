@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -81,6 +82,30 @@ fun AppBarButton(
                 Icon(
                     modifier = modifier,
                     imageVector = imageVector,
+                    contentDescription = null,
+                    tint = tint,
+                )
+            }
+        )
+    }
+}
+@Composable
+fun AppBarButton(
+    modifier: Modifier = Modifier,
+    painter: Painter,
+    tint: Color = Color.Black,
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    multipleEventsCutter {
+        IconButton(
+            modifier = Modifier.size(24.dp),
+            onClick = { it.processEvent(onClick) },
+            enabled = enabled,
+            content = {
+                Icon(
+                    modifier = modifier,
+                    painter = painter,
                     contentDescription = null,
                     tint = tint,
                 )
