@@ -4,6 +4,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
 import dev.icerock.moko.network.generated.models.PhoneDTO
 import dev.icerock.moko.network.generated.models.ResetPasswordDTO
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class PasswordResetConfirmViewModel constructor(
 
 
     fun confirmResetPassword(phone: String, activationCode: String) {
+        Napier.d("TTTConfirm")
         _loading.value = true
         viewModelScope.launch {
             val request = ResetPasswordDTO(

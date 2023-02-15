@@ -5,6 +5,6 @@ import uz.uzkass.smartpos.supply.di.appModule
 
 fun initKoin(){
     startKoin {
-        modules(appModule())
+//        modules(appModule())
     }
 }

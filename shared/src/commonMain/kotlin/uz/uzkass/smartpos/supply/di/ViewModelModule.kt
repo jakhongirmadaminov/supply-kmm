@@ -16,6 +16,7 @@ import uz.uzkass.smartpos.supply.viewmodels.HomeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.LoginViewModel
 import uz.uzkass.smartpos.supply.viewmodels.PasswordResetConfirmViewModel
 import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
+import uz.uzkass.smartpos.supply.viewmodels.SelectCustomerViewModel2
 import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
@@ -90,6 +91,15 @@ val viewModelModule = module {
 
     factory {
         SelectCustomerViewModel(
+            MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
+
+    factory {
+        SelectCustomerViewModel2(
             MobileCustomerResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()

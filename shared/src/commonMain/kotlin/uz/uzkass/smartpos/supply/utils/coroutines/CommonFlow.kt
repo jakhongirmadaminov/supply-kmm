@@ -1,6 +1,5 @@
 package uz.uzkass.smartpos.supply.utils.coroutines
 
-import com.kuuurt.paging.multiplatform.helpers.dispatcher
 import dev.icerock.moko.mvvm.livedata.Closeable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -13,7 +12,7 @@ fun <T> Flow<T>.asCommonFlow(): CommonFlow<T> = CommonFlow(this)
 class CommonFlow<T>(private val origin: Flow<T>) : Flow<T> by origin {
     fun watch(block: (T) -> Unit): Closeable {
         val job = Job()
-        onEach { block(it) }.launchIn(CoroutineScope(job + dispatcher()))
+        onEach { block(it) }.launchIn(CoroutineScope(job ))
 
         return object : Closeable {
             override fun close() {

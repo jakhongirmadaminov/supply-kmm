@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +25,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
-import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
@@ -30,27 +33,74 @@ import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 @Destination
-fun CreateOrderScreen(
+fun SelectContractScreen(
     navigator: DestinationsNavigator,
+    customerId: Long? = null,
     viewModel: CreateOrderViewModel = koinViewModel()
 ) {
+
+    LaunchedEffect(key1 = Unit, block = {
+
+        viewModel.getContractByCustomerId(customerId)
+    })
+
     val screenState = viewModel.screenStateFlow.collectAsState()
+
+    var currentContract by remember {
+        mutableStateOf<DropdownModel?>(null)
+    }
+
+    var currentSellType by remember {
+        mutableStateOf<DropdownModel?>(null)
+    }
+
+    var currentBranch by remember {
+        mutableStateOf<DropdownModel?>(null)
+    }
+
+    var currentStore by remember {
+        mutableStateOf<DropdownModel?>(null)
+    }
+
+
+    val buttonEnable =
+        currentContract != null
+                && currentSellType != null
+                && currentBranch != null
+                && (currentStore != null || screenState.value.storageList?.isEmpty() == true)
+
     CreateOrderScreenView(
-        customerList = screenState.value.customerList,
+        loading = screenState.value.loading,
+        buttonEnable = buttonEnable,
         contractList = screenState.value.contractList,
         sellTypeList = screenState.value.sellTypeList,
         branchList = screenState.value.branchList,
         storeList = screenState.value.storageList,
 
-        selectCustomer = viewModel::selectCustomer,
-        selectContract = viewModel::selectContract,
-        selectSellType = viewModel::selectSellType,
+        selectContract = {
+            currentContract = it
+        },
+        selectSellType = {
+            currentSellType = it
+        },
 
-        selectBranch = viewModel::selectBranch,
-        selectStorage = viewModel::selectStorage,
+        selectBranch = {
 
-        searchCustomer = viewModel::getCustomerByQuery,
-        searchBranch = {}
+            currentBranch = it
+            viewModel.getStoreByQuery(
+                branchId = it.id
+            )
+        },
+        selectStorage = {
+            currentStore = it
+        },
+
+        searchBranch = {
+
+        },
+        nextClick = {
+//            navigator.navigate(SelectProductScreenDestination)
+        }
     )
 
 }
@@ -58,22 +108,21 @@ fun CreateOrderScreen(
 @Composable
 private fun CreateOrderScreenView(
     loading: Boolean = false,
-    customerList: List<DropdownModel>?,
+    buttonEnable: Boolean = false,
     contractList: List<DropdownModel>?,
     sellTypeList: List<DropdownModel>?,
 
     branchList: List<DropdownModel>?,
     storeList: List<DropdownModel>?,
 
-    selectCustomer: (DropdownModel) -> Unit,
     selectContract: (DropdownModel) -> Unit,
     selectSellType: (DropdownModel) -> Unit,
 
     selectBranch: (DropdownModel) -> Unit,
     selectStorage: (DropdownModel) -> Unit,
 
-    searchCustomer: (String) -> Unit,
     searchBranch: (String) -> Unit,
+    nextClick: () -> Unit
 ) {
     val verticalScrollState = rememberScrollState()
 
@@ -85,59 +134,40 @@ private fun CreateOrderScreenView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(verticalScrollState)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         )
         {
 
-            customerList?.let { list ->
+            if (!contractList.isNullOrEmpty()) {
                 ExposedDropdownField2(
-                    items = list,
-                    label = stringResource(id = MR.strings.client.resourceId),
-                    readOnly = false,
-                    onItemSelected = selectCustomer,
-                    onQueryChange = searchCustomer
-                )
-
-            }
-
-            contractList?.let { list ->
-                ExposedDropdownField2(
-                    items = list,
+                    items = contractList,
                     label = stringResource(id = MR.strings.contract.resourceId),
                     onItemSelected = selectContract
                 )
-
             }
-
-            sellTypeList?.let { list ->
+            if (!sellTypeList.isNullOrEmpty()) {
                 ExposedDropdownField2(
-                    items = list,
+                    items = sellTypeList,
                     label = stringResource(id = MR.strings.type_sell.resourceId),
                     onItemSelected = selectSellType
                 )
-
             }
 
-            branchList?.let { list ->
+            if (!branchList.isNullOrEmpty()) {
                 ExposedDropdownField2(
-                    items = list,
+                    items = branchList,
                     label = stringResource(id = MR.strings.branch.resourceId),
-                    readOnly = false,
                     onItemSelected = selectBranch,
-                    onQueryChange = searchBranch
                 )
-
             }
 
-            storeList?.let { list ->
+            if (!storeList.isNullOrEmpty()) {
                 ExposedDropdownField2(
-                    items = list,
+                    items = storeList,
                     label = stringResource(id = MR.strings.store.resourceId),
                     onItemSelected = selectStorage
                 )
-
             }
 
             FillAvailableSpace()
@@ -145,12 +175,11 @@ private fun CreateOrderScreenView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                enabled = !loading,
+                enabled = buttonEnable,
                 buttonBackgroundColor = SupplyTheme.colors.primary,
                 text = stringResource(id = MR.strings.confirm.resourceId),
-                onClick = {
-
-                })
+                onClick = nextClick
+            )
         }
     }
 }

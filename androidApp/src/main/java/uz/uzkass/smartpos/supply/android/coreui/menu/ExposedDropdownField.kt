@@ -176,6 +176,7 @@ fun ExposedDropdownField2(
     onQueryChange: (String) -> Unit = {}
 ) {
     var mExpanded by remember { mutableStateOf(false) }
+    var firstTime by remember { mutableStateOf(true) }
 
     val valueDebounce = remember {
         MutableStateFlow("")
@@ -183,22 +184,23 @@ fun ExposedDropdownField2(
 
     val coroutineScope = rememberCoroutineScope()
 
-
     LaunchedEffect(key1 = Unit, block = {
         valueDebounce
             .debounce(500)
             .distinctUntilChanged()
             .collectLatest {
-                onQueryChange(it)
+                if (!firstTime) {
+                    onQueryChange(it)
+                }
             }
     })
 
 
     var selectedItemLabel by remember {
-//        val text = currentItem?.label ?: ""
-        val text = ""
+        val item = items.first()
+        onItemSelected(item)
         mutableStateOf(
-            TextFieldValue(text = text, TextRange(text.length))
+            TextFieldValue(text =  item.label, TextRange( item.label.length))
         )
     }
     val interactionSource = remember { MutableInteractionSource() }
@@ -218,6 +220,7 @@ fun ExposedDropdownField2(
             value = selectedItemLabel,
             onValueChange = {
                 selectedItemLabel = it
+                firstTime = false
                 coroutineScope.launch {
                     valueDebounce.emit(it.text)
                 }

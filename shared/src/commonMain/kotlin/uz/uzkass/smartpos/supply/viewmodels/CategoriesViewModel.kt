@@ -1,8 +1,5 @@
 package uz.uzkass.smartpos.supply.viewmodels
 
-import com.kuuurt.paging.multiplatform.Pager
-import com.kuuurt.paging.multiplatform.PagingConfig
-import com.kuuurt.paging.multiplatform.PagingResult
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileCategoryResourceApi
 import dev.icerock.moko.paging.IdComparator

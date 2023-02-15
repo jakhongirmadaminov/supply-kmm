@@ -14,21 +14,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer8dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.destinations.CheckOldPinCodeScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.profil.ProfileScreenState
+import uz.uzkass.smartpos.supply.viewmodels.profil.ProfileViewModel
 
 @Composable
 @Destination
 fun ProfileScreen(
     navigator: DestinationsNavigator,
+    viewModel: ProfileViewModel = viewModel()
+) {
 
-    ) {
+    val screenState = viewModel.screenState.collectAsStateWithLifecycle()
 
     ProfileScreenView(
         onPinCodeChangeClick = {
@@ -36,13 +43,14 @@ fun ProfileScreen(
         },
         onPasswordChangeClick = {
             navigator.navigate(NavGraphs.passwordReset)
-        }
+        },
+        screenState = screenState.value
     )
 }
 
 @Composable
 private fun ProfileScreenView(
-
+    screenState: ProfileScreenState,
     onPinCodeChangeClick: () -> Unit,
     onPasswordChangeClick: () -> Unit,
 ) {
