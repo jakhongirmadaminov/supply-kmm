@@ -5,6 +5,7 @@ import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import dev.icerock.moko.paging.LambdaPagedListDataSource
 import dev.icerock.moko.paging.Pagination
+import kotlin.random.Random
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,7 +38,7 @@ class SelectCustomerViewModel2 constructor(private val customerApi: MobileCustom
             resultOf {
                 customerApi.getListUsingGET89(
                     page = pageIndex,
-                    search = searchQuery
+                    search = Random.nextInt().toString()
                 ).content!!
             }.onSuccess {
                 somt = it
