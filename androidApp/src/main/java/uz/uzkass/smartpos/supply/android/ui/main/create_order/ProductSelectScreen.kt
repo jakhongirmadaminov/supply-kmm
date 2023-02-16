@@ -55,7 +55,7 @@ fun ProductSelectScreen(
             viewModel.getProductByQuery(it)
         },
         onItemClick = {
-            navigator.navigate(AddProductScreenDestination())
+            navigator.navigate(AddProductScreenDestination(it.id!!))
         })
 }
 

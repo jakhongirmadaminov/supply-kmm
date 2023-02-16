@@ -4,7 +4,6 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.models.CompanyBaseDTO
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -35,15 +34,15 @@ class SelectCustomerViewModel constructor(
 
 
     init {
-        Napier.d("INIT $this", tag = "TTT")
+
     }
 
     fun getCustomerByQuery(newQuery: String = "") {
 
-        Napier.d("newQuery $this", tag = "TTT")
+
 
         viewModelScope.launch(Dispatchers.Default) {
-            Napier.d(newQuery, tag = "TTT")
+
 
             resultOf {
                 customerApi.lookUpUsingGET68(search = newQuery)

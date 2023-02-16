@@ -1,14 +1,18 @@
 package uz.uzkass.smartpos.supply.settings
 
 
-class LocalProductRepository<T> {
-    val productList = mutableListOf<T>()
+class LocalProductRepository {
+    val productList = mutableListOf<OrderProductModel>()
 
-    fun addProduct(product: T) {
-
+    fun addProduct(product: OrderProductModel) {
+        productList.add(product)
     }
 
-    fun getProducts(): List<T> {
+    fun removeProduct(product: OrderProductModel) {
+        productList.remove(product)
+    }
+
+    fun getProducts(): List<OrderProductModel> {
         return productList
     }
 
@@ -16,3 +20,9 @@ class LocalProductRepository<T> {
         productList.clear()
     }
 }
+
+data class OrderProductModel(
+    val id: Long?,
+    val name: String?,
+    val qty: Int?
+)

@@ -7,5 +7,5 @@ import uz.uzkass.smartpos.supply.settings.PreferenceManager
 val commonModule = module {
 
     single { PreferenceManager(settings = get()) }
-    single { LocalProductRepository<String>() }
+
 }
