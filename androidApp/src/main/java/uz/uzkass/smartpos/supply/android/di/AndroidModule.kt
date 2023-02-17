@@ -28,7 +28,8 @@ val androidModule = module {
             customerApi = MobileCustomerResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
-            )
+
+            ), localProductRepository = get()
         )
     }
 

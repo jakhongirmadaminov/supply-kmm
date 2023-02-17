@@ -17,9 +17,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.settings.LocalProductRepository
 
 class SelectCustomerViewModel
-constructor(private val customerApi: MobileCustomerResourceApi) : ViewModel() {
+constructor(
+    private val customerApi: MobileCustomerResourceApi,
+    private val localProductRepository: LocalProductRepository
+) : ViewModel() {
 
     private var query: String = ""
     private lateinit var pagingSource: CustomerPageSource
@@ -35,7 +39,7 @@ constructor(private val customerApi: MobileCustomerResourceApi) : ViewModel() {
         .flow
 
     init {
-//        getCustomerByQuery("")
+        localProductRepository.clean()
     }
 
     fun getCustomerByQuery(newQuery: String) {

@@ -1,5 +1,6 @@
 package uz.uzkass.smartpos.supply.android.ui.main.create_order
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,12 +20,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
+import uz.uzkass.smartpos.supply.android.R
+import uz.uzkass.smartpos.supply.android.coreui.AppBarButton
+import uz.uzkass.smartpos.supply.android.coreui.AppBarTitle
+import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
+import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
@@ -70,7 +78,7 @@ fun SelectContractScreen(
                 && currentBranch != null
                 && (currentStore != null || screenState.value.storageList?.isEmpty() == true)
 
-    CreateOrderScreenView(
+    SelectContractScreenView(
         loading = screenState.value.loading,
         buttonEnable = buttonEnable,
         contractList = screenState.value.contractList,
@@ -101,13 +109,15 @@ fun SelectContractScreen(
         },
         nextClick = {
             navigator.navigate(ProductSelectScreenDestination)
-        }
+        },
+        onBackPressed = navigator::popBackStack
     )
 
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun CreateOrderScreenView(
+private fun SelectContractScreenView(
     loading: Boolean = false,
     buttonEnable: Boolean = false,
     contractList: List<DropdownModel>?,
@@ -123,14 +133,18 @@ private fun CreateOrderScreenView(
     selectStorage: (DropdownModel) -> Unit,
 
     searchBranch: (String) -> Unit,
-    nextClick: () -> Unit
+    nextClick: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
     val verticalScrollState = rememberScrollState()
 
-    Box(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
+            .systemBarsPadding(),
+        topBar = {
+            SelectContractAppBar(onBackPressed = onBackPressed)
+        }
     ) {
         Column(
             modifier = Modifier
@@ -182,5 +196,21 @@ private fun CreateOrderScreenView(
                 onClick = nextClick
             )
         }
+    }
+}
+
+@Composable
+fun SelectContractAppBar(onBackPressed: () -> Unit) {
+    DefaultAppBar {
+        AppBarButton(
+            painter = painterResource(id = R.drawable.ic_back),
+            onClick = onBackPressed
+        )
+        Spacer16dp()
+        AppBarTitle(
+            modifier = Modifier.weight(1f),
+            title = "Select товар"
+        )
+
     }
 }

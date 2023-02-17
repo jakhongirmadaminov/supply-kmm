@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
@@ -31,6 +32,10 @@ import androidx.paging.compose.items
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
+import uz.uzkass.smartpos.supply.android.R
+import uz.uzkass.smartpos.supply.android.coreui.AppBarButton
+import uz.uzkass.smartpos.supply.android.coreui.AppBarTitle
+import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.SearchTextField
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
@@ -50,13 +55,16 @@ fun ProductSelectScreen(
 
     val productListState = viewModel.productPage.collectAsLazyPagingItems()
 
-    ProductSelectScreenView(productList = productListState,
+    ProductSelectScreenView(
+        productList = productListState,
         onQueryChange = {
             viewModel.getProductByQuery(it)
         },
         onItemClick = {
             navigator.navigate(AddProductScreenDestination(it.id!!))
-        })
+        },
+        onBackPressed = navigator::popBackStack
+    )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -64,27 +72,17 @@ fun ProductSelectScreen(
 private fun ProductSelectScreenView(
     productList: LazyPagingItems<ProductItemModel>,
     onQueryChange: (String) -> Unit,
-    onItemClick: (ProductItemModel) -> Unit
+    onItemClick: (ProductItemModel) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val scrollState = rememberLazyListState()
-
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .systemBarsPadding(),
         topBar = {
-            
+            ProductSelectAppBar(onBackPressed = onBackPressed)
         }) {
-
-
-    }
-
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-    ) {
 
         Column(modifier = Modifier.fillMaxSize()) {
             SearchTextField(
@@ -93,7 +91,6 @@ private fun ProductSelectScreenView(
                     .padding(16.dp),
                 onQueryChange = onQueryChange
             )
-            Spacer16dp()
             LazyColumn(state = scrollState, modifier = Modifier
                 .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -104,14 +101,24 @@ private fun ProductSelectScreenView(
                     }
                 })
         }
-
-
     }
+
 }
 
 @Composable
-fun ProductSelectAppBar() {
-    
+private fun ProductSelectAppBar(onBackPressed: () -> Unit) {
+    DefaultAppBar {
+        AppBarButton(
+            painter = painterResource(id = R.drawable.ic_back),
+            onClick = onBackPressed
+        )
+        Spacer16dp()
+        AppBarTitle(
+            modifier = Modifier.weight(1f),
+            title = "Select товар"
+        )
+
+    }
 }
 
 @Composable

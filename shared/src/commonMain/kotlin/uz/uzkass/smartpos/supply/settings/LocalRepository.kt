@@ -2,7 +2,7 @@ package uz.uzkass.smartpos.supply.settings
 
 
 class LocalProductRepository {
-    val productList = mutableListOf<OrderProductModel>()
+    var productList = mutableListOf<OrderProductModel>()
 
     fun addProduct(product: OrderProductModel) {
         productList.add(product)

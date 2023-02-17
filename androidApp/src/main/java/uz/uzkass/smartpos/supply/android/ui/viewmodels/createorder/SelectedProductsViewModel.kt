@@ -40,6 +40,11 @@ class SelectedProductsViewModel constructor(
         }
     }
 
+    fun removeProductItem(it: OrderProductModel) {
+        localProductRepository.removeProduct(it)
+        getSelectedProductList()
+    }
+
 }
 
 
