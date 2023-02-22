@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.core.utils.resultOf
+import uz.uzkass.smartpos.supply.settings.LocalProductRepository
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
 class CreateOrderViewModel constructor(
@@ -21,7 +22,8 @@ class CreateOrderViewModel constructor(
     val branchResourceApi: MobileBranchResourceApi,
     val contractResourceApi: MobileContractResourceApi,
     val publicOrderResourceApiImpl: PublicOrderResourceApi,
-    val warehouseResourceApi: MobileWarehouseResourceApi
+    val warehouseResourceApi: MobileWarehouseResourceApi,
+    val localProductRepository: LocalProductRepository
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -159,6 +161,21 @@ class CreateOrderViewModel constructor(
             }
 
         }
+    }
+
+    fun saveToLocal(
+        customerId: Long?,
+        contractId: String?,
+        sellTypeId: String?,
+        branchId: String?,
+        storeId: String?
+    ) {
+//        localProductRepository.clean()
+        localProductRepository.customerId = customerId
+        localProductRepository.contractId = contractId
+        localProductRepository.deliveryBranchId = branchId
+        localProductRepository.warehouseId = storeId
+        localProductRepository.sellTypeId = sellTypeId
     }
 
 }

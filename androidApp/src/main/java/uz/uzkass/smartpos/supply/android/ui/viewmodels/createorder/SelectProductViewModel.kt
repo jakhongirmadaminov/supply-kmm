@@ -17,6 +17,7 @@ import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.settings.LocalProductRepository
 import uz.uzkass.smartpos.supply.settings.OrderProductModel
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerScreenState
+import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
 class SelectProductViewModel constructor(
     private val productApi: MobileProductResourceApi,
@@ -55,11 +56,11 @@ class SelectProductViewModel constructor(
             OrderProductModel(
                 id = _productDateState.value.productData!!.id,
                 name = _productDateState.value.productData!!.name,
-                qty = qty
+                qty = qty,
+                price = _productDateState.value.productData?.price,
+                totalPrice = _productDateState.value.productData?.price ?: (0.0 * qty)
             )
-
         )
-
     }
 
     fun loadProductData(productId: Long) {
@@ -94,6 +95,6 @@ data class ProductItemModel(
 
 data class AddProductState(
     val loading: Boolean = false,
-    val productData: ProductDetailMobileDTO? = null
-
+    val productData: ProductDetailMobileDTO? = null,
+    val unitList: List<DropdownModel> = emptyList()
 )

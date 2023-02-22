@@ -81,6 +81,7 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.SupplyTextButton
+import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
 import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
@@ -88,6 +89,7 @@ import uz.uzkass.smartpos.supply.android.ui.destinations.SelectedProductsScreenD
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.ProductItemModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectProductViewModel
+import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
@@ -109,7 +111,10 @@ fun AddProductScreen(
 
     AddProductScreenView(
         productItemModel = screenState.value.productData,
+        unitList = screenState.value.unitList,
+        onUnitSelected = {
 
+        },
         onClickBack = {
             navigator.navigateUp()
         },
@@ -124,12 +129,13 @@ fun AddProductScreen(
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun AddProductScreenView(
     productItemModel: ProductDetailMobileDTO?,
+    unitList: List<DropdownModel>,
     onClickBack: () -> Unit,
     onProductAdd: (Int) -> Unit,
+    onUnitSelected: (DropdownModel) -> Unit
 ) {
 
     Scaffold(
@@ -177,6 +183,12 @@ private fun AddProductScreenView(
 
                 }
 
+                ExposedDropdownField2(
+                    items = unitList,
+                    label = stringResource(id = MR.strings.type_sell.resourceId),
+                    onItemSelected = onUnitSelected
+                )
+
 
                 var valueState by remember {
                     mutableStateOf("")
@@ -212,7 +224,7 @@ private fun AddProductScreenView(
                         .height(50.dp),
                     buttonBackgroundColor = SupplyTheme.colors.primary,
                     text = "+",
-                    enabled = valueState!="",
+                    enabled = valueState != "",
                     onClick = {
                         onProductAdd(
                             valueState.toIntOrNull() ?: 0

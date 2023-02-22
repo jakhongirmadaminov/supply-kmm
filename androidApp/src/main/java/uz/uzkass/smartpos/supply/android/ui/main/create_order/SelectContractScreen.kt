@@ -108,6 +108,15 @@ fun SelectContractScreen(
 
         },
         nextClick = {
+
+            viewModel.saveToLocal(
+                customerId = customerId,
+                currentContract?.id,
+                currentSellType?.id,
+                currentBranch?.id,
+                currentStore?.id
+            )
+
             navigator.navigate(ProductSelectScreenDestination)
         },
         onBackPressed = navigator::popBackStack

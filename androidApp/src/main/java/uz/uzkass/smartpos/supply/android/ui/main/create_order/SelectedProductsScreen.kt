@@ -57,6 +57,7 @@ import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
+import uz.uzkass.smartpos.supply.android.ui.destinations.ConfirmOrderScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.ProductItemModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectProductViewModel
@@ -85,7 +86,7 @@ fun SelectedProductsScreen(
 
         },
         onClickNext = {
-
+            navigator.navigate(ConfirmOrderScreenDestination)
         },
         onClickBack = navigator::popBackStack
     )
@@ -127,9 +128,8 @@ private fun SelectedProductsView(
                 buttonBackgroundColor = SupplyTheme.colors.primary,
                 text = "Next",
                 enabled = true,
-                onClick = {
-
-                })
+                onClick = onClickNext
+            )
         }
 
     }
