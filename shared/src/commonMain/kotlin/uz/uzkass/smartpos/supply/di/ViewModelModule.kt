@@ -5,12 +5,14 @@ import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
+import dev.icerock.moko.network.generated.apis.MobileOrderResourceApi
 import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.viewmodels.CheckPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.ChooseLanguageViewModel
+import uz.uzkass.smartpos.supply.viewmodels.ConfirmOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.CreateNewPasswordViewModel
 import uz.uzkass.smartpos.supply.viewmodels.HomeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.LoginViewModel
@@ -128,8 +130,21 @@ val viewModelModule = module {
             warehouseResourceApi = MobileWarehouseResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
-            )
+            ),
+            localProductRepository = get()
         )
     }
+
+
+    factory {
+        ConfirmOrderViewModel(
+            ordersApi = MobileOrderResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            localProductRepository = get()
+        )
+    }
+
 
 }

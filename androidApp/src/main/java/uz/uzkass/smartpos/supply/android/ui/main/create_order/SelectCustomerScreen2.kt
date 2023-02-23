@@ -28,7 +28,8 @@ import uz.uzkass.smartpos.supply.viewmodels.SelectCustomerViewModel2
 @Destination
 @Composable
 fun SelectCustomerScreen2(
-    navigator: DestinationsNavigator, viewModel: SelectCustomerViewModel2 = koinViewModel()
+    navigator: DestinationsNavigator,
+    viewModel: SelectCustomerViewModel2 = koinViewModel()
 ) {
 
     val pagingStateChange = viewModel.pagedData.collectAsState()
