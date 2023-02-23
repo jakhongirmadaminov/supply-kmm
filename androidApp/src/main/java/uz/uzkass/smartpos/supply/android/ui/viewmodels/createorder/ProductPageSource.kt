@@ -13,7 +13,8 @@ import java.io.IOException
 
 class ProductPageSource(
     private val productApi: MobileProductResourceApi,
-    val searchQuery: String
+    val searchQuery: String,
+    val categoryId: Long? = null
 ) : PagingSource<Int, ProductItemModel>() {
 
     override fun getRefreshKey(state: PagingState<Int, ProductItemModel>): Int? {
@@ -30,7 +31,8 @@ class ProductPageSource(
             val pageIndex = params.key ?: 0
             val response = productApi.getListUsingGET91(
                 page = pageIndex,
-                search = searchQuery
+                search = searchQuery,
+                categoryId = categoryId
             ).content?.map { item ->
                 ProductItemModel(
                     id = item.id,

@@ -70,6 +70,25 @@ class CategoriesViewModel constructor(
         }
     }
 
+    fun getSubCategoryList(branchId: Long, parentId: Long? = null) {
+        viewModelScope.launch {
+            resultOf {
+
+                api.treeListUsingGET5(branchId = branchId, parentId = parentId, status = "ACTIVE")
+
+            }.onSuccess { list ->
+                _screenState.update {
+                    it.copy(
+                        loading = false,
+                        categoryList = list
+                    )
+                }
+            }.onFailure {
+
+            }
+        }
+    }
+
 }
 
 data class CategoriesScreenState(

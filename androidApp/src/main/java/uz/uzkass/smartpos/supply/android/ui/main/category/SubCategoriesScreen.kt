@@ -16,9 +16,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,55 +33,43 @@ import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
-import uz.uzkass.smartpos.supply.android.ui.destinations.SubCategoriesScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
 
-@MainNavGraph
 @Composable
 @Destination
-fun CategoriesScreen(
+fun SubCategoriesScreen(
+    branchId:Long,
+    parentId: Long,
     navigator: DestinationsNavigator,
     viewModel: CategoriesViewModel = koinViewModel()
 ) {
     val screenState = viewModel.screenState.collectAsState()
-    val currentBranchId = remember {
-        mutableStateOf<Long?>(null)
-    }
-    CategoriesScreenView(
+
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.getSubCategoryList(branchId,parentId)
+    })
+
+    SubCategoriesView(
         loading = screenState.value.loading,
         branchList = screenState.value.branchList,
         categoryList = screenState.value.categoryList,
         onCLickItem = {
-            if (!it.children.isNullOrEmpty()) {
-                navigator.navigate(
-                    SubCategoriesScreenDestination(
-                        branchId = currentBranchId.value!!,
-                        parentId = it.id!!
-                    )
-                )
-            }
+
         },
-        onSelectBranch = {
-            currentBranchId.value = it.id.toLongOrNull()
-            viewModel.getCategoryList(
-                branchId = it.id.toLongOrNull()
-            )
-        }
     )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun CategoriesScreenView(
+private fun SubCategoriesView(
     loading: Boolean,
     branchList: List<DropdownModel>?,
     categoryList: List<CategoryTreeDTO>,
     onCLickItem: (CategoryTreeDTO) -> Unit,
-    onSelectBranch: (DropdownModel) -> Unit
 ) {
     Scaffold(modifier = Modifier
         .systemBarsPadding()
@@ -98,14 +85,6 @@ private fun CategoriesScreenView(
 
             ) {
 
-            if (!branchList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = branchList,
-                    label = stringResource(id = MR.strings.branch.resourceId),
-                    onItemSelected = onSelectBranch,
-                )
-                Spacer16dp()
-            }
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -129,43 +108,3 @@ private fun CategoriesScreenView(
 
 }
 
-@Composable
-fun CategoryItem(
-    name: String,
-    count: Long,
-    onCLickItem: () -> Unit
-) {
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = Color(0xFFF4F3FF),
-                shape = LocalShapes.current.small8Dp
-            )
-            .clickable(onClick = onCLickItem)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = name,
-            fontSize = 14.sp,
-            color = Color.Black,
-            maxLines = 1
-        )
-
-        FillAvailableSpace()
-        Text(
-            text = "$count",
-            fontSize = 14.sp,
-            color = Color.Black,
-            maxLines = 1
-        )
-
-        Icon(
-            painter = painterResource(id = R.drawable.ic_arrow_right),
-            contentDescription = null
-        )
-
-    }
-}
