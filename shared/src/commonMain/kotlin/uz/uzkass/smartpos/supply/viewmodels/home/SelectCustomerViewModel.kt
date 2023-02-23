@@ -3,22 +3,14 @@ package uz.uzkass.smartpos.supply.viewmodels.home
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.models.CompanyBaseDTO
-import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uz.uzkass.smartpos.supply.core.utils.resultOf
-import uz.uzkass.smartpos.supply.utils.coroutines.asCommonFlow
-import uz.uzkass.smartpos.supply.viewmodels.LoginNavigator
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
 private const val PAGE_SIZE = 20
@@ -34,17 +26,8 @@ class SelectCustomerViewModel constructor(
     var navigate = _navigate.receiveAsFlow()
 
 
-    init {
-        Napier.d("INIT $this", tag = "TTT")
-    }
-
     fun getCustomerByQuery(newQuery: String = "") {
-
-        Napier.d("newQuery $this", tag = "TTT")
-
         viewModelScope.launch(Dispatchers.Default) {
-            Napier.d(newQuery, tag = "TTT")
-
             resultOf {
                 customerApi.lookUpUsingGET68(search = newQuery)
             }.onSuccess { list ->
@@ -106,7 +89,6 @@ data class SelectCustomerScreenState(
 
 
     )
-
 
 
 //    private val searchQuery = MutableStateFlow("")
