@@ -17,7 +17,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,8 +27,6 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dev.icerock.moko.network.generated.models.CategoryTreeDTO
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
@@ -101,8 +98,13 @@ private fun CategoriesScreenView(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(categoryList) { item ->
+                    val text = if ((item.name?.length ?: 0) > 25) {
+                        item.name!!.substring(0, 24)
+                    } else {
+                        item.name?:""
+                    }
                     CategoryItem(
-                        name = item.name ?: "",
+                        name = text,
                         count = item.productCount ?: 0
                     ) {
                         onCLickItem(item)

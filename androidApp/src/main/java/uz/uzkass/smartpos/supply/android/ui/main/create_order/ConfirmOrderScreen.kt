@@ -69,7 +69,7 @@ fun ConfirmOrderScreenView(onConfirm: () -> Unit, onSaveTo: () -> Unit) {
 }
 
 @Composable
-private fun DisableTextWithLabel(
+fun DisableTextWithLabel(
     modifier: Modifier = Modifier,
     label: String, text: String
 ) {
