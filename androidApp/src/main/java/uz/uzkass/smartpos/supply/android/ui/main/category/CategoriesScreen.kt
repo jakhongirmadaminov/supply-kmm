@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +41,7 @@ import uz.uzkass.smartpos.supply.android.ui.destinations.SubCategoriesScreenDest
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesViewModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.model.CategoryModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
 
@@ -52,48 +56,58 @@ fun CategoriesScreen(
     val currentBranchId = remember {
         mutableStateOf<Long?>(null)
     }
+
     CategoriesScreenView(
         loading = screenState.value.loading,
         branchList = screenState.value.branchList,
         categoryList = screenState.value.categoryList,
         onCLickItem = {
-            if (!it.children.isNullOrEmpty()) {
-                navigator.navigate(
-                    SubCategoriesScreenDestination(
-                        branchId = currentBranchId.value!!,
-                        parentId = it.id!!
-                    )
+
+            navigator.navigate(
+                SubCategoriesScreenDestination(
+                    branchId = currentBranchId.value!!,
+                    parentId = it.id!!
                 )
-            }
+            )
+
         },
         onSelectBranch = {
             currentBranchId.value = it.id.toLongOrNull()
             viewModel.getCategoryList(
                 branchId = it.id.toLongOrNull()
             )
+        },
+        onRefresh = {
+            viewModel.onRefresh()
         }
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun CategoriesScreenView(
     loading: Boolean,
     branchList: List<DropdownModel>?,
-    categoryList: List<CategoryTreeDTO>,
-    onCLickItem: (CategoryTreeDTO) -> Unit,
-    onSelectBranch: (DropdownModel) -> Unit
+    categoryList: List<CategoryModel>,
+    onCLickItem: (CategoryModel) -> Unit,
+    onSelectBranch: (DropdownModel) -> Unit,
+    onRefresh: () -> Unit
 ) {
+
+    val pullRefreshState = rememberPullRefreshState(refreshing = loading, onRefresh = onRefresh)
+
     Scaffold(modifier = Modifier
-        .systemBarsPadding()
+
         .fillMaxSize(),
         topBar = {
 
         }) {
 
         Column(
-            modifier = Modifier
+            modifier = Modifier.systemBarsPadding()
                 .padding(16.dp)
+                .pullRefresh(pullRefreshState)
                 .background(color = Color.White),
 
             ) {

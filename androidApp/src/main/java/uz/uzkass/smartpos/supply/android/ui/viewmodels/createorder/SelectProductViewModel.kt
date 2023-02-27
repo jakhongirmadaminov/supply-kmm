@@ -57,6 +57,7 @@ class SelectProductViewModel constructor(
                 id = _productDateState.value.productData!!.id,
                 name = _productDateState.value.productData!!.name,
                 qty = qty,
+                unitId = _productDateState.value.productData?.unit?.id,
                 price = _productDateState.value.productData?.price,
                 totalPrice = _productDateState.value.productData?.price ?: (0.0 * qty)
             )
@@ -69,7 +70,7 @@ class SelectProductViewModel constructor(
         viewModelScope.launch {
             resultOf {
 
-                productApi.getUsingGET87(productId)
+                productApi.getUsingGET97(productId)
 
             }.onSuccess { product ->
                 _productDateState.update {

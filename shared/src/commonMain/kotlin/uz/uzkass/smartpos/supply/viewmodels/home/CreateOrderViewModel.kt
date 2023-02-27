@@ -5,13 +5,10 @@ import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.settings.LocalProductRepository
@@ -53,7 +50,7 @@ class CreateOrderViewModel constructor(
 
         viewModelScope.launch {
             resultOf {
-                contractResourceApi.lookUpUsingGET67(
+                contractResourceApi.lookUpUsingGET73(
                     search = query,
                     customerId = customerId
                 )
@@ -111,7 +108,7 @@ class CreateOrderViewModel constructor(
     fun getBranchByQuery(query: String = "") {
         viewModelScope.launch {
             resultOf {
-                branchResourceApi.lookUpUsingGET66(search = query)
+                branchResourceApi.lookUpUsingGET72(search = query)
             }.onSuccess {
                 val temp = it.map { item ->
                     DropdownModel(
@@ -137,7 +134,7 @@ class CreateOrderViewModel constructor(
     fun getStoreByQuery(branchId: String, query: String = "") {
         viewModelScope.launch {
             resultOf {
-                warehouseResourceApi.lookUpUsingGET69(
+                warehouseResourceApi.lookUpUsingGET76(
                     search = query,
                     branchId = branchId.toLongOrNull()
                 )
@@ -173,8 +170,8 @@ class CreateOrderViewModel constructor(
 //        localProductRepository.clean()
         localProductRepository.customerId = customerId
         localProductRepository.contractId = contractId
-        localProductRepository.deliveryBranchId = branchId
-        localProductRepository.warehouseId = storeId
+        localProductRepository.companyBranchId = branchId
+        localProductRepository.companyWarehouseId = storeId
         localProductRepository.sellTypeId = sellTypeId
     }
 

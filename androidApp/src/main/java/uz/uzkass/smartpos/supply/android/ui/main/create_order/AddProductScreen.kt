@@ -183,13 +183,14 @@ private fun AddProductScreenView(
 
                 }
 
-                ExposedDropdownField2(
-                    items = unitList,
-                    label = stringResource(id = MR.strings.type_sell.resourceId),
-                    onItemSelected = onUnitSelected
-                )
+//                ExposedDropdownField2(
+//                    items = unitList,
+//                    label = stringResource(id = MR.strings.type_sell.resourceId),
+//                    onItemSelected = onUnitSelected
+//                )
+//
 
-
+                Spacer16dp()
                 var valueState by remember {
                     mutableStateOf("")
                 }

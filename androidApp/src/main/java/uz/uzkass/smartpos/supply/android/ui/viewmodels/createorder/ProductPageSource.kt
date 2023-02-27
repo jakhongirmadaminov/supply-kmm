@@ -29,7 +29,7 @@ class ProductPageSource(
         Log.d("TTT", "load: ${params.key}")
         return try {
             val pageIndex = params.key ?: 0
-            val response = productApi.getListUsingGET91(
+            val response = productApi.getListUsingGET103(
                 page = pageIndex,
                 search = searchQuery,
                 categoryId = categoryId

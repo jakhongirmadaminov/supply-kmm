@@ -41,7 +41,7 @@ class LoginViewModel constructor(
                 )
             }.onFailure {
                 _loading.emit(false)
-                _navigate.send(LoginNavigator.ToCreatePinCode)
+//                _navigate.send(LoginNavigator.ToCreatePinCode)
             }.onSuccess {
                 _loading.emit(false)
                 preferenceManager.setUserToken(it.accessToken.toString())

@@ -26,7 +26,7 @@ class CustomerPageSource(
         Log.d("TTT", "load: ${params.key}")
         return try {
             val pageIndex = params.key ?: 0
-            val response = customerApi.getListUsingGET89(
+            val response = customerApi.getListUsingGET101(
                 page = pageIndex,
                 search = searchQuery
             )

@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,33 +36,38 @@ import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
+import uz.uzkass.smartpos.supply.android.ui.main.create_order.isScrolledToEnd
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesViewModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.SubCategoriesViewModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.model.SubCategoryModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 @Destination
 fun SubCategoriesScreen(
-    branchId:Long,
+    branchId: Long,
     parentId: Long,
     navigator: DestinationsNavigator,
-    viewModel: CategoriesViewModel = koinViewModel()
+    viewModel: SubCategoriesViewModel = koinViewModel()
 ) {
     val screenState = viewModel.screenState.collectAsState()
 
+    val categoryList = viewModel.pagedData.collectAsState()
+
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.getSubCategoryList(branchId,parentId)
+        viewModel.getSubCategoryList(branchId, parentId)
     })
 
     SubCategoriesView(
         loading = screenState.value.loading,
-        branchList = screenState.value.branchList,
-        categoryList = screenState.value.categoryList,
+        categoryList = categoryList.value,
         onCLickItem = {
 
         },
+        loadNextPage = viewModel::loadNextPage
     )
 }
 
@@ -67,10 +75,11 @@ fun SubCategoriesScreen(
 @Composable
 private fun SubCategoriesView(
     loading: Boolean,
-    branchList: List<DropdownModel>?,
-    categoryList: List<CategoryTreeDTO>,
-    onCLickItem: (CategoryTreeDTO) -> Unit,
+    categoryList: List<SubCategoryModel>,
+    onCLickItem: (SubCategoryModel) -> Unit,
+    loadNextPage: () -> Unit
 ) {
+    val listState = rememberLazyListState()
     Scaffold(modifier = Modifier
         .systemBarsPadding()
         .fillMaxSize(),
@@ -86,6 +95,7 @@ private fun SubCategoriesView(
             ) {
 
             LazyColumn(
+                state = listState,
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -97,12 +107,21 @@ private fun SubCategoriesView(
                     }
                     CategoryItem(
                         name = text,
-                        count = item.productCount ?: 0
+                        count = 0
                     ) {
                         onCLickItem(item)
                     }
                 }
             }
+
+            val endOfListReached = remember {
+                derivedStateOf { listState.isScrolledToEnd() }
+            }
+
+            if (endOfListReached.value) {
+                loadNextPage()
+            }
+
         }
     }
 

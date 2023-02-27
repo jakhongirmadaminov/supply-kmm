@@ -2,6 +2,7 @@ package uz.uzkass.smartpos.supply.android.di
 
 import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCategoryResourceApi
+import dev.icerock.moko.network.generated.apis.MobileCustomerBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
 import dev.icerock.moko.network.generated.models.ProductDetailMobileDTO
@@ -10,7 +11,9 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesViewModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.SubCategoriesViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.ProductItemModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectCustomerBranchViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectCustomerViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectProductViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectedProductsViewModel
@@ -30,7 +33,12 @@ val androidModule = module {
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
 
-            ), localProductRepository = get()
+            ),
+            customerBranchApi = MobileCustomerBranchResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            localProductRepository = get()
         )
     }
 
@@ -64,6 +72,26 @@ val androidModule = module {
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
             )
+        )
+    }
+
+    viewModel {
+        SubCategoriesViewModel(
+            api = MobileCategoryResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
+
+
+    viewModel {
+        SelectCustomerBranchViewModel(
+            customerApi = MobileCustomerBranchResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            localProductRepository = get()
         )
     }
 

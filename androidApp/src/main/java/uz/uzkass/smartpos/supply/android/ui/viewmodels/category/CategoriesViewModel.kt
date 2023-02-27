@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.model.CategoryModel
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 
@@ -20,7 +21,6 @@ class CategoriesViewModel constructor(
     private val api: MobileCategoryResourceApi,
     val branchResourceApi: MobileBranchResourceApi
 ) : ViewModel() {
-
 
     private val _screenState = MutableStateFlow(CategoriesScreenState())
     val screenState get() = _screenState.asStateFlow()
@@ -31,8 +31,13 @@ class CategoriesViewModel constructor(
 
     fun getBranchList() {
         viewModelScope.launch {
+            _screenState.update {
+                it.copy(
+                    loading = true
+                )
+            }
             resultOf {
-                branchResourceApi.lookUpUsingGET66()
+                branchResourceApi.lookUpUsingGET72()
             }.onSuccess { list ->
                 _screenState.update {
                     it.copy(
@@ -55,13 +60,18 @@ class CategoriesViewModel constructor(
         viewModelScope.launch {
             resultOf {
 
-                api.treeListUsingGET5(branchId = branchId, status = "ACTIVE")
+                api.getParentListUsingGET1(branchId = branchId, status = "ACTIVE")
 
             }.onSuccess { list ->
                 _screenState.update {
                     it.copy(
                         loading = false,
-                        categoryList = list
+                        categoryList = list.map {
+                            CategoryModel(
+                                id = it.id,
+                                name = it.name
+                            )
+                        }
                     )
                 }
             }.onFailure {
@@ -74,25 +84,36 @@ class CategoriesViewModel constructor(
         viewModelScope.launch {
             resultOf {
 
-                api.treeListUsingGET5(branchId = branchId, parentId = parentId, status = "ACTIVE")
+                api.getChildrenUsingGET1(branchId = branchId, parentId = parentId, status = "ACTIVE")
 
             }.onSuccess { list ->
-                _screenState.update {
-                    it.copy(
-                        loading = false,
-                        categoryList = list
-                    )
-                }
+                list.content
+//                _screenState.update {
+//                    it.copy(
+//                        loading = false,
+//                        categoryList = list.map {
+//                            CategoryModel(
+//                                id = it.id,
+//                                name = it.name
+//                            )
+//                        }
+//                    )
+//                }
             }.onFailure {
 
             }
         }
     }
 
+    fun onRefresh() {
+
+
+    }
+
 }
 
 data class CategoriesScreenState(
     val loading: Boolean = false,
-    val categoryList: List<CategoryTreeDTO> = emptyList(),
+    val categoryList: List<CategoryModel> = emptyList(),
     val branchList: List<DropdownModel> = emptyList()
 )

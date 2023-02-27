@@ -36,7 +36,7 @@ class SelectCustomerViewModel2 constructor(private val customerApi: MobileCustom
         dataSource = LambdaPagedListDataSource { currentPage ->
             var somt: List<CustomerListMobileDTO> = listOf()
             resultOf {
-                customerApi.getListUsingGET89(
+                customerApi.getListUsingGET101(
                     page = pageIndex,
                     search = searchQuery
                 ).content!!

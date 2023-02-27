@@ -198,11 +198,18 @@ fun ExposedDropdownField2(
 
 
     var selectedItemLabel by remember {
-        val item = items.first()
-        onItemSelected(item)
-        mutableStateOf(
-            TextFieldValue(text =  item.label, TextRange( item.label.length))
-        )
+        val item = items.firstOrNull()
+        if (item == null) {
+            mutableStateOf(
+                TextFieldValue(text = "", TextRange(0))
+            )
+        } else {
+            onItemSelected(item)
+            mutableStateOf(
+                TextFieldValue(text = item.label, TextRange(item.label.length))
+            )
+        }
+
     }
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed: Boolean by interactionSource.collectIsPressedAsState()

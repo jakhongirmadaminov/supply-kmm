@@ -3,12 +3,15 @@ package uz.uzkass.smartpos.supply.settings
 
 class LocalProductRepository {
     var productList = mutableListOf<OrderProductModel>()
+
     var contractId: String? = null
     var customerId: Long? = null
-    var deliveryBranchId: String? = null
-    var warehouseId: String? = null
-    var sellTypeId: String? = null
 
+    var companyBranchId: String? = null
+    var companyWarehouseId: String? = null
+
+    var sellTypeId: String? = null
+    var customerBranchId: String? = null
     fun addProduct(product: OrderProductModel) {
         productList.add(product)
     }
@@ -23,10 +26,15 @@ class LocalProductRepository {
 
     fun clean() {
         productList.clear()
-        contractId = null
-        customerId = null
-        deliveryBranchId = null
-        warehouseId = null
+         contractId = null
+         customerId = null
+
+         companyBranchId = null
+         companyWarehouseId = null
+
+         sellTypeId = null
+
+         customerBranchId = null
     }
 }
 

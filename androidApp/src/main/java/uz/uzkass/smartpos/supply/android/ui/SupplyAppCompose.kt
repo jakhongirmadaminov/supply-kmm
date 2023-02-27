@@ -42,7 +42,7 @@ fun SupplyAppCompose() {
             if (currentDestination.route in temp) {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(SelectCustomerScreen2Destination)
+                        navController.navigate(SelectCustomerScreenDestination)
                     },
                     backgroundColor = SupplyTheme.colors.selected
                 ) {

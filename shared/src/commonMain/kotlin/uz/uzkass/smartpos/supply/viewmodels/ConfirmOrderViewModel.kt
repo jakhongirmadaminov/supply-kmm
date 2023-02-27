@@ -18,16 +18,21 @@ class ConfirmOrderViewModel constructor(
 ) :
     ViewModel() {
 
-    private val _productDateState = MutableStateFlow(ConfirmOrderState())
-    val productDateState: StateFlow<ConfirmOrderState> = _productDateState
+    private val _screenState = MutableStateFlow(ConfirmOrderState())
+    val screenState: StateFlow<ConfirmOrderState> = _screenState
+
+
 
     fun confirmOrder() {
         viewModelScope.launch {
             val request = MobileOrderDTO(
-                contractId = localProductRepository.contractId?.toLongOrNull(),
                 customerId = localProductRepository.customerId,
-                deliveryBranchId = localProductRepository.deliveryBranchId?.toLongOrNull(),
-                warehouseId = localProductRepository.warehouseId?.toLongOrNull(),
+                contractId = localProductRepository.contractId?.toLongOrNull(),
+
+                branchId = localProductRepository.companyBranchId?.toLongOrNull(),
+                warehouseId = localProductRepository.companyWarehouseId?.toLongOrNull(),
+
+                deliveryBranchId = localProductRepository.customerBranchId?.toLongOrNull(),
                 orderDate = "2023-02-22T11:10",
                 products = localProductRepository.getProducts().map { item ->
                     MobileOrderProductDTO(
@@ -35,6 +40,7 @@ class ConfirmOrderViewModel constructor(
                         qty = item.qty?.toDouble(),
                         orderProductId = item.id,
                         price = item.price,
+                        unitId = item.unitId,
                         totalPrice = item.totalPrice
                     )
                 },
@@ -45,7 +51,7 @@ class ConfirmOrderViewModel constructor(
                     code = "NEW"
                 )
             )
-            ordersApi.createUsingPOST83(
+            ordersApi.createUsingPOST89(
                 request
             )
         }
@@ -56,4 +62,13 @@ class ConfirmOrderViewModel constructor(
 data class ConfirmOrderState(
     val loading: Boolean = false,
 
-    )
+    val productCount: String = "",
+
+    val summa: String = "",
+
+    val vatAmount: String = "",
+
+    val companyName: String = ""
+
+
+)

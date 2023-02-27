@@ -45,7 +45,7 @@ class SelectCustomerViewModel constructor(
 
 
             resultOf {
-                customerApi.lookUpUsingGET68(search = newQuery)
+                customerApi.lookUpUsingGET75(search = newQuery)
             }.onSuccess { list ->
 
                 _screenStateFlow.update {

@@ -22,7 +22,7 @@ class ProductViewModel constructor(
         viewModelScope.launch {
 
             resultOf {
-                productResourceApi.getUsingGET87(productId)
+                productResourceApi.getUsingGET97(productId)
             }.onSuccess { item ->
                 _productState.update {
                     it.copy(
