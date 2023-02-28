@@ -142,7 +142,11 @@ val viewModelModule = module {
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
             ),
-            localProductRepository = get()
+            localProductRepository = get(),
+            publicOrderResourceApi = PublicOrderResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
         )
     }
 

@@ -59,7 +59,6 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.ui.destinations.ConfirmOrderScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
-import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.ProductItemModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectProductViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectedProductsViewModel
 import uz.uzkass.smartpos.supply.settings.OrderProductModel

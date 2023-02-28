@@ -36,7 +36,7 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.ProductListViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.ProductViewModel
-import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.ProductItemModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.models.ProductItemModel
 
 @Composable
 @Destination

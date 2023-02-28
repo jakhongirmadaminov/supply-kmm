@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
-import dev.icerock.moko.network.generated.models.ProductDetailMobileDTO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +17,6 @@ import uz.uzkass.smartpos.supply.settings.OrderProductModel
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerScreenState
 
 class SelectedProductsViewModel constructor(
-    private val productApi: MobileProductResourceApi,
     private val localProductRepository: LocalProductRepository
 ) :
     ViewModel() {

@@ -197,7 +197,7 @@ fun ExposedDropdownField2(
     })
 
 
-    var selectedItemLabel by remember {
+    var selectedItemLabel by remember(items) {
         val item = items.firstOrNull()
         if (item == null) {
             mutableStateOf(

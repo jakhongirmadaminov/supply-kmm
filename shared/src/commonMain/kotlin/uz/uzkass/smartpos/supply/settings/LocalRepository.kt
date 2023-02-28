@@ -12,6 +12,23 @@ class LocalProductRepository {
 
     var sellTypeId: String? = null
     var customerBranchId: String? = null
+
+    val totalVatPrice: Double
+        get() {
+            return productList.sumOf { it.vatPrice ?: 0.0 }
+        }
+
+    val totalPriceWithoutVat: Double
+        get() {
+            return productList.sumOf { it.price ?: 0.0 }
+        }
+
+    val totalPriceWithVat: Double
+        get() {
+            return productList.sumOf { it.totalPrice ?: 0.0 }
+        }
+
+
     fun addProduct(product: OrderProductModel) {
         productList.add(product)
     }
@@ -26,15 +43,15 @@ class LocalProductRepository {
 
     fun clean() {
         productList.clear()
-         contractId = null
-         customerId = null
+        contractId = null
+        customerId = null
 
-         companyBranchId = null
-         companyWarehouseId = null
+        companyBranchId = null
+        companyWarehouseId = null
 
-         sellTypeId = null
+        sellTypeId = null
 
-         customerBranchId = null
+        customerBranchId = null
     }
 }
 

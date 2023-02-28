@@ -32,18 +32,18 @@ fun SelectCustomerScreen2(
     viewModel: SelectCustomerViewModel2 = koinViewModel()
 ) {
 
-    val pagingStateChange = viewModel.pagedData.collectAsState()
-    SelectCustomerView(
-        data = pagingStateChange.value,
-        onQueryChange = { query ->
-            viewModel.onQuery(query)
-        },
-        onItemClick = { item ->
-
-        },
-        loadNext = {
-            viewModel.loadNext()
-        })
+//    val pagingStateChange = viewModel.pagedData.collectAsState()
+//    SelectCustomerView(
+//        data = pagingStateChange.value,
+//        onQueryChange = { query ->
+//            viewModel.onQuery(query)
+//        },
+//        onItemClick = { item ->
+//
+//        },
+//        loadNext = {
+//            viewModel.loadNext()
+//        })
 
 }
 

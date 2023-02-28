@@ -9,6 +9,7 @@ import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
 import dev.icerock.moko.network.generated.models.CustomerListMobileDTO
 import dev.icerock.moko.network.generated.models.ProductListMobileDTO
 import java.io.IOException
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.models.ProductItemModel
 
 
 class ProductPageSource(

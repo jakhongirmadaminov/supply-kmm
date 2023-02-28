@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,10 +39,14 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer8dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.SupplyTextButton
+import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
+import uz.uzkass.smartpos.supply.android.coreui.radiobutton.LabeledRadioButton
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.ConfirmOrderState
 import uz.uzkass.smartpos.supply.viewmodels.ConfirmOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.profil.ProfileScreenState
+import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 @Destination
@@ -86,37 +91,50 @@ fun ConfirmOrderScreenView(
                 .padding(16.dp)
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Кол-во товаров:")
-                FillAvailableSpace()
-                Text(text = screenState.productCount)
-            }
+            TwoSiteText(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Кол-во товаров:",
+                value = screenState.productCount
+            )
 
             Spacer8dp()
             DividerMin()
             Spacer8dp()
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Общая сумма:")
-                FillAvailableSpace()
-                Text(text = screenState.summa)
-            }
+            TwoSiteText(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Общая сумма:",
+                value =screenState.summa
+            )
 
             Spacer3dp()
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "НДС 10%")
-                FillAvailableSpace()
-                Text(text = screenState.vatAmount)
-            }
+            TwoSiteText(
+                modifier = Modifier.fillMaxWidth(),
+                label = "НДС 10%",
+                value =screenState.vatAmount
+            )
 
             Spacer16dp()
 
-            ChoosePaymentTypeRadioButton(onItemSelect = {
+            ExposedDropdownField2(
+                items = screenState.paymentType,
+                label = "Payment type",
+                onItemSelected = {  },
+            )
 
-            })
+            Spacer16dp()
+
+            ExposedDropdownField2(
+                items = screenState.saleType,
+                label = "Sale type",
+                onItemSelected = {  },
+            )
+
+            Spacer16dp()
 
             FillAvailableSpace()
+
             SupplyFilledTextButton(
                 text = "Оформить заказ",
                 onClick = onConfirm
@@ -126,6 +144,7 @@ fun ConfirmOrderScreenView(
                 text = "Сохранить черновик",
                 onClick = onSaveTo
             )
+
         }
     }
 
@@ -142,41 +161,64 @@ fun ChoosePaymentTypeRadioButton(onItemSelect: (String) -> Unit) {
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Тип оплаты")
+        Text(
+            text = "Тип оплаты",
+            fontSize = 16.sp,
+            color = SupplyTheme.colors.textButtonText,
+            fontWeight = FontWeight.SemiBold
+        )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            RadioButton(modifier = Modifier,
+            LabeledRadioButton(
+                modifier = Modifier,
                 selected = currentRadio == firstRadioId,
+                label = "Консигнация",
                 onClick = {
                     onItemSelect(firstRadioId)
                     currentRadio = firstRadioId
-                })
-            Text(text = "Консигнация")
+                }
+            )
+
             FillAvailableSpace()
-            RadioButton(modifier = Modifier,
+            LabeledRadioButton(
+                modifier = Modifier,
                 selected = currentRadio == secondRadioId,
+                label = "Другое",
                 onClick = {
                     onItemSelect(secondRadioId)
                     currentRadio = secondRadioId
-                })
-            Text(text = "Другое")
+                }
+            )
             FillAvailableSpace()
         }
-        Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(modifier = Modifier,
-                selected = currentRadio == threeRadioId,
-                onClick = {
-                    onItemSelect(threeRadioId)
-                    currentRadio = threeRadioId
-                })
-
-            Text(text = "Предоплата")
-        }
+        LabeledRadioButton(
+            modifier = Modifier,
+            selected = currentRadio == threeRadioId,
+            label = "Предоплата",
+            onClick = {
+                onItemSelect(threeRadioId)
+                currentRadio = threeRadioId
+            }
+        )
     }
 }
 
+@Composable
+private fun TwoSiteText(
+    modifier: Modifier = Modifier,
+    label: String,
+    value: String,
+    color: Color = SupplyTheme.colors.h2
+) {
+    Row(modifier = modifier.fillMaxWidth()) {
+        Text(text = label, fontWeight = FontWeight.Medium, fontSize = 14.sp, color = color)
+        FillAvailableSpace()
+        Text(text = value, fontWeight = FontWeight.Medium, fontSize = 14.sp, color = color)
+    }
+}
 
 @Composable
 private fun ConfirmOrderAppBar(onClickBack: () -> Unit) {

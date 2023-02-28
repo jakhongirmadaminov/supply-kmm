@@ -52,8 +52,10 @@ import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.Spacer12dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.coreui.paginationStates
+import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 //import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
+import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 //import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
@@ -168,21 +170,21 @@ private fun TabContentView(
         verticalAlignment = Alignment.CenterVertically,
         content = { page ->
             when (page) {
-//                CustomersTabEnum.ALL.index -> {
-//                    AllCustomersView(
-//                        customersLazyPaging = customersLazyPaging,
-//                        onClickCustomerItem = {
-//
-//                        }
-//                    )
-//                }
-//                CustomersTabEnum.VISIT.index -> {
-//                    VisitsView(
-//                        visitsLazyPaging = visitsLazyPaging,
-//                        onClickVisitItem = {},
-//                        onClickAdd = {}
-//                    )
-//                }
+                CustomersTabEnum.ALL.index -> {
+                    AllCustomersView(
+                        customersLazyPaging = customersLazyPaging,
+                        onClickCustomerItem = {
+
+                        }
+                    )
+                }
+                CustomersTabEnum.VISIT.index -> {
+                    VisitsView(
+                        visitsLazyPaging = visitsLazyPaging,
+                        onClickVisitItem = {},
+                        onClickAdd = {}
+                    )
+                }
             }
         }
     )
@@ -215,11 +217,11 @@ private fun VisitsView(
         item { Spacer12dp() }
         items(visitsLazyPaging) { visitItem ->
             visitItem?.let { item ->
-//                VisitItem(
-//                    visitItem = item,
-//                    onClickItem = { onClickVisitItem(item) },
-//                    onclickAdd = onClickAdd
-//                )
+                VisitItem(
+                    visitItem = item,
+                    onClickItem = { onClickVisitItem(item) },
+                    onclickAdd = onClickAdd
+                )
             }
         }
     }
