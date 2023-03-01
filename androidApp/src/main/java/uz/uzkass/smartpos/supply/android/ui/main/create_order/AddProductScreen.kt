@@ -27,10 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -43,16 +45,19 @@ import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
+import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.destinations.SelectedProductsScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.AddProductViewModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.models.ProductItemModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
+import uz.uzkassa.smartpos.supply.library.MR
 
 @Composable
 @Destination
 fun AddProductScreen(
-    productId: Long,
+    productItem: ProductItemModel,
     navigator: DestinationsNavigator,
     viewModel: AddProductViewModel = koinViewModel(),
 ) {
@@ -60,35 +65,29 @@ fun AddProductScreen(
     val screenState = viewModel.productDateState.collectAsStateWithLifecycle()
 
 
-    LaunchedEffect(key1 = Unit, block = {
-//        viewModel.loadProductData(productId)
+    AddProductScreenView(
+        productItemModel = productItem,
+        unitList = screenState.value.unitList,
+        onUnitSelected = {
 
-    })
+        },
+        onClickBack = {
+            navigator.navigateUp()
+        },
 
-
-//    AddProductScreenView(
-//        productItemModel = screenState.value.productData,
-//        unitList = screenState.value.unitList,
-//        onUnitSelected = {
-//
-//        },
-//        onClickBack = {
-//            navigator.navigateUp()
-//        },
-//
-//        onProductAdd = {
-//            viewModel.addProduct(it)
-//            navigator.navigate(SelectedProductsScreenDestination) {
-//                popUpTo(ProductSelectScreenDestination.route)
-//            }
-//        }
-//    )
+        onProductAdd = {
+            viewModel.addProduct(it, productItem)
+            navigator.navigate(SelectedProductsScreenDestination) {
+                popUpTo(ProductSelectScreenDestination.route)
+            }
+        }
+    )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun AddProductScreenView(
-//    productItemModel: ProductDetailMobileDTO?,
+    productItemModel: ProductItemModel?,
     unitList: List<DropdownModel>,
     onClickBack: () -> Unit,
     onProductAdd: (Int) -> Unit,
@@ -121,17 +120,19 @@ private fun AddProductScreenView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 //
-//                    Text(
-//                        modifier = Modifier.width(labelWidth.dp),
-//                        text = productItemModel?.name.toString(),
-//                        style = SupplyTheme.typography.subtitle2,
-//                    )
-//                    FillAvailableSpace()
-//                    Text(
-//                        fontWeight = FontWeight.SemiBold,
-//                        text = productItemModel?.price.toString() ?: "",
-//                        color = SupplyTheme.colors.productLabel
-//                    )
+                    Text(
+                        modifier = Modifier.width(labelWidth.dp),
+                        text = productItemModel?.label.toString(),
+                        style = SupplyTheme.typography.subtitle2,
+                    )
+                    FillAvailableSpace()
+                    Text(
+                        fontWeight = FontWeight.SemiBold,
+                        text = productItemModel?.price.toString(),
+                        color = SupplyTheme.colors.productLabel,
+                        fontSize = 13.sp,
+                        maxLines = 1,
+                    )
                     Spacer3dp()
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowRight,
@@ -145,7 +146,7 @@ private fun AddProductScreenView(
 //                    label = stringResource(id = MR.strings.type_sell.resourceId),
 //                    onItemSelected = onUnitSelected
 //                )
-//
+
 
                 Spacer16dp()
                 var valueState by remember {

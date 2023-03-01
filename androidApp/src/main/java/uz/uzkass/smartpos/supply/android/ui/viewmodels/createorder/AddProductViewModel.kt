@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.models.ProductItemModel
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.settings.LocalProductRepository
 import uz.uzkass.smartpos.supply.settings.OrderProductModel
@@ -32,26 +33,26 @@ class AddProductViewModel constructor(
     }
 
 
-//    fun addProduct(qty: Int) {
-//
-//        val totalPriceWithoutVat = (_productDateState.value.productData?.price?:0.0) * qty
-//
-//        val vatAmount =
-//            (totalPriceWithoutVat * ((_productDateState.value.productData?.vat?.amount?:0.0) / 100.0))
-//
-//
-//        localProductRepository.addProduct(
-//            OrderProductModel(
-//                id = _productDateState.value.productData!!.id,
-//                name = _productDateState.value.productData!!.name,
-//                qty = qty,
-//                unitId = _productDateState.value.productData?.unit?.id,
-//                price = totalPriceWithoutVat,
-//                totalPrice = totalPriceWithoutVat + vatAmount,
-//                vatPrice = vatAmount
-//            )
-//        )
-//    }
+    fun addProduct(qty: Int, productItemModel: ProductItemModel) {
+
+        val totalPriceWithoutVat = productItemModel.price * qty
+
+        val vatAmount =
+            (totalPriceWithoutVat * (productItemModel.vatAmount / 100.0))
+
+
+        localProductRepository.addProduct(
+            OrderProductModel(
+                id = productItemModel.id,
+                name = productItemModel.label,
+                qty = qty,
+                unitId = productItemModel.unitId,
+                price = totalPriceWithoutVat,
+                totalPrice = totalPriceWithoutVat + vatAmount,
+                vatPrice = vatAmount
+            )
+        )
+    }
 //
 //    fun loadProductData(productId: Long) {
 //        _productDateState.update { it.copy(loading = true) }
@@ -75,7 +76,6 @@ class AddProductViewModel constructor(
 //    }
 
 }
-
 
 
 data class AddProductState(

@@ -169,9 +169,10 @@ fun ExposedDropdownField(
 fun ExposedDropdownField2(
     modifier: Modifier = Modifier,
     label: String = "",
+    items: List<DropdownModel>,
     placeholder: String = "",
     isError: Boolean = false,
-    items: List<DropdownModel>,
+    autoSelectFirst: Boolean = true,
     readOnly: Boolean = true,
     onItemSelected: (DropdownModel) -> Unit,
     onQueryChange: (String) -> Unit = {}

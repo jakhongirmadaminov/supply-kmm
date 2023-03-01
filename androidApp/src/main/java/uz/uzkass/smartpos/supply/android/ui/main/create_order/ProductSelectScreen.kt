@@ -57,7 +57,7 @@ fun ProductSelectScreen(
             viewModel.getProductByQuery(it)
         },
         onItemClick = {
-            navigator.navigate(AddProductScreenDestination(it.id!!))
+            navigator.navigate(AddProductScreenDestination(productItem = it))
         },
         onBackPressed = navigator::popBackStack
     )
@@ -141,7 +141,7 @@ private fun ProductItem(
         FillAvailableSpace()
         Text(
             fontWeight = FontWeight.SemiBold,
-            text = item.price ?: "",
+            text = item.price.toString() ?: "",
             color = SupplyTheme.colors.productLabel
         )
         Spacer3dp()

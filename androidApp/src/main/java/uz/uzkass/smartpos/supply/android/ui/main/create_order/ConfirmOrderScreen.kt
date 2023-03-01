@@ -2,11 +2,13 @@ package uz.uzkass.smartpos.supply.android.ui.main.create_order
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -24,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
@@ -41,10 +45,12 @@ import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.SupplyTextButton
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.coreui.radiobutton.LabeledRadioButton
+import uz.uzkass.smartpos.supply.android.ui.main.create_order.dialog.OrderSuccessfullyCreated
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.viewmodels.ConfirmOrderState
 import uz.uzkass.smartpos.supply.viewmodels.ConfirmOrderViewModel
+import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkass.smartpos.supply.viewmodels.profil.ProfileScreenState
 import uz.uzkassa.smartpos.supply.library.MR
 
@@ -55,7 +61,9 @@ fun ConfirmOrderScreen(
 
     viewModel: ConfirmOrderViewModel = koinViewModel()
 ) {
-
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
     val screenState = viewModel.screenState.collectAsState()
 
 
@@ -67,7 +75,10 @@ fun ConfirmOrderScreen(
         onSaveTo = {
 
         },
-        onClickBack = navigator::popBackStack
+        onClickBack = navigator::popBackStack,
+        onSellTypeSelected = viewModel::onSellTypeSelected,
+        onPaymentTypeSelected = viewModel::onPaymentTypeSelected,
+        showDialog = showDialog
     )
 
 
@@ -77,75 +88,100 @@ fun ConfirmOrderScreen(
 @Composable
 fun ConfirmOrderScreenView(
     screenState: ConfirmOrderState,
+    showDialog: Boolean,
     onConfirm: () -> Unit,
     onSaveTo: () -> Unit,
-    onClickBack: () -> Unit
+    onClickBack: () -> Unit,
+    onSellTypeSelected: (DropdownModel) -> Unit,
+    onPaymentTypeSelected: (DropdownModel) -> Unit,
 ) {
     Scaffold(topBar = {
         ConfirmOrderAppBar(onClickBack)
     }) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
 
-            TwoSiteText(
-                modifier = Modifier.fillMaxWidth(),
-                label = "Кол-во товаров:",
-                value = screenState.productCount
-            )
+                TwoSiteText(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "Кол-во товаров:",
+                    value = screenState.productCount
+                )
 
-            Spacer8dp()
-            DividerMin()
-            Spacer8dp()
+                Spacer8dp()
+                DividerMin()
+                Spacer8dp()
 
-            TwoSiteText(
-                modifier = Modifier.fillMaxWidth(),
-                label = "Общая сумма:",
-                value =screenState.summa
-            )
+                TwoSiteText(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "Общая сумма:",
+                    value = screenState.summa
+                )
 
-            Spacer3dp()
+                Spacer3dp()
 
-            TwoSiteText(
-                modifier = Modifier.fillMaxWidth(),
-                label = "НДС 10%",
-                value =screenState.vatAmount
-            )
+                TwoSiteText(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "НДС 10%",
+                    value = screenState.vatAmount
+                )
 
-            Spacer16dp()
+                Spacer16dp()
 
-            ExposedDropdownField2(
-                items = screenState.paymentType,
-                label = "Payment type",
-                onItemSelected = {  },
-            )
+                ExposedDropdownField2(
+                    items = screenState.paymentType,
+                    label = "Payment type",
+                    onItemSelected = onPaymentTypeSelected,
+                )
 
-            Spacer16dp()
+                Spacer16dp()
 
-            ExposedDropdownField2(
-                items = screenState.saleType,
-                label = "Sale type",
-                onItemSelected = {  },
-            )
+//            ExposedDropdownField2(
+//                items = screenState.saleType,
+//                label = "Sale type",
+//                onItemSelected = onSellTypeSelected,
+//            )
+//
+//            Spacer16dp()
 
-            Spacer16dp()
+                FillAvailableSpace()
 
-            FillAvailableSpace()
+                SupplyFilledTextButton(
+                    text = "Оформить заказ",
+                    onClick = onConfirm
+                )
 
-            SupplyFilledTextButton(
-                text = "Оформить заказ",
-                onClick = onConfirm
-            )
+                SupplyTextButton(
+                    text = "Сохранить черновик",
+                    onClick = onSaveTo
+                )
 
-            SupplyTextButton(
-                text = "Сохранить черновик",
-                onClick = onSaveTo
-            )
+            }
 
+            if (showDialog) {
+                Dialog(
+                    onDismissRequest = {
+
+                    },
+                    properties = DialogProperties(
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false
+                    )
+                ) {
+                    OrderSuccessfullyCreated(
+
+                    )
+                }
+            }
+            if (screenState.loading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
         }
+
     }
 
 }
@@ -207,7 +243,7 @@ fun ChoosePaymentTypeRadioButton(onItemSelect: (String) -> Unit) {
 }
 
 @Composable
-private fun TwoSiteText(
+fun TwoSiteText(
     modifier: Modifier = Modifier,
     label: String,
     value: String,

@@ -38,7 +38,9 @@ class ProductPageSource(
                 ProductItemModel(
                     id = item.id,
                     label = item.name ?: "",
-                    price = (item.price ?: 0).toString()
+                    price = (item.price ?: 0.0),
+                    unitId = 0,
+                    vatAmount = 0.0
                 )
             }
 

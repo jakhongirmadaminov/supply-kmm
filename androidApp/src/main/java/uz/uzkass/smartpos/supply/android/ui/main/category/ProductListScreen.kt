@@ -109,7 +109,7 @@ private fun ProductItem(
         FillAvailableSpace()
         Text(
             fontWeight = FontWeight.SemiBold,
-            text = item.price ?: "",
+            text = item.price.toString() ?: "",
             color = SupplyTheme.colors.productLabel
         )
         Spacer3dp()

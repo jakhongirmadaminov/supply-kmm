@@ -74,6 +74,7 @@ kotlin {
 
                 api("dev.icerock.moko:paging:0.7.1")
                 api("fr.haan.bipak:bipak-compose-android:0.9.0")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val commonTest by getting {

@@ -6,12 +6,15 @@ import dev.icerock.moko.network.generated.apis.MobileOrderResourceApi
 import dev.icerock.moko.network.generated.models.MobileOrderDTO
 import dev.icerock.moko.network.generated.models.MobileOrderProductDTO
 import dev.icerock.moko.network.generated.models.OrderStatus
+import dev.icerock.moko.network.generated.models.PaymentType
 import dev.icerock.moko.network.generated.models.SaleType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
 import public.apis.PublicOrderResourceApi
 import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.settings.LocalProductRepository
@@ -28,7 +31,6 @@ class ConfirmOrderViewModel constructor(
     val screenState: StateFlow<ConfirmOrderState> = _screenState
 
     init {
-//        val productList = localProductRepository.productList
 
         getAllData()
 
@@ -95,7 +97,7 @@ class ConfirmOrderViewModel constructor(
                 warehouseId = localProductRepository.companyWarehouseId?.toLongOrNull(),
 
                 deliveryBranchId = localProductRepository.customerBranchId?.toLongOrNull(),
-                orderDate = "2023-02-22T11:10",
+                orderDate = localProductRepository.orderDate,
                 products = localProductRepository.getProducts().map { item ->
                     MobileOrderProductDTO(
                         id = item.id,
@@ -108,17 +110,41 @@ class ConfirmOrderViewModel constructor(
                     )
                 },
                 saleType = SaleType(
-                    code = "PREPAYMENT"
+                    code = localProductRepository.sellTypeId
+                ),
+                paymentType = PaymentType(
+                    code = localProductRepository.paymentTypeId
                 ),
                 status = OrderStatus(
                     code = "NEW"
                 )
             )
-            ordersApi.createUsingPOST89(
-                request
-            )
+
+            resultOf {
+                ordersApi.createUsingPOST89(
+                    request
+                )
+            }.onSuccess {
+
+            }.onFailure {
+
+            }
         }
     }
+
+
+    fun onSellTypeSelected(newItem: DropdownModel) {
+
+
+    }
+
+    fun onPaymentTypeSelected(newItem: DropdownModel) {
+
+        localProductRepository.paymentTypeId = newItem.id
+
+    }
+
+
 }
 
 

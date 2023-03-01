@@ -11,7 +11,10 @@ class LocalProductRepository {
     var companyWarehouseId: String? = null
 
     var sellTypeId: String? = null
+    var paymentTypeId: String? = null
     var customerBranchId: String? = null
+
+    var orderDate: String? = null
 
     val totalVatPrice: Double
         get() {
@@ -52,6 +55,9 @@ class LocalProductRepository {
         sellTypeId = null
 
         customerBranchId = null
+        paymentTypeId = null
+
+        orderDate = null
     }
 }
 

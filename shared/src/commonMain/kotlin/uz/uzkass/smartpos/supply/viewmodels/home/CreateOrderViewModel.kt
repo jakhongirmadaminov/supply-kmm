@@ -165,7 +165,8 @@ class CreateOrderViewModel constructor(
         contractId: String?,
         sellTypeId: String?,
         branchId: String?,
-        storeId: String?
+        storeId: String?,
+        currentTime: String?,
     ) {
 //        localProductRepository.clean()
         localProductRepository.customerId = customerId
@@ -173,6 +174,7 @@ class CreateOrderViewModel constructor(
         localProductRepository.companyBranchId = branchId
         localProductRepository.companyWarehouseId = storeId
         localProductRepository.sellTypeId = sellTypeId
+        localProductRepository.orderDate = sellTypeId
     }
 
 }

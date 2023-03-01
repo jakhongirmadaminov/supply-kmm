@@ -25,6 +25,15 @@ class SelectProductViewModel constructor(
 ) :
     ViewModel() {
 
+
+    private val _screenState = MutableStateFlow(SelectProductState())
+    val screenState: StateFlow<SelectProductState> = _screenState
+
+
+    init {
+        getProductByQuery()
+    }
+
 //    private var query: String = ""
 //    private lateinit var pagingSource: ProductPageSource
 //    var productPage = Pager(config = PagingConfig(pageSize = 20),
@@ -39,15 +48,13 @@ class SelectProductViewModel constructor(
 //        .flow
 
 
-    private val _screenState = MutableStateFlow(SelectProductState())
-    val screenState: StateFlow<SelectProductState> = _screenState
-
-
     fun getProductByQuery(newQuery: String = "") {
-        _screenState.update {
-            it.copy(loading = true)
-        }
+
+
         viewModelScope.launch {
+            _screenState.update {
+                it.copy(loading = true)
+            }
             resultOf {
                 productApi.getProductLookUpUsingGET11(
                     branchId = localProductRepository.companyBranchId?.toLongOrNull(),
@@ -62,7 +69,10 @@ class SelectProductViewModel constructor(
                             ProductItemModel(
                                 id = it.id,
                                 label = it.name.toString(),
-                                price = it.price.toString()
+                                price = it.price?:0.0,
+                                unitId = it.unit?.id?:0,
+                                vatAmount = it.vat?.amount?:0.0
+
                             )
                         }
                     )

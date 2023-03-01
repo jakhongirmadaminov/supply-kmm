@@ -33,6 +33,7 @@ import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
+import uz.uzkass.smartpos.supply.android.coreui.datetime.DateTimePickerDialog
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
@@ -70,13 +71,16 @@ fun SelectContractScreen(
     var currentStore by remember {
         mutableStateOf<DropdownModel?>(null)
     }
+    var currentTime by remember {
+        mutableStateOf("")
+    }
 
 
     val buttonEnable =
         currentContract != null
                 && currentSellType != null
                 && currentBranch != null
-                && (currentStore != null || screenState.value.storageList?.isEmpty() == true)
+                && (currentStore != null)
 
     SelectContractScreenView(
         loading = screenState.value.loading,
@@ -114,12 +118,16 @@ fun SelectContractScreen(
                 currentContract?.id,
                 currentSellType?.id,
                 currentBranch?.id,
-                currentStore?.id
+                currentStore?.id,
+                currentTime
             )
 
             navigator.navigate(ProductSelectScreenDestination)
         },
-        onBackPressed = navigator::popBackStack
+        onBackPressed = navigator::popBackStack,
+        setTime = {
+            currentTime = it
+        }
     )
 
 }
@@ -142,6 +150,7 @@ private fun SelectContractScreenView(
     selectStorage: (DropdownModel) -> Unit,
 
     searchBranch: (String) -> Unit,
+    setTime: (String) -> Unit,
     nextClick: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
@@ -193,6 +202,12 @@ private fun SelectContractScreenView(
                     onItemSelected = selectStorage
                 )
             }
+
+            DateTimePickerDialog(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Choose Time",
+                onValueChange = setTime
+            )
 
             FillAvailableSpace()
             SupplyFilledTextButton(
