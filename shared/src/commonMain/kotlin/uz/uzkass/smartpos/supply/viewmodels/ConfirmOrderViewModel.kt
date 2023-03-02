@@ -9,8 +9,10 @@ import dev.icerock.moko.network.generated.models.OrderStatus
 import dev.icerock.moko.network.generated.models.PaymentType
 import dev.icerock.moko.network.generated.models.SaleType
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -29,6 +31,9 @@ class ConfirmOrderViewModel constructor(
 
     private val _screenState = MutableStateFlow(ConfirmOrderState())
     val screenState: StateFlow<ConfirmOrderState> = _screenState
+
+    private val _showDialog: Channel<Boolean> = Channel(Channel.BUFFERED)
+    var showDialog = _showDialog.receiveAsFlow()
 
     init {
 
@@ -72,7 +77,7 @@ class ConfirmOrderViewModel constructor(
 
                 _screenState.update {
                     it.copy(
-                        loading = true,
+                        loading = false,
                         saleType = saleType,
                         paymentType = paymentType,
                         productCount = productCount.toString(),
@@ -125,9 +130,9 @@ class ConfirmOrderViewModel constructor(
                     request
                 )
             }.onSuccess {
-
+                _showDialog.send(true)
             }.onFailure {
-
+                _showDialog.send(false)
             }
         }
     }

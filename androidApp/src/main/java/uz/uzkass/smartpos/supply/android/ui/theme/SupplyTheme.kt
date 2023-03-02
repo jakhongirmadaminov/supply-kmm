@@ -111,7 +111,10 @@ fun getColors(darkTheme: Boolean): SupplyColors {
         statisticTextBackground = Color(0xFFF6F5FF),
 
 
-        productLabel = Color(0xFF1A202E)
+        productLabel = Color(0xFF1A202E),
+        orderStatusNew = Color(0xFF1890ff),
+        orderStatusComplited = Color(0xFF52c41a),
+        orderStatusApproved =Color(0xFFfa8c16),
     )
 }
 
@@ -152,8 +155,13 @@ data class SupplyColors(
     val statisticTitle: Color,
 
 
-    val productLabel: Color
-) {
+    val productLabel: Color,
+
+    val orderStatusNew: Color,
+    val orderStatusComplited: Color,
+    val orderStatusApproved: Color,
+
+    ) {
 
 
 }

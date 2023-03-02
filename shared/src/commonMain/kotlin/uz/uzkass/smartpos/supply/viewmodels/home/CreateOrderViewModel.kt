@@ -174,7 +174,7 @@ class CreateOrderViewModel constructor(
         localProductRepository.companyBranchId = branchId
         localProductRepository.companyWarehouseId = storeId
         localProductRepository.sellTypeId = sellTypeId
-        localProductRepository.orderDate = sellTypeId
+        localProductRepository.orderDate = currentTime
     }
 
 }

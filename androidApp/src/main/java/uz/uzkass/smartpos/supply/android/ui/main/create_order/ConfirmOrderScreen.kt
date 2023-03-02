@@ -13,6 +13,7 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +31,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.AppBarButton
@@ -45,6 +47,7 @@ import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.SupplyTextButton
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
 import uz.uzkass.smartpos.supply.android.coreui.radiobutton.LabeledRadioButton
+import uz.uzkass.smartpos.supply.android.ui.NavGraphs
 import uz.uzkass.smartpos.supply.android.ui.main.create_order.dialog.OrderSuccessfullyCreated
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
@@ -61,11 +64,23 @@ fun ConfirmOrderScreen(
 
     viewModel: ConfirmOrderViewModel = koinViewModel()
 ) {
-    var showDialog by remember {
+    var showSuccessDialog by remember {
         mutableStateOf(false)
     }
+
+    var showErrorDialog by remember {
+        mutableStateOf(false)
+    }
+
+
     val screenState = viewModel.screenState.collectAsState()
 
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.showDialog.collectLatest {
+            showSuccessDialog = it
+            showErrorDialog = !it
+        }
+    })
 
     ConfirmOrderScreenView(
         screenState = screenState.value,
@@ -75,10 +90,17 @@ fun ConfirmOrderScreen(
         onSaveTo = {
 
         },
+        goToHome = {
+            navigator.navigate(NavGraphs.main){
+                popUpTo(NavGraphs.root.route) {
+                    inclusive = true
+                }
+            }
+        },
         onClickBack = navigator::popBackStack,
         onSellTypeSelected = viewModel::onSellTypeSelected,
         onPaymentTypeSelected = viewModel::onPaymentTypeSelected,
-        showDialog = showDialog
+        showSuccessDialog = showSuccessDialog
     )
 
 
@@ -88,10 +110,11 @@ fun ConfirmOrderScreen(
 @Composable
 fun ConfirmOrderScreenView(
     screenState: ConfirmOrderState,
-    showDialog: Boolean,
+    showSuccessDialog: Boolean,
     onConfirm: () -> Unit,
     onSaveTo: () -> Unit,
     onClickBack: () -> Unit,
+    goToHome: () -> Unit,
     onSellTypeSelected: (DropdownModel) -> Unit,
     onPaymentTypeSelected: (DropdownModel) -> Unit,
 ) {
@@ -162,7 +185,7 @@ fun ConfirmOrderScreenView(
 
             }
 
-            if (showDialog) {
+            if (showSuccessDialog) {
                 Dialog(
                     onDismissRequest = {
 
@@ -173,7 +196,7 @@ fun ConfirmOrderScreenView(
                     )
                 ) {
                     OrderSuccessfullyCreated(
-
+                        goToHome = goToHome
                     )
                 }
             }

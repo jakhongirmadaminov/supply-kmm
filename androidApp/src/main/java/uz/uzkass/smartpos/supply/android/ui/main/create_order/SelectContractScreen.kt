@@ -187,6 +187,12 @@ private fun SelectContractScreenView(
                 )
             }
 
+            DateTimePickerDialog(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Choose Time",
+                onValueChange = setTime
+            )
+
             if (!branchList.isNullOrEmpty()) {
                 ExposedDropdownField2(
                     items = branchList,
@@ -202,12 +208,6 @@ private fun SelectContractScreenView(
                     onItemSelected = selectStorage
                 )
             }
-
-            DateTimePickerDialog(
-                modifier = Modifier.fillMaxWidth(),
-                label = "Choose Time",
-                onValueChange = setTime
-            )
 
             FillAvailableSpace()
             SupplyFilledTextButton(
