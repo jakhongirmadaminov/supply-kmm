@@ -31,7 +31,7 @@ class OrdersViewModel constructor(
     var warehouseId: Long? = null
 
     init {
-
+        loadAllData()
     }
 
     private fun createPagination() = Pagination(

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
@@ -23,6 +25,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +59,7 @@ import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 //import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
 import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
+import uz.uzkass.smartpos.supply.android.ui.main.create_order.isScrolledToEnd
 //import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
@@ -74,6 +78,8 @@ fun CustomersScreen(
 ) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val customerList = viewModel.customerList.collectAsStateWithLifecycle()
+
 
     LaunchedEffect(Unit) {
         viewModel.customersEvent.flowWithLifecycle(lifecycle).collect { event ->
@@ -83,16 +89,20 @@ fun CustomersScreen(
             }
         }
     }
-
-//    CustomersView(
-//        viewState = screenState,
-//        customersLazyPaging = customersLazyPaging,
-//        visitsLazyPaging = customersLazyPaging,
-//        onClickAdd = {},
-//        onClickSearch = {},
-//        onClickFilter = {},
-//        onRefresh = viewModel::onRefreshCustomers
-//    )
+    LaunchedEffect(key1 = Unit, block = {
+//        viewModel.loadAllData()
+    })
+    CustomersView(
+        viewState = screenState,
+        customersLazyPaging = customerList.value,
+        visitsLazyPaging = customerList.value,
+        onClickAdd = {},
+        onClickSearch = {},
+        onClickFilter = {},
+        onRefresh = viewModel::onRefreshCustomers,
+        loadNextCustomerList = viewModel::loadNextPage,
+        loadNextVisitsList = viewModel::loadNextPage
+    )
 
 }
 
@@ -101,17 +111,25 @@ fun CustomersScreen(
 @Composable
 private fun CustomersView(
     viewState: CustomersState,
-    customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
+    customersLazyPaging: List<CustomerListMobileDTO>,
+    visitsLazyPaging: List<CustomerListMobileDTO>,
     onClickAdd: () -> Unit,
     onClickSearch: () -> Unit,
     onClickFilter: () -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    loadNextCustomerList: () -> Unit,
+    loadNextVisitsList: () -> Unit,
 ) {
     val tabItems by remember {
-        mutableStateOf(listOf(MR.strings.clients_tab_all.resourceId, MR.strings.clients_tab_visit.resourceId))
+        mutableStateOf(
+            listOf(
+                MR.strings.clients_tab_all.resourceId,
+                MR.strings.clients_tab_visit.resourceId
+            )
+        )
     }
-    val pullRefreshState = rememberPullRefreshState(refreshing = viewState.isRefreshing, onRefresh = onRefresh)
+    val pullRefreshState =
+        rememberPullRefreshState(refreshing = viewState.isRefreshing, onRefresh = onRefresh)
     val pagerState = rememberPagerState()
 
     Scaffold(
@@ -143,7 +161,8 @@ private fun CustomersView(
                         pagerState = pagerState,
                         tabsCount = tabItems.size,
                         customersLazyPaging = customersLazyPaging,
-                        visitsLazyPaging = visitsLazyPaging
+                        visitsLazyPaging = visitsLazyPaging,
+                        loadNextCustomerList = loadNextCustomerList
                     )
                     PullRefreshIndicator(
                         refreshing = viewState.isRefreshing,
@@ -161,8 +180,9 @@ private fun CustomersView(
 private fun TabContentView(
     pagerState: PagerState,
     tabsCount: Int,
-    customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>
+    customersLazyPaging: List<CustomerListMobileDTO>,
+    visitsLazyPaging: List<CustomerListMobileDTO>,
+    loadNextCustomerList: () -> Unit
 ) {
     HorizontalPager(
         count = tabsCount,
@@ -175,7 +195,8 @@ private fun TabContentView(
                         customersLazyPaging = customersLazyPaging,
                         onClickCustomerItem = {
 
-                        }
+                        },
+                        loadNext = loadNextCustomerList
                     )
                 }
                 CustomersTabEnum.VISIT.index -> {
@@ -192,24 +213,36 @@ private fun TabContentView(
 
 @Composable
 private fun AllCustomersView(
-    customersLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
-    onClickCustomerItem: (customerItem: CustomerListMobileDTO) -> Unit
+    customersLazyPaging: List<CustomerListMobileDTO>,
+    onClickCustomerItem: (customerItem: CustomerListMobileDTO) -> Unit,
+    loadNext: () -> Unit
 ) {
-    LazyColumn {
+
+    val listState = rememberLazyListState()
+
+    LazyColumn(state = listState) {
         item { Spacer12dp() }
         items(items = customersLazyPaging) { customerItem ->
             customerItem?.let { item ->
                 CustomerItem(customerItem = item, onClickItem = { onClickCustomerItem(item) })
             }
         }
-        paginationStates(customersLazyPaging)
+//        paginationStates(customersLazyPaging)
+    }
+
+    val endOfListReached = remember {
+        derivedStateOf { listState.isScrolledToEnd() }
+    }
+
+    if (endOfListReached.value) {
+        loadNext()
     }
 
 }
 
 @Composable
 private fun VisitsView(
-    visitsLazyPaging: LazyPagingItems<CustomerListMobileDTO>,
+    visitsLazyPaging: List<CustomerListMobileDTO>,
     onClickVisitItem: (visitItem: CustomerListMobileDTO) -> Unit,
     onClickAdd: () -> Unit
 ) {

@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,10 @@ fun CategoriesScreen(
     val currentBranchId = remember {
         mutableStateOf<Long?>(null)
     }
+
+    LaunchedEffect(key1 = Unit, block ={
+        viewModel.onRefresh()
+    } )
 
     CategoriesScreenView(
         loading = screenState.value.loading,
@@ -105,7 +110,8 @@ private fun CategoriesScreenView(
         }) {
 
         Column(
-            modifier = Modifier.systemBarsPadding()
+            modifier = Modifier
+                .systemBarsPadding()
                 .padding(16.dp)
                 .pullRefresh(pullRefreshState)
                 .background(color = Color.White),

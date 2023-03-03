@@ -26,7 +26,7 @@ class CategoriesViewModel constructor(
     val screenState get() = _screenState.asStateFlow()
 
     init {
-        getBranchList()
+//        getBranchList()
     }
 
     fun getBranchList() {
@@ -84,7 +84,11 @@ class CategoriesViewModel constructor(
         viewModelScope.launch {
             resultOf {
 
-                api.getChildrenUsingGET1(branchId = branchId, parentId = parentId, status = "ACTIVE")
+                api.getChildrenUsingGET1(
+                    branchId = branchId,
+                    parentId = parentId,
+                    status = "ACTIVE"
+                )
 
             }.onSuccess { list ->
                 list.content
@@ -107,7 +111,7 @@ class CategoriesViewModel constructor(
 
     fun onRefresh() {
 
-
+        getBranchList()
     }
 
 }
