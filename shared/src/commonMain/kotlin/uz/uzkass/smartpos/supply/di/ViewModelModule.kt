@@ -3,6 +3,7 @@ package uz.uzkass.smartpos.supply.di
 import dev.icerock.moko.network.generated.apis.MobileAccountResourceApi
 import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileContractResourceApi
+import dev.icerock.moko.network.generated.apis.MobileCustomerBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
 import dev.icerock.moko.network.generated.apis.MobileOrderResourceApi
@@ -165,7 +166,16 @@ val viewModelModule = module {
             orderResourceApi = MobileOrderResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
-            )
+            ),
+            customerApi = MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            customerBranchApi = MobileCustomerBranchResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            ),
+            localProductRepository = get()
         )
     }
 }

@@ -36,6 +36,11 @@ class LocalProductRepository {
         productList.add(product)
     }
 
+    fun cleanAndAddProduct(product: List<OrderProductModel>) {
+        productList.clear()
+        productList.addAll(product)
+    }
+
     fun removeProduct(product: OrderProductModel) {
         productList.remove(product)
     }

@@ -214,58 +214,6 @@ const val secondRadioId = "secondRadioId"
 const val threeRadioId = "threeRadioId"
 
 @Composable
-fun ChoosePaymentTypeRadioButton(onItemSelect: (String) -> Unit) {
-    var currentRadio by remember {
-        mutableStateOf(firstRadioId)
-    }
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "Тип оплаты",
-            fontSize = 16.sp,
-            color = SupplyTheme.colors.textButtonText,
-            fontWeight = FontWeight.SemiBold
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            LabeledRadioButton(
-                modifier = Modifier,
-                selected = currentRadio == firstRadioId,
-                label = "Консигнация",
-                onClick = {
-                    onItemSelect(firstRadioId)
-                    currentRadio = firstRadioId
-                }
-            )
-
-            FillAvailableSpace()
-            LabeledRadioButton(
-                modifier = Modifier,
-                selected = currentRadio == secondRadioId,
-                label = "Другое",
-                onClick = {
-                    onItemSelect(secondRadioId)
-                    currentRadio = secondRadioId
-                }
-            )
-            FillAvailableSpace()
-        }
-        LabeledRadioButton(
-            modifier = Modifier,
-            selected = currentRadio == threeRadioId,
-            label = "Предоплата",
-            onClick = {
-                onItemSelect(threeRadioId)
-                currentRadio = threeRadioId
-            }
-        )
-    }
-}
-
-@Composable
 fun TwoSiteText(
     modifier: Modifier = Modifier,
     label: String,

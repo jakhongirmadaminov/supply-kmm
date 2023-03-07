@@ -36,8 +36,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +49,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import uz.uzkass.smartpos.supply.android.coreui.LabelText
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalColors
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalSpacing
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
@@ -295,6 +299,159 @@ fun ExposedDropdownField2(
                 )
                 {
                     Text(text = "${item.label}")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ExposedDropdownField3(
+    modifier: Modifier = Modifier,
+    label: String = "",
+    items: List<DropdownModel>,
+    currentItem: DropdownModel?,
+    placeholder: String = "",
+    isError: Boolean = false,
+    autoSelectFirst: Boolean = true,
+    readOnly: Boolean = false,
+    onItemSelected: (DropdownModel?) -> Unit,
+    onQueryChange: ((String) -> Unit)? = null
+) {
+    var mExpanded by remember { mutableStateOf(false) }
+
+    val valueDebounce = remember {
+        MutableStateFlow("")
+    }
+    val coroutineScope = rememberCoroutineScope()
+
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(text = "", TextRange(0))
+        )
+    }
+
+    onQueryChange?.let {
+        LaunchedEffect(key1 = Unit, block = {
+            valueDebounce
+                .debounce(500)
+                .distinctUntilChanged()
+                .collectLatest {
+                    onQueryChange(it)
+                }
+        })
+    }
+
+
+    if (autoSelectFirst) {
+        LaunchedEffect(key1 = Unit, block = {
+
+            items.firstOrNull()?.let(onItemSelected)
+
+        })
+    }
+
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed: Boolean by interactionSource.collectIsPressedAsState()
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            if (!readOnly)
+            mExpanded = mExpanded.not()
+        }
+    }
+
+    val textValue = if (currentItem == null) textFieldValue else {
+
+        var text = currentItem.label
+        if (text.length > 24) {
+            text = text.substring(0, 24)
+        }
+        TextFieldValue(
+            text,
+            TextRange(text.length)
+        )
+    }
+
+    Column(modifier = modifier) {
+        LabelText(label = label)
+        Spacer(modifier = Modifier.height(LocalSpacing.current.extraSmall4dp))
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    mExpanded = mExpanded.not()
+                },
+            readOnly = onQueryChange == null,
+            value = textValue,
+            onValueChange = {
+                onItemSelected(null)
+                textFieldValue = it
+                coroutineScope.launch {
+                    valueDebounce.emit(it.text)
+                }
+            },
+            maxLines = 1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = Color.White,
+                focusedBorderColor = SupplyTheme.colors.primary,
+//                disabledBorderColor = SupplyTheme.colors.textFieldBorder,
+                unfocusedBorderColor = SupplyTheme.colors.textFieldBorder,
+                textColor = Color.Black
+            ),
+            placeholder = {
+                Text(text = placeholder)
+            },
+            interactionSource = interactionSource,
+            isError = isError,
+            trailingIcon = {
+                IconToggleButton(
+                    checked = mExpanded,
+                    onCheckedChange = {
+                        if (!readOnly){
+                            mExpanded = mExpanded.not()
+                        }
+
+                    }
+                ) {
+                    if (mExpanded) Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowUp,
+                        contentDescription = null
+                    ) else Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
+            },
+
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = LocalColors.current.subtitle1
+            )
+        )
+        if (!readOnly) {
+            DropdownMenu(
+                expanded = mExpanded,
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .requiredSizeIn(maxHeight = 400.dp),
+                onDismissRequest = {
+//                    mExpanded = false
+                },
+                properties = PopupProperties(focusable = false)
+            ) {
+                items.forEach { item ->
+                    DropdownMenuItem(
+                        onClick = {
+                            onItemSelected(item)
+                            mExpanded = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    {
+                        Text(text = "${item.label}")
+                    }
                 }
             }
         }

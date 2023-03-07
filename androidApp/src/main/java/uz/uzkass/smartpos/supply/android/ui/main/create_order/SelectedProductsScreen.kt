@@ -58,6 +58,7 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.ui.destinations.ConfirmOrderScreenDestination
+import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectProductViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.SelectedProductsViewModel
@@ -139,21 +140,26 @@ private fun SelectedProductsView(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SelectedItemContent(
+fun SelectedItemContent(
     item: OrderProductModel,
     onClickItem: () -> Unit,
     onRemoveItem: (OrderProductModel) -> Unit,
-
+    isRemovable: Boolean = true,
     ) {
 
     val dismissState = rememberDismissState()
     if (dismissState.isDismissed(DismissDirection.EndToStart)) {
         onRemoveItem(item)
     }
+    val directionSet = if (isRemovable){
+        setOf(DismissDirection.EndToStart)
+    }else{
+        setOf()
+    }
     SwipeToDismiss(
         state = dismissState,
         modifier = Modifier.padding(vertical = 1.dp),
-        directions = setOf(DismissDirection.EndToStart),
+        directions = directionSet,
         dismissThresholds = { direction ->
             FractionalThreshold(if (direction == DismissDirection.StartToEnd) 0.25f else 0.5f)
         },
@@ -171,7 +177,7 @@ private fun SelectedItemContent(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(color)
+                    .background(color, shape = LocalShapes.current.medium12Dp)
                     .padding(horizontal = 20.dp),
                 contentAlignment = alignment
             ) {
