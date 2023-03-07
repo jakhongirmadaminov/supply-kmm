@@ -79,7 +79,9 @@ fun OrderDetailScreen(
     LaunchedEffect(key1 = Unit, block = {
         viewModel.orderChangeStatus.collectLatest {
             when (it) {
-                is OrderChangeStatus.Error -> TODO()
+                is OrderChangeStatus.Error -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
                 is OrderChangeStatus.Success -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     navigator.popBackStack()
