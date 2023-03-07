@@ -3,12 +3,6 @@ package uz.uzkass.smartpos.supply.android.ui.viewmodels.category
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCategoryResourceApi
-import dev.icerock.moko.network.generated.models.CategoryTreeDTO
-import dev.icerock.moko.paging.IdComparator
-import dev.icerock.moko.paging.IdEntity
-import dev.icerock.moko.paging.LambdaPagedListDataSource
-import dev.icerock.moko.paging.Pagination
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,7 +20,7 @@ class CategoriesViewModel constructor(
     val screenState get() = _screenState.asStateFlow()
 
     init {
-//        getBranchList()
+        getBranchList()
     }
 
     fun getBranchList() {
@@ -111,7 +105,16 @@ class CategoriesViewModel constructor(
 
     fun onRefresh() {
 
-        getBranchList()
+//        getBranchList()
+    }
+
+    fun selectBranch(newBranch: DropdownModel?) {
+
+        _screenState.update {
+            it.copy(
+                currentBranch = newBranch
+            )
+        }
     }
 
 }
@@ -119,5 +122,6 @@ class CategoriesViewModel constructor(
 data class CategoriesScreenState(
     val loading: Boolean = false,
     val categoryList: List<CategoryModel> = emptyList(),
-    val branchList: List<DropdownModel> = emptyList()
+    val branchList: List<DropdownModel> = emptyList(),
+    val currentBranch: DropdownModel? = null
 )

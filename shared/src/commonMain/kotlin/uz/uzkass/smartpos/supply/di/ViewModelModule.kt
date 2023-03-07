@@ -7,6 +7,7 @@ import dev.icerock.moko.network.generated.apis.MobileCustomerBranchResourceApi
 import dev.icerock.moko.network.generated.apis.MobileCustomerResourceApi
 import dev.icerock.moko.network.generated.apis.MobileDashboardResourceApi
 import dev.icerock.moko.network.generated.apis.MobileOrderResourceApi
+import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
 import dev.icerock.moko.network.generated.apis.MobileWarehouseResourceApi
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -22,6 +23,7 @@ import uz.uzkass.smartpos.supply.viewmodels.PasswordResetViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SelectCustomerViewModel2
 import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
+import uz.uzkass.smartpos.supply.viewmodels.category.ProductViewModel
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerViewModel
@@ -176,6 +178,14 @@ val viewModelModule = module {
                 json = get()
             ),
             localProductRepository = get()
+        )
+    }
+    factory {
+        ProductViewModel(
+            productResourceApi = MobileProductResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
         )
     }
 }

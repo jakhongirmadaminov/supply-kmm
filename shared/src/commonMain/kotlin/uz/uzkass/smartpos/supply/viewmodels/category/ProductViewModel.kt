@@ -1,7 +1,7 @@
-package uz.uzkass.smartpos.supply.android.ui.viewmodels.category
+package uz.uzkass.smartpos.supply.viewmodels.category
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.network.generated.apis.MobileProductResourceApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

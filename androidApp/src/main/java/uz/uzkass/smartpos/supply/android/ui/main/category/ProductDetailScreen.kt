@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,8 +25,8 @@ import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.ui.main.create_order.DisableTextWithLabel
-import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.ProductDetailState
-import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.ProductViewModel
+import uz.uzkass.smartpos.supply.viewmodels.category.ProductDetailState
+import uz.uzkass.smartpos.supply.viewmodels.category.ProductViewModel
 
 @Composable
 @Destination
@@ -66,7 +67,10 @@ fun ProductDetailScreenView(
     }) {
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
@@ -82,6 +86,7 @@ fun ProductDetailScreenView(
                     label = "IKPU",
                     text = productDetail.vatBarcode ?: ""
                 )
+                Spacer16dp()
                 DisableTextWithLabel(
                     modifier = Modifier.weight(1f),
                     label = "IKPU",

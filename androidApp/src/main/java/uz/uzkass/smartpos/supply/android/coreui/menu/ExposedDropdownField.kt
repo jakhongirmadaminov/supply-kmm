@@ -343,7 +343,7 @@ fun ExposedDropdownField3(
     }
 
 
-    if (autoSelectFirst) {
+    if (autoSelectFirst && currentItem == null) {
         LaunchedEffect(key1 = Unit, block = {
 
             items.firstOrNull()?.let(onItemSelected)
@@ -357,7 +357,7 @@ fun ExposedDropdownField3(
     LaunchedEffect(isPressed) {
         if (isPressed) {
             if (!readOnly)
-            mExpanded = mExpanded.not()
+                mExpanded = mExpanded.not()
         }
     }
 
@@ -408,7 +408,7 @@ fun ExposedDropdownField3(
                 IconToggleButton(
                     checked = mExpanded,
                     onCheckedChange = {
-                        if (!readOnly){
+                        if (!readOnly) {
                             mExpanded = mExpanded.not()
                         }
 

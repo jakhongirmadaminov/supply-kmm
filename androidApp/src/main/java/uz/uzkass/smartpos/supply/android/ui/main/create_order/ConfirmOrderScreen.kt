@@ -91,7 +91,7 @@ fun ConfirmOrderScreen(
 
         },
         goToHome = {
-            navigator.navigate(NavGraphs.main){
+            navigator.navigate(NavGraphs.main) {
                 popUpTo(NavGraphs.root.route) {
                     inclusive = true
                 }
@@ -259,7 +259,8 @@ fun DisableTextWithLabel(
                 .background(
                     color = Color(0xFFF2F4F7),
                     shape = LocalShapes.current.small8Dp
-                ),
+                )
+                .padding(16.dp),
             text = text,
             fontSize = 16.sp,
             fontWeight = FontWeight.W500

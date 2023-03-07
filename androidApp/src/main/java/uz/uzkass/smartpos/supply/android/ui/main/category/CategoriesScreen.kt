@@ -10,39 +10,46 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import dev.icerock.moko.network.generated.models.CategoryTreeDTO
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
 import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
-import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
+import uz.uzkass.smartpos.supply.android.coreui.Spacer3dp
+import uz.uzkass.smartpos.supply.android.coreui.Spacer76dp
+import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField3
 import uz.uzkass.smartpos.supply.android.ui.destinations.SubCategoriesScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
 import uz.uzkass.smartpos.supply.android.ui.theme.LocalShapes
+import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesScreenState
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.CategoriesViewModel
 import uz.uzkass.smartpos.supply.android.ui.viewmodels.category.model.CategoryModel
+import uz.uzkass.smartpos.supply.android.ui.viewmodels.createorder.models.ProductItemModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
 
@@ -54,33 +61,26 @@ fun CategoriesScreen(
     viewModel: CategoriesViewModel = koinViewModel()
 ) {
     val screenState = viewModel.screenState.collectAsState()
-    val currentBranchId = remember {
-        mutableStateOf<Long?>(null)
-    }
 
-    LaunchedEffect(key1 = Unit, block ={
+    LaunchedEffect(key1 = Unit, block = {
         viewModel.onRefresh()
-    } )
+    })
 
     CategoriesScreenView(
-        loading = screenState.value.loading,
-        branchList = screenState.value.branchList,
-        categoryList = screenState.value.categoryList,
+        screenState = screenState.value,
         onCLickItem = {
-
             navigator.navigate(
                 SubCategoriesScreenDestination(
-                    branchId = currentBranchId.value!!,
+                    branchId = screenState.value.currentBranch?.id?.toLongOrNull()?:0,
                     parentId = it.id!!
                 )
             )
-
         },
         onSelectBranch = {
-            currentBranchId.value = it.id.toLongOrNull()
             viewModel.getCategoryList(
-                branchId = it.id.toLongOrNull()
+                branchId = it?.id?.toLongOrNull()
             )
+            viewModel.selectBranch(it)
         },
         onRefresh = {
             viewModel.onRefresh()
@@ -92,15 +92,16 @@ fun CategoriesScreen(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun CategoriesScreenView(
-    loading: Boolean,
-    branchList: List<DropdownModel>?,
-    categoryList: List<CategoryModel>,
+    screenState: CategoriesScreenState,
     onCLickItem: (CategoryModel) -> Unit,
-    onSelectBranch: (DropdownModel) -> Unit,
+    onSelectBranch: (DropdownModel?) -> Unit,
     onRefresh: () -> Unit
 ) {
 
-    val pullRefreshState = rememberPullRefreshState(refreshing = loading, onRefresh = onRefresh)
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = screenState.loading,
+        onRefresh = onRefresh
+    )
 
     Scaffold(modifier = Modifier
 
@@ -118,19 +119,23 @@ private fun CategoriesScreenView(
 
             ) {
 
-            if (!branchList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = branchList,
+            if (!screenState.branchList.isNullOrEmpty()) {
+                ExposedDropdownField3(
+                    modifier = Modifier.fillMaxWidth(),
                     label = stringResource(id = MR.strings.branch.resourceId),
-                    onItemSelected = onSelectBranch,
+                    items = screenState.branchList,
+                    currentItem = screenState.currentBranch,
+                    autoSelectFirst = true,
+                    onItemSelected = onSelectBranch
                 )
                 Spacer16dp()
             }
+
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(categoryList) { item ->
+                items(screenState.categoryList) { item ->
                     val text = if ((item.name?.length ?: 0) > 25) {
                         item.name!!.substring(0, 24)
                     } else {
@@ -142,6 +147,10 @@ private fun CategoriesScreenView(
                     ) {
                         onCLickItem(item)
                     }
+                }
+
+                item {
+                    Spacer76dp()
                 }
             }
         }
@@ -189,3 +198,4 @@ fun CategoryItem(
 
     }
 }
+

@@ -35,7 +35,7 @@ class SubCategoriesViewModel constructor(
 
     var pagination: Pagination<SubCategoryModel> = createPagination()
 
-    private var pageIndex = 0
+    private var pageIndex = -1
     var searchQuery: String? = null
     var branchId: Long? = null
     var categoryId: Long? = null
@@ -95,9 +95,12 @@ class SubCategoriesViewModel constructor(
 
 
     fun getSubCategoryList(newBranchId: Long, newParentId: Long? = null) {
-        branchId = newBranchId
-        categoryId = newParentId
-        pagination.loadFirstPage()
+        if (pageIndex == -1) {
+            pageIndex = 0
+            branchId = newBranchId
+            categoryId = newParentId
+            pagination.loadFirstPage()
+        }
     }
 
     fun onRefresh() {
