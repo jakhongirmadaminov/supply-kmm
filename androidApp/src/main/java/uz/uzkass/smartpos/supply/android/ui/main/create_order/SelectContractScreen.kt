@@ -2,7 +2,6 @@ package uz.uzkass.smartpos.supply.android.ui.main.create_order
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,8 +33,10 @@ import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
 import uz.uzkass.smartpos.supply.android.coreui.datetime.DateTimePickerDialog
 import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField2
+import uz.uzkass.smartpos.supply.android.coreui.menu.ExposedDropdownField3
 import uz.uzkass.smartpos.supply.android.ui.destinations.ProductSelectScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
+import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderScreenState
 import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.model.DropdownModel
 import uz.uzkassa.smartpos.supply.library.MR
@@ -56,78 +56,23 @@ fun SelectContractScreen(
 
     val screenState = viewModel.screenStateFlow.collectAsState()
 
-    var currentContract by remember {
-        mutableStateOf<DropdownModel?>(null)
-    }
-
-    var currentSellType by remember {
-        mutableStateOf<DropdownModel?>(null)
-    }
-
-    var currentBranch by remember {
-        mutableStateOf<DropdownModel?>(null)
-    }
-
-    var currentStore by remember {
-        mutableStateOf<DropdownModel?>(null)
-    }
-    var currentTime by remember {
-        mutableStateOf("")
-    }
-
-
-    val buttonEnable =
-        currentContract != null
-                && currentSellType != null
-                && currentBranch != null
-                && (currentStore != null)
-
     SelectContractScreenView(
-        loading = screenState.value.loading,
-        buttonEnable = buttonEnable,
-        contractList = screenState.value.contractList,
-        sellTypeList = screenState.value.sellTypeList,
-        branchList = screenState.value.branchList,
-        storeList = screenState.value.storageList,
-
-        selectContract = {
-            currentContract = it
-        },
-        selectSellType = {
-            currentSellType = it
-        },
-
-        selectBranch = {
-
-            currentBranch = it
-            viewModel.getStoreByQuery(
-                branchId = it.id
-            )
-        },
-        selectStorage = {
-            currentStore = it
-        },
-
+        screenState = screenState.value,
+        selectContract = viewModel::selectContract,
+        selectSellType = viewModel::selectSellType,
+        selectBranch = viewModel::selectBranch,
+        selectStorage = viewModel::selectWarehouse,
         searchBranch = {
 
         },
         nextClick = {
-
             viewModel.saveToLocal(
-                customerId = customerId,
-                currentContract?.id,
-                currentSellType?.id,
-                currentBranch?.id,
-                currentStore?.id,
-                currentTime
+                customerId = customerId
             )
-
             navigator.navigate(ProductSelectScreenDestination)
         },
         onBackPressed = navigator::popBackStack,
-        setTime = {
-            currentTime = it
-        }
+        setTime = viewModel::selectCurrentTime
     )
 
 }
@@ -135,19 +80,12 @@ fun SelectContractScreen(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun SelectContractScreenView(
-    loading: Boolean = false,
-    buttonEnable: Boolean = false,
-    contractList: List<DropdownModel>?,
-    sellTypeList: List<DropdownModel>?,
+    screenState: CreateOrderScreenState,
+    selectContract: (DropdownModel?) -> Unit,
+    selectSellType: (DropdownModel?) -> Unit,
 
-    branchList: List<DropdownModel>?,
-    storeList: List<DropdownModel>?,
-
-    selectContract: (DropdownModel) -> Unit,
-    selectSellType: (DropdownModel) -> Unit,
-
-    selectBranch: (DropdownModel) -> Unit,
-    selectStorage: (DropdownModel) -> Unit,
+    selectBranch: (DropdownModel?) -> Unit,
+    selectStorage: (DropdownModel?) -> Unit,
 
     searchBranch: (String) -> Unit,
     setTime: (String) -> Unit,
@@ -172,17 +110,22 @@ private fun SelectContractScreenView(
         )
         {
 
-            if (!contractList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = contractList,
+            if (!screenState.contractList.isNullOrEmpty()) {
+                ExposedDropdownField3(
+                    modifier = Modifier.fillMaxWidth(),
+                    items = screenState.contractList!!,
                     label = stringResource(id = MR.strings.contract.resourceId),
+                    currentItem = screenState.currentContract,
+//                    autoSelectFirst = false,
                     onItemSelected = selectContract
                 )
             }
-            if (!sellTypeList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = sellTypeList,
+            if (!screenState.sellTypeList.isNullOrEmpty()) {
+                ExposedDropdownField3(
+                    modifier = Modifier.fillMaxWidth(),
+                    items = screenState.sellTypeList!!,
                     label = stringResource(id = MR.strings.type_sell.resourceId),
+                    currentItem = screenState.currentSellType,
                     onItemSelected = selectSellType
                 )
             }
@@ -190,24 +133,38 @@ private fun SelectContractScreenView(
             DateTimePickerDialog(
                 modifier = Modifier.fillMaxWidth(),
                 label = "Choose Time",
+                timeValue = screenState.currentTime,
                 onValueChange = setTime
             )
 
-            if (!branchList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = branchList,
+            if (!screenState.branchList.isNullOrEmpty()) {
+
+                ExposedDropdownField3(
+                    modifier = Modifier.fillMaxWidth(),
+                    items = screenState.branchList!!,
                     label = stringResource(id = MR.strings.branch.resourceId),
-                    onItemSelected = selectBranch,
+                    currentItem = screenState.currentBranch,
+                    onItemSelected = selectBranch
                 )
+
             }
 
-            if (!storeList.isNullOrEmpty()) {
-                ExposedDropdownField2(
-                    items = storeList,
+            if (!screenState.storageList.isNullOrEmpty()) {
+                ExposedDropdownField3(
+                    modifier = Modifier.fillMaxWidth(),
+                    items = screenState.storageList!!,
                     label = stringResource(id = MR.strings.store.resourceId),
+                    currentItem = screenState.currentWarehouse,
                     onItemSelected = selectStorage
                 )
             }
+
+
+            val buttonEnable =
+                screenState.currentContract != null
+                        && screenState.currentSellType != null
+                        && screenState.currentBranch != null
+                        && (screenState.currentWarehouse != null)
 
             FillAvailableSpace()
             SupplyFilledTextButton(

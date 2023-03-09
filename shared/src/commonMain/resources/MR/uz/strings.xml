@@ -80,4 +80,13 @@
     <string name="change">Изменить</string>
 
 
+    //Customer Info
+
+    <string name="vat">INN</string>
+    <string name="pnfl">PNFL</string>
+    <string name="official_name">Yuridik nomi</string>
+    <string name="brand_name">Brend</string>
+    <string name="activity_type">Сфера деятельности ГНК</string>
+    <string name="create_order">Создать заказ</string>
+
 </resources>

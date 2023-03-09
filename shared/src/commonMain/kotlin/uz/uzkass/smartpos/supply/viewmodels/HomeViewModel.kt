@@ -56,12 +56,12 @@ data class HomeDataState(
     companion object {
         fun generateHomeData(rawData: MobileOrderStatisticsDTO): HomeDataState {
             val temp = HomeDataState(
-                todayOrderCount = rawData.orderTotalAmount.toString(),
-                summaTodayOrders = rawData.orderTotalAmountForToday.toString(),
-                orderCount = rawData.orderTotalCount.toString(),
-                summaAllOrders = rawData.orderTotalCountForToday.toString(),
-                completedOrder = rawData.planRouteCompletedTotal.toString(),
-                countOrderPlane = rawData.planRouteTotal.toString()
+                todayOrderCount = (rawData.orderTotalAmount?:0).toString(),
+                summaTodayOrders = (rawData.orderTotalAmountForToday?:0).toString(),
+                orderCount = (rawData.orderTotalCount?:0).toString(),
+                summaAllOrders = (rawData.orderTotalCountForToday?:0).toString(),
+                completedOrder = (rawData.planRouteCompletedTotal?:0).toString(),
+                countOrderPlane = (rawData.planRouteTotal?:0).toString()
             )
             return temp
         }

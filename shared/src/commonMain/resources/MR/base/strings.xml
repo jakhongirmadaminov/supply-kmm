@@ -80,4 +80,15 @@
     <string name="last_name">Фамилия</string>
     <string name="company_name">Наименование компании</string>
     <string name="change">Изменить</string>
+
+    //Customer Info
+
+    <string name="vat">ИНН</string>
+    <string name="pnfl">ПИНФЛ</string>
+    <string name="official_name">Юридическое название</string>
+    <string name="brand_name">Бренд</string>
+    <string name="activity_type">Сфера деятельности ГНК</string>
+    <string name="create_order">Создать заказ</string>
+
+
 </resources>

@@ -40,11 +40,9 @@ import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 fun DateTimePickerDialog(
     modifier: Modifier = Modifier,
     label: String,
+    timeValue:String,
     onValueChange: (String) -> Unit = {},
 ) {
-    var textValue by remember {
-        mutableStateOf("")
-    }
 
     val date = Calendar.getInstance()
 
@@ -63,7 +61,6 @@ fun DateTimePickerDialog(
             )
             val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
             val timeTex = parser.format(tempDate.time)
-            textValue = timeTex
             onValueChange(timeTex)
         },
         date.get(Calendar.HOUR_OF_DAY),
@@ -103,7 +100,7 @@ fun DateTimePickerDialog(
         ) {
             Text(
                 modifier = Modifier,
-                text = textValue
+                text = timeValue
             )
             FillAvailableSpace()
             Image(

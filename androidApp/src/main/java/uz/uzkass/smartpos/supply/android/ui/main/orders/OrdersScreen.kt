@@ -81,7 +81,9 @@ fun OrdersScreenView(
     onItemClick: (OrdersModel) -> Unit,
     loadNext: () -> Unit
 ) {
+
     val listState = rememberLazyListState()
+
     Scaffold(topBar = {
         OrdersTopBar(
             onClickSearch = {

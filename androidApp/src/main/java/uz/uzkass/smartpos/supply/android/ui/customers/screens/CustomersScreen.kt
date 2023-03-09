@@ -59,6 +59,7 @@ import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 //import uz.uzkass.smartpos.supply.android.ui.customers.data.CustomersTabEnum
 import uz.uzkass.smartpos.supply.android.ui.customers.views.CustomerItem
 import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
+import uz.uzkass.smartpos.supply.android.ui.destinations.CustomerInfoScreenDestination
 import uz.uzkass.smartpos.supply.android.ui.main.create_order.isScrolledToEnd
 //import uz.uzkass.smartpos.supply.android.ui.customers.views.VisitItem
 import uz.uzkass.smartpos.supply.android.ui.main.navigation.MainNavGraph
@@ -101,7 +102,14 @@ fun CustomersScreen(
         onClickFilter = {},
         onRefresh = viewModel::onRefreshCustomers,
         loadNextCustomerList = viewModel::loadNextPage,
-        loadNextVisitsList = viewModel::loadNextPage
+        loadNextVisitsList = viewModel::loadNextPage,
+        onCLickCustomerItem = {
+            navigator.navigate(
+                CustomerInfoScreenDestination(
+                    customerId = it.id ?: 0
+                )
+            )
+        }
     )
 
 }
@@ -119,6 +127,7 @@ private fun CustomersView(
     onRefresh: () -> Unit,
     loadNextCustomerList: () -> Unit,
     loadNextVisitsList: () -> Unit,
+    onCLickCustomerItem: (CustomerListMobileDTO) -> Unit
 ) {
     val tabItems by remember {
         mutableStateOf(
@@ -162,7 +171,8 @@ private fun CustomersView(
                         tabsCount = tabItems.size,
                         customersLazyPaging = customersLazyPaging,
                         visitsLazyPaging = visitsLazyPaging,
-                        loadNextCustomerList = loadNextCustomerList
+                        loadNextCustomerList = loadNextCustomerList,
+                        onCLickCustomerItem = onCLickCustomerItem
                     )
                     PullRefreshIndicator(
                         refreshing = viewState.isRefreshing,
@@ -182,6 +192,7 @@ private fun TabContentView(
     tabsCount: Int,
     customersLazyPaging: List<CustomerListMobileDTO>,
     visitsLazyPaging: List<CustomerListMobileDTO>,
+    onCLickCustomerItem: (CustomerListMobileDTO) -> Unit,
     loadNextCustomerList: () -> Unit
 ) {
     HorizontalPager(
@@ -193,9 +204,7 @@ private fun TabContentView(
                 CustomersTabEnum.ALL.index -> {
                     AllCustomersView(
                         customersLazyPaging = customersLazyPaging,
-                        onClickCustomerItem = {
-
-                        },
+                        onClickCustomerItem = onCLickCustomerItem,
                         loadNext = loadNextCustomerList
                     )
                 }

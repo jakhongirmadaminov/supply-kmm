@@ -162,19 +162,59 @@ class CreateOrderViewModel constructor(
 
     fun saveToLocal(
         customerId: Long?,
-        contractId: String?,
-        sellTypeId: String?,
-        branchId: String?,
-        storeId: String?,
-        currentTime: String?,
     ) {
-//        localProductRepository.clean()
         localProductRepository.customerId = customerId
-        localProductRepository.contractId = contractId
-        localProductRepository.companyBranchId = branchId
-        localProductRepository.companyWarehouseId = storeId
-        localProductRepository.sellTypeId = sellTypeId
-        localProductRepository.orderDate = currentTime
+        localProductRepository.contractId = screenStateFlow.value.currentContract?.id
+        localProductRepository.companyBranchId = screenStateFlow.value.currentBranch?.id
+        localProductRepository.companyWarehouseId = screenStateFlow.value.currentWarehouse?.id
+        localProductRepository.sellTypeId = screenStateFlow.value.currentSellType?.id
+        localProductRepository.orderDate = screenStateFlow.value.currentTime
+    }
+
+    fun selectContract(newItem: DropdownModel?) {
+        _screenStateFlow.update {
+            it.copy(
+                currentContract = newItem
+            )
+        }
+    }
+
+    fun selectBranch(newBranch: DropdownModel?) {
+        _screenStateFlow.update {
+            it.copy(
+                currentBranch = newBranch
+            )
+        }
+
+        newBranch?.id?.let {
+            getStoreByQuery(
+                branchId = it
+            )
+        }
+    }
+
+    fun selectWarehouse(newWarehouse: DropdownModel?) {
+        _screenStateFlow.update {
+            it.copy(
+                currentWarehouse = newWarehouse
+            )
+        }
+    }
+
+    fun selectSellType(newSellType: DropdownModel?) {
+        _screenStateFlow.update {
+            it.copy(
+                currentSellType = newSellType
+            )
+        }
+    }
+
+    fun selectCurrentTime(newTime: String) {
+        _screenStateFlow.update {
+            it.copy(
+                currentTime = newTime
+            )
+        }
     }
 
 }
@@ -185,46 +225,12 @@ data class CreateOrderScreenState(
     val sellTypeList: List<DropdownModel>? = null,
     val branchList: List<DropdownModel>? = null,
     val storageList: List<DropdownModel>? = null,
-)
 
-//        viewModelScope.launch {
-//            try {
-//                val contractAsync =
-//                    async { contractResourceApi.lookUpUsingGET67(customerId = customerId) }
-//
-//                val sellTypeAsync =
-//                    async { publicOrderResourceApiImpl.getSaleTypesUsingGET3() }
-//
-//                val branchAsync =
-//                    async { branchResourceApi.lookUpUsingGET66() }
-//
-//                val contractResponse = contractAsync.await().map { item ->
-//                    DropdownModel(
-//                        id = item.id.toString(),
-//                        label = item.contractNumber ?: ""
-//                    )
-//                }
-//                val sellTypeResponse = sellTypeAsync.await().map { item ->
-//                    DropdownModel(
-//                        id = item.code.toString(),
-//                        label = item.name ?: ""
-//                    )
-//                }
-//                val branchResponse = branchAsync.await().map { item ->
-//                    DropdownModel(
-//                        id = item.id.toString(),
-//                        label = item.name ?: ""
-//                    )
-//                }
-//                _screenStateFlow.update {
-//                    it.copy(
-//                        loading = false,
-//                        contractList = contractResponse,
-//                        sellTypeList = sellTypeResponse,
-//                        branchList = branchResponse
-//                    )
-//                }
-//            } catch (e: Exception) {
-//
-//            }
-//        }
+    val currentContract: DropdownModel? = null,
+    val currentBranch: DropdownModel? = null,
+    val currentWarehouse: DropdownModel? = null,
+    val currentSellType: DropdownModel? = null,
+
+    val currentTime: String = ""
+
+)

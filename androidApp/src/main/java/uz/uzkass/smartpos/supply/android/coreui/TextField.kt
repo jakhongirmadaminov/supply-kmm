@@ -97,6 +97,49 @@ fun LabelTextField(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun LabeledTextField(
+    label: String,
+    valueState: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    Column(modifier = Modifier.fillMaxWidth()) {
+        LabelText(label = label)
+        Spacer(modifier = Modifier.height(LocalSpacing.current.extraSmall4dp))
+        TextField(
+            value = valueState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = SupplyTheme.colors.textFieldBorder,
+                    shape = LocalShapes.current.small8Dp
+                ),
+            onValueChange = onValueChange,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                textColor = Color.Black
+            ),
+            placeholder = {
+                placeholder?.let { Text(text = it) }
+            },
+            shape = RoundedCornerShape(4.dp),
+            singleLine = true,
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
+            visualTransformation = visualTransformation
+        )
+    }
+}
+
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,

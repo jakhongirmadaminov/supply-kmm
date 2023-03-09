@@ -25,6 +25,7 @@ import uz.uzkass.smartpos.supply.viewmodels.SetPinCodeViewModel
 import uz.uzkass.smartpos.supply.viewmodels.SplashViewModel
 import uz.uzkass.smartpos.supply.viewmodels.category.ProductViewModel
 import uz.uzkass.smartpos.supply.viewmodels.clients.CustomersViewModel
+import uz.uzkass.smartpos.supply.viewmodels.customer.CustomerDetailViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerViewModel
 import uz.uzkass.smartpos.supply.viewmodels.orders.OrdersViewModel
@@ -188,4 +189,14 @@ val viewModelModule = module {
             )
         )
     }
+
+    factory {
+        CustomerDetailViewModel(
+            customerApi = MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
+
 }

@@ -145,15 +145,15 @@ fun SelectedItemContent(
     onClickItem: () -> Unit,
     onRemoveItem: (OrderProductModel) -> Unit,
     isRemovable: Boolean = true,
-    ) {
+) {
 
     val dismissState = rememberDismissState()
     if (dismissState.isDismissed(DismissDirection.EndToStart)) {
         onRemoveItem(item)
     }
-    val directionSet = if (isRemovable){
+    val directionSet = if (isRemovable) {
         setOf(DismissDirection.EndToStart)
-    }else{
+    } else {
         setOf()
     }
     SwipeToDismiss(
@@ -214,7 +214,7 @@ fun SelectedItemContent(
                     FillAvailableSpace()
                     Text(
                         fontWeight = FontWeight.SemiBold,
-                        text = "510" ?: "",
+                        text = item.qty.toString(),
                         color = SupplyTheme.colors.productLabel
                     )
                     Spacer3dp()
