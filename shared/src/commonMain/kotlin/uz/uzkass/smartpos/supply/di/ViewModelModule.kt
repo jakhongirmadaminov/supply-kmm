@@ -30,6 +30,7 @@ import uz.uzkass.smartpos.supply.viewmodels.home.CreateOrderViewModel
 import uz.uzkass.smartpos.supply.viewmodels.home.SelectCustomerViewModel
 import uz.uzkass.smartpos.supply.viewmodels.orders.OrdersViewModel
 import uz.uzkass.smartpos.supply.viewmodels.orders.detail.OrderDetailViewModel
+import uz.uzkass.smartpos.supply.viewmodels.profil.ProfileViewModel
 
 val viewModelModule = module {
 
@@ -193,6 +194,14 @@ val viewModelModule = module {
     factory {
         CustomerDetailViewModel(
             customerApi = MobileCustomerResourceApi(
+                httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
+                json = get()
+            )
+        )
+    }
+ factory {
+     ProfileViewModel(
+            profileApi = MobileAccountResourceApi(
                 httpClient = get(named(AUTH_HTTP_CLIENT_NAME)),
                 json = get()
             )

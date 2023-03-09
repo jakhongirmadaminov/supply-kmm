@@ -81,6 +81,8 @@
     <string name="company_name">Наименование компании</string>
     <string name="change">Изменить</string>
 
+    <string name="type_account">Тип аккаунта</string>
+
     //Customer Info
 
     <string name="vat">ИНН</string>
