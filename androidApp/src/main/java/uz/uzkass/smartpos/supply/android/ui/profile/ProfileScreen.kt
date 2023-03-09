@@ -9,21 +9,36 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
+import uz.uzkass.smartpos.supply.android.R
+import uz.uzkass.smartpos.supply.android.coreui.AppBarButton
+import uz.uzkass.smartpos.supply.android.coreui.AppBarTitle
+import uz.uzkass.smartpos.supply.android.coreui.DefaultAppBar
 import uz.uzkass.smartpos.supply.android.coreui.FillAvailableSpace
+import uz.uzkass.smartpos.supply.android.coreui.Spacer16dp
+import uz.uzkass.smartpos.supply.android.coreui.Spacer24dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer4dp
 import uz.uzkass.smartpos.supply.android.coreui.Spacer8dp
 import uz.uzkass.smartpos.supply.android.coreui.SupplyFilledTextButton
@@ -50,7 +65,8 @@ fun ProfileScreen(
         onPasswordChangeClick = {
             navigator.navigate(NavGraphs.passwordReset)
         },
-        screenState = screenState.value
+        screenState = screenState.value,
+        onBackPressed = navigator::popBackStack
     )
 }
 
@@ -60,6 +76,7 @@ private fun ProfileScreenView(
     screenState: ProfileScreenState,
     onPinCodeChangeClick: () -> Unit,
     onPasswordChangeClick: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
 
     Scaffold(
@@ -67,7 +84,10 @@ private fun ProfileScreenView(
             .fillMaxSize()
             .systemBarsPadding(),
         topBar = {
-
+            ProfileScreenAppBar(
+                title = "Профиль",
+                onBackPressed = onBackPressed
+            )
         }
     ) {
 
@@ -77,9 +97,25 @@ private fun ProfileScreenView(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
-            Row(modifier = Modifier.fillMaxWidth()) {
-
+            Spacer24dp()
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(screenState.avatarUrl)
+                        .crossfade(true)
+                        .placeholder(R.drawable.ic_profile_vector)
+                        .error(R.drawable.ic_profile_vector)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(86.dp)
+                        .clip(CircleShape)
+                )
+                Spacer16dp()
                 Column() {
                     Text(
                         text = "${screenState.firstName} ${screenState.lastName}",
@@ -97,6 +133,7 @@ private fun ProfileScreenView(
 
             }
 
+            Spacer24dp()
 
             LabeledProfileText(
                 label = stringResource(id = MR.strings.type_account.resourceId),
@@ -136,6 +173,26 @@ private fun ProfileScreenView(
     }
 
 }
+
+
+@Composable
+private fun ProfileScreenAppBar(
+    title: String,
+    onBackPressed: () -> Unit
+) {
+    DefaultAppBar {
+        AppBarButton(
+            painter = painterResource(id = R.drawable.ic_back),
+            onClick = onBackPressed
+        )
+        Spacer16dp()
+        AppBarTitle(
+            modifier = Modifier.weight(1f),
+            title = title
+        )
+    }
+}
+
 
 @Composable
 private fun LabeledProfileText(
