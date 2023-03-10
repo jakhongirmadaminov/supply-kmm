@@ -95,11 +95,11 @@ private fun CheckPinCodeScreenContent(
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = SupplyTheme.colors.mediumTitle,
-            text = stringResource(id = MR.strings.create_pin_code.resourceId)
+            text = stringResource(id = MR.strings.check_pin_code.resourceId)
         )
         Spacer(modifier = Modifier.height(SupplyTheme.spacing.extraLarge64Dp))
         Text(
-            text = stringResource(id = MR.strings.create_pin_code_info.resourceId),
+            text = stringResource(id = MR.strings.input_pin_code_enter.resourceId),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,

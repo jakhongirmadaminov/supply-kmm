@@ -89,4 +89,19 @@
     <string name="activity_type">Сфера деятельности ГНК</string>
     <string name="create_order">Создать заказ</string>
 
+    //Customer
+
+    <string name="customers">Клиенты</string>
+    <string name="customer_branch">Клиент Филиал</string>
+
+
+    //Check Pin Code
+    <string name="check_pin_code">Проверить пин-код</string>
+    <string name="input_pin_code_enter">Введите пин-код для входа</string>
+
+    //Check Pin Code
+    <string name="check_pin_code">Проверить пин-код</string>
+    <string name="input_pin_code_enter">Введите пин-код для входа</string>
+
+
 </resources>

@@ -7,17 +7,22 @@ import dev.icerock.moko.network.generated.models.PhoneDTO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.core.utils.resultOf
+import uz.uzkass.smartpos.supply.utils.ErrorTranslator
 
 
 const val TAG = "TTT"
 
 
 class PasswordResetViewModel constructor(
-    private val api: MobileAccountResourceApi
+    private val api: MobileAccountResourceApi,
 ) : ViewModel(
 ) {
     private val _navigate: Channel<String> = Channel(Channel.BUFFERED)
     var navigate = _navigate.receiveAsFlow()
+
+    private val _errorMessage: Channel<String> = Channel(Channel.BUFFERED)
+    var errorMessage = _errorMessage.receiveAsFlow()
 
     private val _loading = MutableStateFlow(false)
     val loading get() = _loading.asStateFlow()
@@ -27,13 +32,14 @@ class PasswordResetViewModel constructor(
         viewModelScope.launch {
             val temp = "998${phone}"
             val request = PhoneDTO(temp)
-            kotlin.runCatching {
+            resultOf {
                 api.resetPasswordUsingPOST3(request)
             }.onSuccess {
                 _navigate.send(temp)
                 _loading.emit(false)
             }.onFailure {
                 _loading.emit(false)
+                ErrorTranslator.translateServerError(it)
             }
         }
     }

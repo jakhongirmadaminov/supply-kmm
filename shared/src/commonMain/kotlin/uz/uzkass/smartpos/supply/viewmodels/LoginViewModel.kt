@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import uz.uzkass.smartpos.supply.core.utils.resultOf
 import uz.uzkass.smartpos.supply.settings.PreferenceManager
+import uz.uzkass.smartpos.supply.utils.ErrorTranslator
 
 class LoginViewModel constructor(
     private val api: MobileAccountResourceApi,
@@ -35,12 +37,13 @@ class LoginViewModel constructor(
                 password = password
             )
 
-            kotlin.runCatching {
+            resultOf {
                 api.loginUsingPOST5(
                     request
                 )
             }.onFailure {
                 _loading.emit(false)
+                ErrorTranslator.translateServerError(it)
 //                _navigate.send(LoginNavigator.ToCreatePinCode)
             }.onSuccess {
                 _loading.emit(false)
