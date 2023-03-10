@@ -75,14 +75,15 @@ class ConfirmOrderViewModel constructor(
                     vatSumma += item.vatPrice ?: 0.0
                 }
 
+
                 _screenState.update {
                     it.copy(
                         loading = false,
                         saleType = saleType,
                         paymentType = paymentType,
                         productCount = productCount.toString(),
-                        summa = summa.toString(),
-                        vatAmount = vatSumma.toString()
+                        summa = summa,
+                        vatAmount = vatSumma
                     )
                 }
 
@@ -162,11 +163,13 @@ data class ConfirmOrderState(
 
     val productCount: String = "235",
 
-    val summa: String = "10212",
+    val summa: Double = 0.0,
 
-    val vatAmount: String = "200",
+    val vatAmount: Double = 0.0,
 
-    val companyName: String = ""
+    val companyName: String = "",
+
+    val vat: Double = 0.0
 
 
 )

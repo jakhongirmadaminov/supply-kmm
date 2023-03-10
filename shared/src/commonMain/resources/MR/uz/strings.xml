@@ -103,5 +103,13 @@
     <string name="check_pin_code">Проверить пин-код</string>
     <string name="input_pin_code_enter">Введите пин-код для входа</string>
 
+    //Confirm order
+    <string name="product_count">Кол-во товаров:</string>
+    <string name="all_summa">Общая сумма:</string>
+    <string name="finish_order">Оформить заказ</string>
+    <string name="save_to_drafts">Сохранить черновик</string>
+    <string name="payment_type">Тип оплаты</string>
+
+
 
 </resources>

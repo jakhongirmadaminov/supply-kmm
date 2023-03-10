@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import uz.uzkass.smartpos.supply.android.ui.main.create_order.firstRadioId
 import uz.uzkass.smartpos.supply.android.ui.theme.SupplyTheme
 
 

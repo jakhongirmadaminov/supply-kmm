@@ -29,6 +29,15 @@ class PreferenceManager(private val settings: Settings) {
         settings.putString(KEY_LOCAL, value)
     }
 
+    fun setLastTime(lastTime: Long) {
+        settings.putLong(KEY_LAST_TIME, lastTime)
+    }
+
+    fun getLastTime() {
+        settings.getLong(KEY_LAST_TIME, 0)
+    }
+
+
     fun clear() {
         settings.clear()
     }
@@ -38,6 +47,8 @@ class PreferenceManager(private val settings: Settings) {
         const val KEY_USER_PIN_CODE = "KEY_USER_PIN_CODE"
         const val KEY_USER_TOKEN = "KEY_USER_TOKEN"
         const val KEY_LOCAL = "KEY_LOCAL"
+        const val KEY_INPUT_PIN_CODE = "KEY_INPUT_PIN_CODE"
+        const val KEY_LAST_TIME = "KEY_LAST_TIME"
 
         const val EN_CODE = "en"
         const val RU_CODE = "ru"

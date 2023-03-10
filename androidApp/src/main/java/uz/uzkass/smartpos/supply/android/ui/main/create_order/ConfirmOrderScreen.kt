@@ -31,6 +31,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.text.NumberFormat
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import uz.uzkass.smartpos.supply.android.R
@@ -122,6 +123,10 @@ fun ConfirmOrderScreenView(
         ConfirmOrderAppBar(onClickBack)
     }) {
 
+        val numberFormatter = remember {
+            NumberFormat.getNumberInstance()
+        }
+
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -131,7 +136,7 @@ fun ConfirmOrderScreenView(
 
                 TwoSiteText(
                     modifier = Modifier.fillMaxWidth(),
-                    label = "Кол-во товаров:",
+                    label = stringResource(id = MR.strings.product_count.resourceId),
                     value = screenState.productCount
                 )
 
@@ -141,8 +146,8 @@ fun ConfirmOrderScreenView(
 
                 TwoSiteText(
                     modifier = Modifier.fillMaxWidth(),
-                    label = "Общая сумма:",
-                    value = screenState.summa
+                    label = stringResource(id = MR.strings.all_summa.resourceId),
+                    value = numberFormatter.format(screenState.summa)
                 )
 
                 Spacer3dp()
@@ -150,36 +155,29 @@ fun ConfirmOrderScreenView(
                 TwoSiteText(
                     modifier = Modifier.fillMaxWidth(),
                     label = "НДС 10%",
-                    value = screenState.vatAmount
+                    value = numberFormatter.format(screenState.vatAmount)
                 )
 
                 Spacer16dp()
 
                 ExposedDropdownField2(
                     items = screenState.paymentType,
-                    label = "Payment type",
+                    label = stringResource(id = MR.strings.payment_type.resourceId),
                     onItemSelected = onPaymentTypeSelected,
                 )
 
                 Spacer16dp()
 
-//            ExposedDropdownField2(
-//                items = screenState.saleType,
-//                label = "Sale type",
-//                onItemSelected = onSellTypeSelected,
-//            )
-//
-//            Spacer16dp()
 
                 FillAvailableSpace()
 
                 SupplyFilledTextButton(
-                    text = "Оформить заказ",
+                    text = stringResource(id = MR.strings.finish_order.resourceId),
                     onClick = onConfirm
                 )
 
                 SupplyTextButton(
-                    text = "Сохранить черновик",
+                    text = stringResource(id = MR.strings.save_to_drafts.resourceId),
                     onClick = onSaveTo
                 )
 
@@ -209,10 +207,6 @@ fun ConfirmOrderScreenView(
 
 }
 
-const val firstRadioId = "firstRadioId"
-const val secondRadioId = "secondRadioId"
-const val threeRadioId = "threeRadioId"
-
 @Composable
 fun TwoSiteText(
     modifier: Modifier = Modifier,
@@ -237,7 +231,7 @@ private fun ConfirmOrderAppBar(onClickBack: () -> Unit) {
         Spacer16dp()
         AppBarTitle(
             modifier = Modifier.weight(1f),
-            title = "Confirm Order"
+            title = stringResource(id = MR.strings.finish_order.resourceId)
         )
 
     }
